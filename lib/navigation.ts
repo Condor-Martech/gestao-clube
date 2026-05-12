@@ -128,14 +128,7 @@ export const NAV_SECTIONS: readonly NavSection[] = [
   {
     titleKey: 'system',
     items: [
-      {
-        href: '/history',
-        labelKey: 'history',
-        iconKey: 'history',
-        roles: ['admin', 'manager', 'user'],
-        module: 'operacionais',
-      },
-      {
+{
         href: '/users',
         labelKey: 'users',
         iconKey: 'users',
