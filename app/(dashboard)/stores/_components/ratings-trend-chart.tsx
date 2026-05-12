@@ -74,7 +74,7 @@ export function RatingsTrendChart({ data }: Props) {
             borderRadius: 8,
             fontSize: 12,
           }}
-          formatter={(v: number | null) => (v === null ? '—' : v.toFixed(2))}
+          formatter={(v) => (v == null ? '—' : (v as number).toFixed(2))}
         />
         <Legend wrapperStyle={{ fontSize: 12 }} />
         <Area
