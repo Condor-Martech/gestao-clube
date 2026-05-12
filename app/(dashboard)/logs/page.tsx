@@ -32,6 +32,7 @@ interface Props {
     from?: string | string[]
     to?: string | string[]
     module?: string | string[]
+    user?: string | string[]
     page?: string | string[]
   }>
 }
@@ -52,6 +53,7 @@ export default async function LogsPage({ searchParams }: Props) {
   const from = pickString(sp.from)
   const to = pickString(sp.to)
   const moduleParam = pickString(sp.module)
+  const userParam = pickString(sp.user)
   const page = parsePage(pickString(sp.page))
   const range = rangeFromPage({ page, pageSize: DEFAULT_PAGE_SIZE })
 
@@ -66,6 +68,7 @@ export default async function LogsPage({ searchParams }: Props) {
   if (from) query = query.gte('created_at', `${from}T00:00:00.000Z`)
   if (to) query = query.lte('created_at', `${to}T23:59:59.999Z`)
   if (moduleParam) query = query.eq('module', moduleParam)
+  if (userParam) query = query.eq('email', userParam)
   if (q) {
     const safe = escapeIlike(q)
     query = query.or(
@@ -73,9 +76,10 @@ export default async function LogsPage({ searchParams }: Props) {
     )
   }
 
-  const [{ data, count, error }, { data: moduleRows }] = await Promise.all([
+  const [{ data, count, error }, { data: moduleRows }, { data: userRows }] = await Promise.all([
     query,
     supabase.from(LOGS_VIEW).select('module').not('module', 'is', null).limit(500),
+    supabase.from(LOGS_VIEW).select('email').not('email', 'is', null).limit(500),
   ])
 
   const logs = (data ?? []) as unknown as LogEntry[]
@@ -84,6 +88,10 @@ export default async function LogsPage({ searchParams }: Props) {
 
   const modules = Array.from(
     new Set((moduleRows ?? []).map((r) => (r as { module: string | null }).module).filter(Boolean) as string[]),
+  ).sort()
+
+  const users = Array.from(
+    new Set((userRows ?? []).map((r) => (r as { email: string | null }).email).filter(Boolean) as string[]),
   ).sort()
 
   const exportParams = new URLSearchParams()
@@ -108,7 +116,7 @@ export default async function LogsPage({ searchParams }: Props) {
         </Button>
       </header>
 
-      <LogsFilters modules={modules} />
+      <LogsFilters modules={modules} users={users} />
 
       <div className="text-muted-foreground text-xs">
         {t('totalCount', { count: total })}

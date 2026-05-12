@@ -8,6 +8,7 @@ import {
   Globe,
   Loader2,
   Pencil,
+  Trash2,
 } from 'lucide-react'
 import { toast } from 'sonner'
 import { useTranslations } from 'next-intl'
@@ -19,6 +20,17 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -26,6 +38,7 @@ import { formatDate } from '@/lib/utils/format'
 import { NDSFormDialog } from './nds-form-dialog'
 import { NDSViewDialog } from './nds-view-dialog'
 import {
+  deleteNumeroDaSorteAction,
   publishNumeroDaSorteAction,
   unpublishNumeroDaSorteAction,
 } from '../_actions'
@@ -234,6 +247,41 @@ function NDSRow({
                 >
                   <Pencil className="size-4" />
                 </Button>
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      title={t('deleteConfirm')}
+                      className="text-destructive hover:text-destructive"
+                    >
+                      <Trash2 className="size-4" />
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>{t('deleteConfirm')}</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        {t('deleteConfirmDesc')}
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>{tCommon('cancel')}</AlertDialogCancel>
+                      <AlertDialogAction
+                        className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                        onClick={() => {
+                          startTransition(async () => {
+                            const r = await deleteNumeroDaSorteAction(nds.id)
+                            if (!r.ok) toast.error(r.error)
+                            else toast.success(t('deleted'))
+                          })
+                        }}
+                      >
+                        {tCommon('delete')}
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
               </>
             )}
           </div>

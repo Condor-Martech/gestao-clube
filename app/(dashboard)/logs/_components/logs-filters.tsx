@@ -19,9 +19,10 @@ const ALL_VALUE = '__all__'
 
 interface Props {
   modules: string[]
+  users: string[]
 }
 
-export function LogsFilters({ modules }: Props) {
+export function LogsFilters({ modules, users }: Props) {
   const router = useRouter()
   const pathname = usePathname()
   const params = useSearchParams()
@@ -55,6 +56,7 @@ export function LogsFilters({ modules }: Props) {
   const from = params.get('from') ?? ''
   const to = params.get('to') ?? ''
   const module = params.get('module') ?? ALL_VALUE
+  const user = params.get('user') ?? ALL_VALUE
   const hasFilters = !!params.toString()
 
   return (
@@ -113,6 +115,23 @@ export function LogsFilters({ modules }: Props) {
             {modules.map((m) => (
               <SelectItem key={m} value={m}>
                 {m}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+
+      <div className="space-y-1">
+        <Label className="text-xs">{t('logs.filterUser')}</Label>
+        <Select value={user} onValueChange={(v) => setParam('user', v)}>
+          <SelectTrigger className="w-[220px]">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value={ALL_VALUE}>{t('common.all')}</SelectItem>
+            {users.map((u) => (
+              <SelectItem key={u} value={u}>
+                {u}
               </SelectItem>
             ))}
           </SelectContent>

@@ -111,6 +111,12 @@
     "searchPlaceholder": "Buscar por nome ou cidade",
     "filterRegion": "Região",
     "filterStatus": "Status",
+    "filterSort": "Ordenar por",
+    "sortTitleAsc": "Nome A→Z",
+    "sortTitleDesc": "Nome Z→A",
+    "sortRegiao": "Região A→Z",
+    "sortCidade": "Cidade A→Z",
+    "sortCodLoja": "Código A→Z",
     "statusActive": "Ativas",
     "statusInactive": "Inativas",
     "columns": {
@@ -142,6 +148,7 @@
     "filterFrom": "De",
     "filterTo": "Até",
     "filterModule": "Módulo",
+    "filterUser": "Usuário",
     "totalCount": "{count, plural, =0 {Nenhum registro} =1 {# registro} other {# registros}}",
     "exportCsv": "Exportar CSV",
     "columns": {
@@ -634,6 +641,8 @@
     "created": "Banner criado",
     "updated": "Banner atualizado",
     "deleted": "Banner excluído",
+    "deleteConfirm": "Excluir banner",
+    "deleteConfirmDesc": "Tem certeza? Esta ação não pode ser desfeita.",
     "published": "Banner publicado",
     "unpublished": "Banner despublicado",
     "columns": {
@@ -691,6 +700,8 @@
     "created": "Campanha criada",
     "updated": "Campanha atualizada",
     "deleted": "Campanha excluída",
+    "deleteConfirm": "Excluir campanha",
+    "deleteConfirmDesc": "Tem certeza? Esta ação não pode ser desfeita.",
     "published": "Campanha publicada",
     "unpublished": "Campanha despublicada",
     "columns": {

@@ -27,11 +27,23 @@ import {
 import { pickString } from '@/lib/utils/search-params'
 import type { Loja } from '@/types/entities'
 
+const SORTABLE_COLS = ['title', 'regiao', 'cidade', 'codLoja'] as const
+type SortCol = (typeof SORTABLE_COLS)[number]
+
+function parseSort(raw: string | undefined): { col: SortCol; dir: 'asc' | 'desc' } {
+  if (!raw) return { col: 'title', dir: 'asc' }
+  const [col, dir] = raw.split(':')
+  const validCol = SORTABLE_COLS.includes(col as SortCol) ? (col as SortCol) : 'title'
+  const validDir = dir === 'desc' ? 'desc' : 'asc'
+  return { col: validCol, dir: validDir }
+}
+
 interface Props {
   searchParams: Promise<{
     search?: string | string[]
     regiao?: string | string[]
     status?: string | string[]
+    sort?: string | string[]
     page?: string | string[]
   }>
 }
@@ -46,6 +58,7 @@ export default async function LojasPage({ searchParams }: Props) {
   const search = pickString(sp.search)
   const regiao = pickString(sp.regiao)
   const status = pickString(sp.status)
+  const { col: sortCol, dir: sortDir } = parseSort(pickString(sp.sort))
   const page = parsePage(pickString(sp.page))
   const { from, to } = rangeFromPage({ page, pageSize: DEFAULT_PAGE_SIZE })
 
@@ -54,7 +67,7 @@ export default async function LojasPage({ searchParams }: Props) {
   let query = supabase
     .from('Lojas')
     .select('*', { count: 'exact' })
-    .order('title', { ascending: true })
+    .order(sortCol, { ascending: sortDir === 'asc', nullsFirst: false })
     .range(from, to)
 
   if (search) {
@@ -91,7 +104,7 @@ export default async function LojasPage({ searchParams }: Props) {
         </PermissionGate>
       </header>
 
-      <LojasFilters regions={regions} />
+      <LojasFilters regions={regions} currentSort={`${sortCol}:${sortDir}`} />
 
       <div className="border-border rounded-lg border">
         <Table>

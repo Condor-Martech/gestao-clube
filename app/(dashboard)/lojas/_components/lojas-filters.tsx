@@ -16,7 +16,7 @@ import {
 
 const ALL_VALUE = '__all__'
 
-export function LojasFilters({ regions }: { regions: string[] }) {
+export function LojasFilters({ regions, currentSort }: { regions: string[]; currentSort: string }) {
   const router = useRouter()
   const pathname = usePathname()
   const params = useSearchParams()
@@ -52,6 +52,7 @@ export function LojasFilters({ regions }: { regions: string[] }) {
 
   const region = params.get('regiao') ?? ALL_VALUE
   const status = params.get('status') ?? ALL_VALUE
+  const sort = params.get('sort') ?? currentSort
   const hasFilters = !!params.toString()
 
   return (
@@ -88,6 +89,19 @@ export function LojasFilters({ regions }: { regions: string[] }) {
           <SelectItem value={ALL_VALUE}>{t('common.all')}</SelectItem>
           <SelectItem value="active">{t('lojas.statusActive')}</SelectItem>
           <SelectItem value="inactive">{t('lojas.statusInactive')}</SelectItem>
+        </SelectContent>
+      </Select>
+
+      <Select value={sort} onValueChange={(v) => setParam('sort', v)}>
+        <SelectTrigger className="w-[180px]">
+          <SelectValue placeholder={t('lojas.filterSort')} />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="title:asc">{t('lojas.sortTitleAsc')}</SelectItem>
+          <SelectItem value="title:desc">{t('lojas.sortTitleDesc')}</SelectItem>
+          <SelectItem value="regiao:asc">{t('lojas.sortRegiao')}</SelectItem>
+          <SelectItem value="cidade:asc">{t('lojas.sortCidade')}</SelectItem>
+          <SelectItem value="codLoja:asc">{t('lojas.sortCodLoja')}</SelectItem>
         </SelectContent>
       </Select>
 

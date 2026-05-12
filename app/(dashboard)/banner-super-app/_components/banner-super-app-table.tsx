@@ -1,7 +1,7 @@
 'use client'
 
 import { useMemo, useState, useTransition } from 'react'
-import { Archive, Eye, Globe, Loader2, Pencil } from 'lucide-react'
+import { Archive, Eye, Globe, Loader2, Pencil, Trash2 } from 'lucide-react'
 import { toast } from 'sonner'
 import { useTranslations } from 'next-intl'
 import {
@@ -12,12 +12,24 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { BannerSuperAppFormDialog } from './banner-super-app-form-dialog'
 import { BannerSuperAppViewDialog } from './banner-super-app-view-dialog'
 import {
+  deleteBannerSuperAppAction,
   publishBannerSuperAppAction,
   unpublishBannerSuperAppAction,
 } from '../_actions'
@@ -207,6 +219,41 @@ function BannerRow({
                 >
                   <Pencil className="size-4" />
                 </Button>
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      title={t('deleteConfirm')}
+                      className="text-destructive hover:text-destructive"
+                    >
+                      <Trash2 className="size-4" />
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>{t('deleteConfirm')}</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        {t('deleteConfirmDesc')}
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>{tCommon('cancel')}</AlertDialogCancel>
+                      <AlertDialogAction
+                        className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                        onClick={() => {
+                          startTransition(async () => {
+                            const r = await deleteBannerSuperAppAction(banner.id)
+                            if (!r.ok) toast.error(r.error)
+                            else toast.success(t('deleted'))
+                          })
+                        }}
+                      >
+                        {tCommon('delete')}
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
               </>
             )}
           </div>
