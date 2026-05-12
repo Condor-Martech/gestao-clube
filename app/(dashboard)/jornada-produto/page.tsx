@@ -141,8 +141,9 @@ export default async function JornadaProdutoPage({ searchParams }: Props) {
 
   const eanCounts = allForDuplicateCheck.reduce<Record<string, Produto[]>>((acc, p) => {
     if (p.ean) {
-      acc[p.ean] = acc[p.ean] ?? []
-      acc[p.ean].push(p)
+      const list = acc[p.ean] ?? []
+      acc[p.ean] = list
+      list.push(p)
     }
     return acc
   }, {})
