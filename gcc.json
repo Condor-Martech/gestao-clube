@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "clube-condor-1050f",
+  "private_key_id": "cd8828599e1bef5aeece74a52b348510e2a90f88",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDNWv61Q24yJbkq\nA8uhwyRKm/XQSsA4k03uO0BXbfMT+FiwLWhbP5uvXkEL1dNR+842CNIr6X/bm+EB\nccWnGc3vwJzcDe8Zm82fAUQBVe3wr50fwoOaakaHsv1ecM5MLmYva0YTZ7StlblG\nUFUTmYWeHcCAcfutI+9BJ2pkAVftDFBeCzZEgFgeCeSaHTkgMa3ZirxcMW1zBytM\n14898JZG7f9sDGsUnUdF+i2LM1KUD74DFBd2CkWLx3h4sez44lIl5h7iIgsLKOaM\nP+2zcssUEtD3ClYhbcdRGFMAbAPDSVpZjHYArEg1b5BadqJjCxevrzNkFmZ5XiRx\niH5OCc6jAgMBAAECggEAAbu6DlCejlN4L80ZZmj4a512YobcVCiWI053uWUxrzei\nPqvGHOMOuYO2USxsXLL0kiCFRElJGChFgBbJlXf9H4AaMtdL7y+RTugaqVeO1cBo\nYfC+iJ/2BBuJfPG/JAXOPKnkolxL5PKFvlIGQySWwUy8p7jj6Bm3YW7nkdGFwE1I\nPyJ0TrZLwQsXlc6pZtz9Yxiua5TsBMFZnbYC2mIb5ZsKlcDXQi4utrdBLlAqmWuy\n8XRJGotzvNQniHZrBfm9XSMxUb6sjc1jWymV04rekt2ANzaAhP+uYyknXs1oq3eo\nY5km9WwQPUZKmHPh5xtDXHtLunYiTxNIIirpp8Ms7QKBgQD/OsR1u/CID0Roee78\nd3JB0G4YrlQXGD3/s0BMrDvHxqR4UVPBwZsifOLiNzdUldh7j7Uj2Nqq4tRVNGzT\n+Pc5ZPUPIHMUfYgMB0C2CFjUUcuK5lrLvUYfjOKTjwDyKFUAhp4Rdt3ViiwB/f9/\nMn1R07L0dQnSWZSbobuYJDzwFQKBgQDN+a/BTgxRotu3aM0viQUIfu/48TJKPXWe\nf3YkEutdBKx6AolMD+5ermsHpvi3TNRJFxe7dqvjCKSaxEEEJW/WZnCoRlpdnLIi\niX9qXKUh/5BHqcS4q3xmC9iisXZrhVw8jLjqBNI60tF2GyUi4uHwPt9g6CvE2gSs\nx0tmWim51wKBgBvyS2C423WKdmsaLtjmG1SpheSd8gc1WFSPRBMhKMqPLaMfBJTK\npjn4gr9SXHSek72z1pm+PPNJMwbBXsk3EZrvOwYU/4TW2fa3NJa6Az/8VNU4s+hr\nKSp7OrP9jJT3ZZdRJi2zXkbrgjYVocxDswUqsQWjaxflRyhjZS8biLChAoGBALvx\n0UV5ihQTnpjEsDVnuYf/C8kDjPfhDKoLdCmGeezujtLl7ZHSF5edX1wkJ15aZHos\n8CLGLiGDiW8PFKRL5Lil0LY7O8mfaYvKGtFap/NV1rkNV8uJ7oDO3mXVuFBz5634\nWeJvc8TpCOfT7RbgH3mwZPNv5kBBD3L4hvxl2R0RAoGBAK7gjl89HrUJAnrM/o71\nW+MStEx6glAaDtHOZXER+8aErjJGCRRd5ATNH02GHrjRReKQBqVbuiAnpCalrzaj\nkJhCzS9URQckzPP1CgSnRP/TJ0mXF9RSsjofqvEidvJN+LRhjAws4LZuUpRXtRVc\n0HYZ/7uqmI5YL7DmHKM3IPjQ\n-----END PRIVATE KEY-----\n",
+  "client_email": "flutterdeploy@clube-condor-1050f.iam.gserviceaccount.com",
+  "client_id": "101591588252006119010",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/flutterdeploy%40clube-condor-1050f.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

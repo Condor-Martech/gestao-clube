@@ -1,0 +1,737 @@
+{
+  "app": {
+    "title": "Clube Condor",
+    "tagline": "Gerenciamento de ofertas, lojas e inteligência de stores"
+  },
+  "auth": {
+    "loginTitle": "Gerenciamento Clube Condor",
+    "loginDescription": "Entre com seu email e senha",
+    "emailLabel": "Email",
+    "emailPlaceholder": "seu@email.com",
+    "passwordLabel": "Senha",
+    "submit": "Entrar",
+    "signOut": "Sair",
+    "errorInvalidCredentials": "Email ou senha incorretos",
+    "errorEmailRequired": "Email é obrigatório",
+    "errorEmailInvalid": "Email inválido",
+    "errorPasswordMin": "Senha deve ter no mínimo 8 caracteres"
+  },
+  "nav": {
+    "sections": {
+      "overview": "Visão Geral",
+      "commercial": "Ofertas",
+      "content": "Conteúdo",
+      "intelligence": "Inteligência",
+      "stores": "Stores",
+      "system": "Sistema",
+      "operations": "Operacionais",
+      "help": "Ajuda"
+    },
+    "items": {
+      "dashboard": "Dashboard",
+      "campanhas": "Campanhas",
+      "produtos": "Produtos",
+      "jornadaProduto": "Jornada do Produto",
+      "regrasOrdenacao": "Regra de Ordenação",
+      "storesOverview": "Inteligência Stores",
+      "bannerSuperApp": "Banners Super App",
+      "numeroDaSorte": "Número da Sorte",
+      "lojas": "Lojas",
+      "history": "Histórico",
+      "users": "Usuários",
+      "logs": "Logs",
+      "manual": "Guia de Diagnóstico",
+      "sistema": "Documentação do Sistema"
+    },
+    "menuLabel": "Menu",
+    "openMenu": "Abrir menu"
+  },
+  "ajuda": {
+    "subtitle": "Central de ajuda e documentação",
+    "openExternal": "Abrir em nova aba"
+  },
+  "theme": {
+    "toggle": "Alternar tema",
+    "light": "Claro",
+    "dark": "Escuro",
+    "system": "Sistema"
+  },
+  "common": {
+    "loading": "Carregando...",
+    "save": "Salvar",
+    "saving": "Salvando...",
+    "cancel": "Cancelar",
+    "delete": "Excluir",
+    "deleting": "Excluindo...",
+    "edit": "Editar",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "clear": "Limpar",
+    "all": "Todos",
+    "yes": "Sim",
+    "no": "Não",
+    "actions": "Ações",
+    "noResults": "Nenhum resultado encontrado",
+    "previous": "Anterior",
+    "next": "Próximo",
+    "page": "Página {page} de {total}",
+    "viewDetails": "Ver detalhes",
+    "phaseTodo": "Implementação na próxima fase do plano de migração.",
+    "saved": "Salvo com sucesso",
+    "deleted": "Excluído com sucesso",
+    "errorGeneric": "Ocorreu um erro. Tente novamente.",
+    "confirmDeleteTitle": "Confirmar exclusão",
+    "confirmDeleteDescription": "Esta ação não pode ser desfeita. Tem certeza?"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Indicadores em tempo real de campanhas e ativações",
+    "kpis": {
+      "agrupamentos": "Agrupamentos",
+      "agrupamentosDesc": "Total cadastrados",
+      "produtosAprovados": "Produtos aprovados",
+      "produtosAprovadosDesc": "Aprovados no sistema",
+      "produtosSincronizados": "Produtos sincronizados",
+      "produtosSincronizadosDesc": "Total na base",
+      "campanhasComProdutos": "Campanhas com produtos",
+      "campanhasComProdutosDesc": "Com produtos cadastrados"
+    },
+    "recentLogs": {
+      "title": "Últimos logs do sistema",
+      "viewAll": "Ver todos",
+      "empty": "Sem logs recentes",
+      "loadError": "Não foi possível carregar os logs"
+    }
+  },
+  "lojas": {
+    "title": "Lojas",
+    "subtitle": "Gerenciamento de pontos de venda",
+    "addButton": "Nova loja",
+    "created": "Loja criada",
+    "searchPlaceholder": "Buscar por nome ou cidade",
+    "filterRegion": "Região",
+    "filterStatus": "Status",
+    "statusActive": "Ativas",
+    "statusInactive": "Inativas",
+    "columns": {
+      "title": "Nome",
+      "regiao": "Região",
+      "cidade": "Cidade",
+      "telefone": "Telefone",
+      "codLoja": "Código",
+      "status": "Status"
+    },
+    "form": {
+      "addTitle": "Nova loja",
+      "addDescription": "Cadastre um novo ponto de venda",
+      "titleLabel": "Nome",
+      "regiaoLabel": "Região",
+      "cidadeLabel": "Cidade",
+      "telefoneLabel": "Telefone",
+      "codLojaLabel": "Código",
+      "statusLabel": "Status",
+      "statusActiveOpt": "Ativa",
+      "statusInactiveOpt": "Inativa"
+    }
+  },
+  "logs": {
+    "title": "Logs",
+    "subtitle": "Auditoria do sistema",
+    "filterSearch": "Busca",
+    "filterSearchPlaceholder": "Evento, e-mail ou módulo…",
+    "filterFrom": "De",
+    "filterTo": "Até",
+    "filterModule": "Módulo",
+    "totalCount": "{count, plural, =0 {Nenhum registro} =1 {# registro} other {# registros}}",
+    "exportCsv": "Exportar CSV",
+    "columns": {
+      "timestamp": "Data",
+      "module": "Módulo",
+      "event": "Evento",
+      "user": "Usuário",
+      "actions": "Ações"
+    },
+    "viewPayload": "Ver payload",
+    "payloadTitle": "Payload do log",
+    "payloadEmpty": "Sem payload",
+    "copy": "Copiar",
+    "copied": "JSON copiado",
+    "downloadEvidence": "Baixar evidência",
+    "evidenceDownloaded": "Evidência baixada"
+  },
+  "history": {
+    "title": "Histórico",
+    "subtitle": "Ativações e pedidos",
+    "filterFrom": "De",
+    "filterTo": "Até",
+    "actionActivate": "Ativação",
+    "actionCancel": "Cancelamento",
+    "statusSuccess": "Sucesso",
+    "statusFailed": "Falha",
+    "empty": "Nenhuma atividade no período selecionado"
+  },
+  "campanhas": {
+    "title": "Campanhas do App",
+    "subtitle": "Gerenciamento de campanhas promocionais",
+    "tabWithProducts": "Com produto no APP",
+    "tabWithoutProducts": "Sem produto no APP",
+    "addButton": "Adicionar Campanha",
+    "editButton": "Editar",
+    "deleteButton": "Excluir",
+    "viewProducts": "Ver produtos",
+    "viewAgrupamentos": "Ver agrupamentos",
+    "copyCode": "Copiar código",
+    "downloadReport": "Baixar relatório",
+    "syncCampaign": "Sincronizar",
+    "searchLabel": "Busca Campanha:",
+    "searchPlaceholder": "Digite a campanha...",
+    "updatedAt": "Atualizada: {at}",
+    "codeCopied": "Código copiado",
+    "syncing": "Sincronizando...",
+    "syncSuccess": "Sincronização iniciada",
+    "downloadStarting": "Preparando download...",
+    "featurePending": "Disponível na Fase 9",
+    "columns": {
+      "cod": "CÓDIGO",
+      "nom": "NOME DA CAMPANHA",
+      "tipo": "TIPO",
+      "inicio": "INÍCIO",
+      "fim": "FIM",
+      "produtos": "QTD",
+      "situacao": "STATUS",
+      "actions": "AÇÕES"
+    },
+    "form": {
+      "addTitle": "Adicionar campanha",
+      "addDescription": "Cadastre uma nova campanha promocional",
+      "editTitle": "Editar campanha",
+      "editDescription": "Atualize os dados da campanha",
+      "codLabel": "Código",
+      "codHelp": "3-20 caracteres alfanuméricos",
+      "nomLabel": "Nome",
+      "tipoLabel": "Tipo de campanha",
+      "tipoPlaceholder": "ex: Sazonal, Aniversário",
+      "inicioLabel": "Vigência início",
+      "fimLabel": "Vigência fim",
+      "situacaoLabel": "Situação"
+    },
+    "deleted": "Campanha excluída",
+    "created": "Campanha criada",
+    "updated": "Campanha atualizada"
+  },
+  "users": {
+    "title": "Usuários",
+    "subtitle": "Gerenciamento de contas do sistema",
+    "addButton": "Adicionar usuário",
+    "searchPlaceholder": "Buscar por email",
+    "invited": "Usuário convidado por email",
+    "updated": "Usuário atualizado",
+    "errorMissingServiceRole": "SUPABASE_SERVICE_ROLE_KEY não configurada",
+    "columns": {
+      "email": "Email",
+      "role": "Role",
+      "phone": "Telefone",
+      "status": "Status",
+      "createdAt": "Criado em",
+      "lastLogin": "Último acesso"
+    },
+    "form": {
+      "addTitle": "Convidar novo usuário",
+      "addDescription": "Um email de convite será enviado para o usuário definir sua senha",
+      "editTitle": "Editar usuário",
+      "editDescription": "Atualize role e status do usuário",
+      "emailLabel": "Email",
+      "emailPlaceholder": "novo@usuario.com",
+      "roleLabel": "Role",
+      "phoneLabel": "Telefone",
+      "statusLabel": "Ativo",
+      "submit": "Enviar convite",
+      "modulesLabel": "Permissões por módulo",
+      "moduleAccess": {
+        "none": "Sem acesso",
+        "user": "Viewer",
+        "manager": "Manager"
+      }
+    },
+    "roles": {
+      "admin": "Administrador",
+      "manager": "Gerente",
+      "user": "Usuário"
+    },
+    "statusActive": "Ativo",
+    "statusInactive": "Inativo"
+  },
+  "modules": {
+    "ofertas": "Ofertas",
+    "conteudo": "Conteúdo",
+    "stores": "Lojas",
+    "operacionais": "Operacionais",
+    "sistemas": "Sistemas"
+  },
+  "banner": {
+    "title": "Banners",
+    "subtitle": "Gerenciamento de banners e carrosséis",
+    "addButton": "Novo banner",
+    "empty": "Nenhum banner cadastrado",
+    "deleted": "Banner excluído",
+    "created": "Banner criado",
+    "updated": "Banner atualizado",
+    "form": {
+      "addTitle": "Novo banner",
+      "addDescription": "Cadastre um novo conjunto de banners",
+      "editTitle": "Editar banner",
+      "editDescription": "Atualize os dados do banner",
+      "titleLabel": "Título",
+      "slugLabel": "Slug",
+      "slugHelp": "URL-friendly: minúsculas, números e hífen",
+      "regiaoLabel": "Região",
+      "videoLabel": "URL do vídeo",
+      "videoPlaceholder": "https://..."
+    },
+    "carousels": {
+      "carrosel": "Carrossel principal",
+      "carrosel2": "Carrossel secundário",
+      "carrosel3": "Carrossel terciário",
+      "addImage": "Adicionar imagem",
+      "remove": "Remover",
+      "empty": "Nenhuma imagem"
+    }
+  },
+  "agrupamentos": {
+    "title": "Agrupamento dos Produtos",
+    "subtitle": "Organize produtos em seções da campanha {code}",
+    "addButton": "Agrupar Produto",
+    "viewButton": "Ver",
+    "deleteButton": "Apagar",
+    "viewMore": "Ver mais",
+    "viewLess": "Ver menos",
+    "details": {
+      "grupo": "Grupo",
+      "host": "Host",
+      "agrupamentoHost": "Host agrupamento",
+      "pai": "Produto pai"
+    },
+    "detail": {
+      "title": "Detalhes do agrupamento",
+      "description": "Produto pai e seus filhos",
+      "paiBadge": "PAI",
+      "filhosTitle": "Produtos filhos",
+      "noFilhos": "Nenhum produto filho associado",
+      "aproved": "Aprovado",
+      "removeFilho": "Remover filho"
+    },
+    "empty": "Nenhum produto agrupado nesta campanha",
+    "deleted": "Agrupamento excluído",
+    "created": "Agrupamento criado",
+    "syncBy": "Atualizado por {user}",
+    "form": {
+      "title": "Novo agrupamento",
+      "description": "Adicione um agrupamento à campanha {code}",
+      "paiStepTitle": "1. Definir o produto pai",
+      "paiStepDescription": "Busque por EAN ou nome para escolher o produto pai do agrupamento",
+      "paiPlaceholder": "Buscar EAN ou nome do produto pai...",
+      "paiBadge": "PAI",
+      "availableTitle": "Produtos da campanha",
+      "groupedTitle": "Agrupamento de Produto",
+      "searchProduto": "Buscar EAN ou nome...",
+      "emptyItens": "Nenhum item adicionado ainda",
+      "noResults": "Nenhum produto encontrado",
+      "add": "Adicionar",
+      "remove": "Remover",
+      "submit": "Criar agrupamento"
+    }
+  },
+  "jornadaProduto": {
+    "title": "Jornada do Produto",
+    "subtitle": "Investigue o histórico completo de um produto pelo EAN ou Host",
+    "placeholder": "Em construção",
+    "searchLabel": "EAN ou Host",
+    "searchPlaceholder": "Ex: 7891234567890 ou prod-abc-xyz",
+    "searchButton": "Investigar",
+    "noResults": "Nenhum produto encontrado para \"{q}\"",
+    "sections": {
+      "identity": "Identidade",
+      "essentialData": "Dados Essenciais",
+      "approval": "Aprovação",
+      "hierarchy": "Hierarquia",
+      "agrupamentos": "Agrupamentos",
+      "duplicates": "Atenção: Duplicados"
+    },
+    "identity": {
+      "ean": "EAN",
+      "host": "Host",
+      "campanha": "Campanha",
+      "createdAt": "Criado em",
+      "updatedAt": "Atualizado em"
+    },
+    "essentialData": {
+      "nome": "Nome",
+      "descricao": "Descrição",
+      "imagem": "Imagem externa",
+      "present": "Presente",
+      "missing": "Ausente"
+    },
+    "approval": {
+      "approved": "Aprovado",
+      "notApproved": "Não aprovado",
+      "approvedBy": "Por",
+      "approvedAt": "Em"
+    },
+    "hierarchy": {
+      "pai": "Produto Pai",
+      "filho": "Produto Filho",
+      "parentEan": "EAN do pai",
+      "viewParent": "Ver pai"
+    },
+    "agrupamentos": {
+      "grupo": "Grupo",
+      "campanha": "Campanha",
+      "createdBy": "Criado por",
+      "createdAt": "Criado em",
+      "noAgrupamentos": "Este produto não pertence a nenhum agrupamento"
+    },
+    "duplicates": {
+      "warning": "Este EAN aparece em {count} campanhas diferentes",
+      "campanha": "Campanha",
+      "host": "Host",
+      "status": "Status"
+    }
+  },
+  "regrasOrdenacao": {
+    "title": "Regra de Ordenação",
+    "subtitle": "A regra padrão que define a ordem do catálogo",
+    "detail": {
+      "nodes": "Nós (em ordem)",
+      "preview": "Preview",
+      "previewSubtitle": "Resultado do pipeline com os produtos atuais",
+      "previewProducts": "{count} produtos",
+      "apply": "Aplicar ao catálogo",
+      "emptyPipeline": "Pipeline vazio. Adicione nós para começar.",
+      "runnerError": "Pipeline inválido: {message}",
+      "nodeTypes": {
+        "source": "Source",
+        "boostCampanha": "Priorizar campanha (por nome)",
+        "filterMercadologico": "Filtro: Mercadológico",
+        "sortAuto": "Ordenar automático",
+        "sortManual": "Ordenar manual",
+        "apply": "Aplicar"
+      },
+      "previewColumns": {
+        "nome": "Nome",
+        "ean": "EAN",
+        "departamento": "Departamento",
+        "campanha": "Campanha"
+      }
+    },
+    "editor": {
+      "save": "Salvar",
+      "savedSuccess": "Pipeline salvo",
+      "appliedSuccess": "{count} produtos atualizados",
+      "dirty": "Alterações não salvas",
+      "applyDisabledDirty": "Salve antes de aplicar ao catálogo",
+      "previewEmpty": "Nenhum produto após executar o pipeline",
+      "addNode": "Adicionar",
+      "removeNode": "Remover nó",
+      "moveUp": "Subir",
+      "moveDown": "Descer",
+      "searchPlaceholder": "Buscar...",
+      "noOptions": "Sem opções",
+      "selectedCount": "{count} selecionado(s)",
+      "sortManualHint": "{count} EAN(s) com ordem manual definida pelo drag & drop no preview.",
+      "dragHint": "Arraste produtos pelo ícone ⋮⋮ ou clique no ↑ para enviar ao topo. A ordem manual é guardada como nó \"Ordenar manual\" no final do pipeline.",
+      "dragHandle": "Arrastar",
+      "moveToTop": "Subir ao topo",
+      "clearManual": "Limpar ordem manual",
+      "previewMissingEan": "{count} produto(s) sem EAN não são reordenáveis",
+      "duplicateTooltip": "EAN aparece em {count} campanhas distintas",
+      "previewMounting": "Carregando preview...",
+      "fields": {
+        "field": "Campo",
+        "dir": "Direção",
+        "campanhaPattern": "Nome contém",
+        "campanhaPatternPlaceholder": "ex: bom dia economia",
+        "campanhaPatternHint": "Produtos de campanhas com este texto no nome vão para o topo. Os demais ficam abaixo. Captura campanhas atuais e futuras com o mesmo padrão.",
+        "departamentos": "Departamentos",
+        "setores": "Setores"
+      },
+      "fieldOptions": {
+        "nome": "Nome",
+        "ean": "EAN",
+        "updated_at": "Atualizado em",
+        "order": "Ordem atual"
+      },
+      "dirOptions": {
+        "asc": "Crescente",
+        "desc": "Decrescente"
+      }
+    }
+  },
+  "stores": {
+    "title": "Inteligência de Stores",
+    "subtitle": "Métricas e reviews do app {app} no Google Play e App Store",
+    "tabs": {
+      "overview": "Visão geral",
+      "reviews": "Avaliações",
+      "audience": "Audiência",
+      "trends": "Tendências"
+    },
+    "stubs": {
+      "reviewsTitle": "Avaliações",
+      "reviewsDesc": "Lista detalhada com filtros por sentimento, tópico e versão",
+      "comingSoon": "Em breve."
+    },
+    "period": {
+      "label": "Período",
+      "7d": "Últimos 7 dias",
+      "30d": "Últimos 30 dias",
+      "90d": "Últimos 90 dias"
+    },
+    "audiencia": {
+      "empty": "Sem dados de audiência. A próxima sincronização ocorre automaticamente.",
+      "topCountries": {
+        "title": "Top países",
+        "description": "Top 10 por instalações no período",
+        "rank": "#",
+        "country": "País",
+        "installs": "Instalações",
+        "uninstalls": "Desinstalações",
+        "retention": "Retenção"
+      },
+      "devices": {
+        "title": "Dispositivos",
+        "description": "Distribuição de instalações por tipo de aparelho"
+      }
+    },
+    "tendencias": {
+      "empty": "Sem dados de tendências no período.",
+      "installs": {
+        "title": "Instalações vs. Desinstalações",
+        "description": "Evolução diária no período",
+        "legendInstalls": "Instalações",
+        "legendUninstalls": "Desinstalações"
+      },
+      "rating": {
+        "title": "Rating médio vs. instalações",
+        "description": "Correlação entre satisfação e adoção",
+        "legendRating": "Rating médio",
+        "legendInstalls": "Instalações"
+      }
+    },
+    "kpis": {
+      "ratingPlay": "Rating Google Play",
+      "ratingPlayDesc": "Média dos últimos 30 dias",
+      "ratingAppStore": "Rating App Store",
+      "ratingAppStoreDesc": "Média dos últimos 30 dias",
+      "reviewsLast30d": "Reviews (30 dias)",
+      "reviewsLast30dDesc": "Total ingestados no período",
+      "negativeRate": "Taxa negativa",
+      "negativeRateDesc": "% de reviews com rating ≤ 2"
+    },
+    "charts": {
+      "ratingsTrend": "Evolução do rating",
+      "ratingsTrendDesc": "Média diária dos reviews dos últimos 30 dias",
+      "reviewsVolume": "Volume de reviews",
+      "reviewsVolumeDesc": "Quantidade diária ingestada por store",
+      "legendPlay": "Google Play",
+      "legendAppStore": "App Store",
+      "empty": "Sem dados no período. Clique em Sincronizar para puxar reviews."
+    },
+    "sync": {
+      "button": "Sincronizar",
+      "syncing": "Sincronizando...",
+      "success": "Sincronização concluída",
+      "successDesc": "{count} novos reviews ingestados",
+      "partialError": "Sincronização com erros",
+      "error": "Falha ao sincronizar"
+    },
+    "syncStatus": {
+      "playLabel": "Google Play",
+      "appStoreLabel": "App Store",
+      "never": "nunca sincronizado",
+      "error": "erro"
+    },
+    "reviewsLink": {
+      "title": "Ver reviews completos",
+      "description": "Tabela com filtros, sentiment e sugestões de resposta (em breve)",
+      "action": "Abrir reviews"
+    },
+    "empty": {
+      "title": "Inteligência de Stores",
+      "subtitle": "Configuração inicial pendente",
+      "noAppsTitle": "Nenhum app cadastrado",
+      "noAppsDesc": "Insira o app Clube Condor na tabela cc_apps com o package name do Google Play e o app id da App Store. Exemplo de SQL:"
+    }
+  },
+  "produtos": {
+    "title": "Produtos",
+    "subtitle": "Catálogo de produtos",
+    "searchPlaceholder": "Buscar por nome, EAN, departamento ou setor",
+    "filterApproved": "Aprovação",
+    "filterApprovedAll": "Todos",
+    "filterApprovedYes": "Aprovados",
+    "filterApprovedNo": "Pendentes",
+    "approveButton": "Aprovar",
+    "unapproveButton": "Reprovar",
+    "approved": "Aprovado",
+    "pending": "Pendente",
+    "editButton": "Editar",
+    "viewList": "Lista",
+    "viewGrid": "Cards",
+    "syncTitle": "Atualizar produto",
+    "syncPending": "Atualização disponível na Fase 9",
+    "eanCopied": "EAN copiado",
+    "copyEan": "Copiar EAN",
+    "sortLabel": "Ordenar",
+    "sort": {
+      "orderAsc": "Ordem (crescente)",
+      "orderDesc": "Ordem (decrescente)",
+      "nomeAsc": "Nome (A → Z)",
+      "nomeDesc": "Nome (Z → A)",
+      "eanAsc": "EAN (crescente)",
+      "updatedDesc": "Atualizado recentemente",
+      "aprovedDesc": "Aprovados primeiro",
+      "aprovedAsc": "Pendentes primeiro"
+    },
+    "campanhaTitle": "Produtos da campanha {code}",
+    "columns": {
+      "ean": "EAN",
+      "nome": "Nome",
+      "descricao": "Descrição",
+      "unidade": "Unidade",
+      "order": "Ordem",
+      "campanha": "Campanha",
+      "status": "Status",
+      "imagem": "Imagem"
+    },
+    "form": {
+      "editTitle": "Editar produto",
+      "editDescription": "Atualize os dados do produto",
+      "nomeLabel": "Nome",
+      "descricaoLabel": "Descrição",
+      "eanLabel": "EAN",
+      "unidadeLabel": "Unidade",
+      "orderLabel": "Ordem",
+      "eletroLabel": "Eletrônico"
+    },
+    "imageUpload": {
+      "label": "Imagem do produto",
+      "selectFile": "Selecionar arquivo",
+      "uploading": "Enviando...",
+      "uploaded": "Imagem enviada",
+      "errorTooLarge": "Arquivo muito grande (máx 5MB)",
+      "errorInvalidType": "Apenas PNG ou JPG"
+    }
+  },
+  "banner_super_app": {
+    "title": "Banners Super App",
+    "subtitle": "Banners exibidos nos 5 blocos da home do Super App",
+    "empty": "Nenhum banner cadastrado",
+    "positionEmpty": "Nenhum banner neste bloco",
+    "addButton": "Adicionar banner",
+    "publish": "Publicar",
+    "unpublish": "Despublicar",
+    "searchPlaceholder": "Buscar por nome, slug ou posição",
+    "created": "Banner criado",
+    "updated": "Banner atualizado",
+    "deleted": "Banner excluído",
+    "published": "Banner publicado",
+    "unpublished": "Banner despublicado",
+    "columns": {
+      "image": "Imagem",
+      "name": "Nome",
+      "position": "Posição",
+      "order": "Ordem",
+      "status": "Status"
+    },
+    "schedule": {
+      "title": "Agendamento",
+      "publishAt": "Publicação programada",
+      "unpublishAt": "Despublicação programada"
+    },
+    "positions": {
+      "block-1": "Bloco 1",
+      "block-2": "Bloco 2",
+      "block-3": "Bloco 3",
+      "block-4": "Bloco 4",
+      "block-5": "Bloco 5"
+    },
+    "status": {
+      "draft": "Rascunho",
+      "published": "Publicado"
+    },
+    "form": {
+      "addTitle": "Novo banner",
+      "addDescription": "Adicione um banner a um dos 5 blocos do Super App",
+      "editTitle": "Editar banner",
+      "editDescription": "Atualize os dados do banner",
+      "nameLabel": "Nome",
+      "urlLabel": "Link (URL)",
+      "urlPlaceholder": "https://...",
+      "positionLabel": "Posição (bloco)",
+      "imageLabel": "Imagem",
+      "imageHelp": "PNG, JPG ou WEBP. Máx 5MB.",
+      "orderLabel": "Ordem",
+      "saveDraft": "Salvar rascunho",
+      "publish": "Publicar",
+      "scheduleSection": "Agendamento (opcional)",
+      "publishAtLabel": "Publicação programada",
+      "unpublishAtLabel": "Despublicação programada",
+      "scheduleHelp": "Horários no fuso BRT (Curitiba). Deixe em branco para gerenciar manualmente."
+    }
+  },
+  "numero_da_sorte": {
+    "title": "Número da Sorte",
+    "subtitle": "Campanhas de sorteio com regulamento e vigência",
+    "empty": "Nenhuma campanha cadastrada",
+    "addButton": "Adicionar campanha",
+    "viewRegulamento": "Ver regulamento (PDF)",
+    "publish": "Publicar",
+    "unpublish": "Despublicar",
+    "searchPlaceholder": "Buscar por título ou número",
+    "created": "Campanha criada",
+    "updated": "Campanha atualizada",
+    "deleted": "Campanha excluída",
+    "published": "Campanha publicada",
+    "unpublished": "Campanha despublicada",
+    "columns": {
+      "banner": "Banner",
+      "titulo": "Título",
+      "numero": "Número",
+      "vigencia": "Vigência",
+      "status": "Status",
+      "regulamento": "Regulamento"
+    },
+    "status": {
+      "rascunho": "Rascunho",
+      "agendado": "Agendado",
+      "ativo": "Ativo",
+      "encerrado": "Encerrado"
+    },
+    "schedule": {
+      "title": "Agendamento",
+      "publishAt": "Publicação programada",
+      "unpublishAt": "Despublicação programada"
+    },
+    "form": {
+      "addTitle": "Nova campanha",
+      "addDescription": "Cadastre uma campanha de Número da Sorte",
+      "editTitle": "Editar campanha",
+      "editDescription": "Atualize os dados da campanha",
+      "tituloLabel": "Título",
+      "numeroLabel": "Número da Campanha",
+      "startLabel": "Início",
+      "endLabel": "Fim",
+      "bannerLabel": "Banner principal",
+      "bannerHelp": "Imagem PNG, JPG ou WEBP, máx 5MB",
+      "bannerSmallLabel": "Banner pequeno (opcional)",
+      "regulamentoLabel": "Regulamento (PDF)",
+      "regulamentoHelp": "Arquivo PDF, máx 10MB",
+      "saveDraft": "Salvar rascunho",
+      "publish": "Publicar",
+      "scheduleSection": "Agendamento (opcional)",
+      "publishAtLabel": "Publicação programada",
+      "unpublishAtLabel": "Despublicação programada",
+      "scheduleHelp": "Horários no fuso BRT (Curitiba). Deixe em branco para gerenciar manualmente."
+    }
+  }
+}
