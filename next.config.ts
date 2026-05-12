@@ -28,9 +28,7 @@ const nextConfig: NextConfig = {
     ],
   },
   allowedDevOrigins: ['10.1.2.62'],
-  experimental: {
-    reactCompiler: false,
-  },
+  reactCompiler: false,
 }
 
 export default withNextIntl(nextConfig)
