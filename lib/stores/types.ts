@@ -61,7 +61,7 @@ export class StoreProviderError extends Error {
       | 'PARSE_FAILED'
       | 'UNKNOWN',
     message: string,
-    public readonly cause?: unknown,
+    public override readonly cause?: unknown,
   ) {
     super(message)
     this.name = 'StoreProviderError'
