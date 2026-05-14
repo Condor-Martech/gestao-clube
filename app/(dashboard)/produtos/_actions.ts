@@ -95,6 +95,72 @@ export async function approveProdutoAction(
   return { ok: true }
 }
 
+export async function syncProdutosAppAction(
+  code: string,
+): Promise<ActionResult> {
+  const session = await requireModuleWrite('ofertas')
+  const trimmed = code?.trim()
+  if (!trimmed) return { ok: false, error: 'Código inválido' }
+
+  const supabase = await createClient()
+
+  const { error: syncError } = await supabase
+    .from('sync_app')
+    .insert({ user: session.userId, campanha: trimmed })
+
+  if (syncError) {
+    return { ok: false, error: syncError.message }
+  }
+
+  await supabase.from('logs').insert({
+    event_name: 'sync_app',
+    user: session.userId,
+    payload: { email: session.email, campanha: trimmed },
+  })
+
+  revalidatePath(`/produtos/${trimmed}`)
+  return { ok: true }
+}
+
+const SYNC_PRODUTO_BIP_WEBHOOK_URL =
+  process.env.SYNC_PRODUTO_BIP_WEBHOOK_URL ??
+  'https://hooks.cndr.me/webhook/996ad469-e84e-4652-ba34-b9bb3d224b95'
+
+export async function syncProdutoBipAction(
+  campanhaCode: string | null,
+): Promise<ActionResult> {
+  const session = await requireModuleWrite('ofertas')
+  const trimmed = campanhaCode?.trim()
+  if (!trimmed) return { ok: false, error: 'Campanha inválida' }
+
+  try {
+    const res = await fetch(SYNC_PRODUTO_BIP_WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code: trimmed }),
+    })
+    if (!res.ok) {
+      return { ok: false, error: `Webhook respondeu ${res.status}` }
+    }
+  } catch (err) {
+    return {
+      ok: false,
+      error: err instanceof Error ? err.message : 'Falha de rede',
+    }
+  }
+
+  const supabase = await createClient()
+  await supabase.from('logs').insert({
+    event_name: 'sync_produto_bip',
+    user: session.userId,
+    payload: { email: session.email, campanha: trimmed },
+  })
+
+  revalidatePath('/produtos')
+  revalidatePath(`/produtos/${trimmed}`)
+  return { ok: true }
+}
+
 export async function uploadProdutoImageAction(
   formData: FormData,
 ): Promise<ActionResult<{ url: string; field: 'img_internal' | 'img_external' }>> {

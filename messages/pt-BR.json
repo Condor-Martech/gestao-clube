@@ -41,7 +41,7 @@
       "users": "Usuários",
       "logs": "Logs",
       "manual": "Guia de Diagnóstico",
-      "sistema": "Documentação do Sistema"
+      "sistema": "Central de Ajuda"
     },
     "menuLabel": "Menu",
     "openMenu": "Abrir menu"
@@ -182,6 +182,7 @@
     "subtitle": "Gerenciamento de campanhas promocionais",
     "tabWithProducts": "Com produto no APP",
     "tabWithoutProducts": "Sem produto no APP",
+    "tabApproved": "Aprovadas",
     "addButton": "Adicionar Campanha",
     "editButton": "Editar",
     "deleteButton": "Excluir",
@@ -221,6 +222,15 @@
       "inicioLabel": "Vigência início",
       "fimLabel": "Vigência fim",
       "situacaoLabel": "Situação"
+    },
+    "sync": {
+      "title": "Adicionar Campanha",
+      "description": "Sincroniza a campanha que não foi carregada.",
+      "codeLabel": "Campanha",
+      "codePlaceholder": "Digite o código da campanha...",
+      "codeRequired": "Informe o código da campanha",
+      "submit": "Sincronizar",
+      "success": "A campanha iniciou a validação para a sincronização"
     },
     "deleted": "Campanha excluída",
     "created": "Campanha criada",
@@ -364,6 +374,11 @@
       "agrupamentos": "Agrupamentos",
       "duplicates": "Atenção: Duplicados"
     },
+    "tabs": {
+      "geral": "Geral",
+      "disponibilidade": "Disponibilidade",
+      "logs": "Logs"
+    },
     "identity": {
       "ean": "EAN",
       "host": "Host",
@@ -396,6 +411,24 @@
       "createdBy": "Criado por",
       "createdAt": "Criado em",
       "noAgrupamentos": "Este produto não pertence a nenhum agrupamento"
+    },
+    "lojas": {
+      "regiao": "Região",
+      "semRegiao": "Sem região",
+      "count": "{count, plural, =0 {nenhuma loja} =1 {1 loja} other {# lojas}}",
+      "filteredCount": "{shown} de {total}",
+      "searchPlaceholder": "Buscar por nome, cidade ou código da loja",
+      "clearSearch": "Limpar busca",
+      "noLojas": "Este produto não possui lojas no mix ou não há lojas ativas correspondentes",
+      "noMatches": "Nenhuma loja corresponde a \"{q}\""
+    },
+    "logs": {
+      "count": "{count, plural, =0 {nenhum log} =1 {1 log} other {# logs}}",
+      "filteredCount": "{shown} de {total}",
+      "searchPlaceholder": "Buscar por evento, e-mail, módulo ou payload",
+      "clearSearch": "Limpar busca",
+      "noLogs": "Nenhum log encontrado para este produto ou campanha",
+      "noMatches": "Nenhum log corresponde a \"{q}\""
     },
     "duplicates": {
       "warning": "Este EAN aparece em {count} campanhas diferentes",
@@ -584,8 +617,11 @@
     "editButton": "Editar",
     "viewList": "Lista",
     "viewGrid": "Cards",
-    "syncTitle": "Atualizar produto",
-    "syncPending": "Atualização disponível na Fase 9",
+    "syncTitle": "Atualizar produto com o BIP",
+    "syncConfirmTitle": "Atualizar produto com o BIP?",
+    "syncConfirmDescription": "Os dados da campanha {code} serão atualizados a partir do BIP. Deseja continuar?",
+    "syncConfirm": "Sim, atualizar",
+    "syncSuccess": "Sincronização iniciada",
     "eanCopied": "EAN copiado",
     "copyEan": "Copiar EAN",
     "sortLabel": "Ordenar",
@@ -600,6 +636,15 @@
       "aprovedAsc": "Pendentes primeiro"
     },
     "campanhaTitle": "Produtos da campanha {code}",
+    "syncApp": {
+      "button": "Sincronizar com App",
+      "confirmTitle": "Opa!",
+      "confirmDescription": "Deseja sincronizar os produtos dessa campanha para o App?",
+      "yes": "Sim",
+      "no": "Não",
+      "success": "Sincronização iniciada",
+      "lastUpdate": "Última atualização"
+    },
     "columns": {
       "ean": "EAN",
       "nome": "Nome",

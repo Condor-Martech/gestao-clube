@@ -15,8 +15,12 @@ import { getTranslations } from 'next-intl/server'
 import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
 import { Button } from '@/components/ui/button'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { formatDateTime } from '@/lib/utils/format'
-import type { Produto, Agrupamento } from '@/types/entities'
+import type { Produto, Agrupamento, LogEntry } from '@/types/entities'
+import type { LojaDisponivel } from '../page'
+import { LojasTab } from './lojas-tab'
+import { LogsTab } from './logs-tab'
 
 interface Props {
   produto: Produto
@@ -27,6 +31,8 @@ interface Props {
   userEmailMap: Map<string, string>
   isDuplicate: boolean
   allDuplicates: Produto[]
+  lojas: LojaDisponivel[]
+  logs: LogEntry[]
 }
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
@@ -70,6 +76,8 @@ export async function JornadaCard({
   userEmailMap,
   isDuplicate,
   allDuplicates,
+  lojas,
+  logs,
 }: Props) {
   const t = await getTranslations('jornadaProduto')
 
@@ -143,9 +151,7 @@ export async function JornadaCard({
             <FieldRow
               icon={<Tag className="size-4" />}
               label={t('identity.ean')}
-              value={
-                <span className="font-mono text-xs">{produto.ean ?? '—'}</span>
-              }
+              value={<span className="font-mono text-xs">{produto.ean ?? '—'}</span>}
             />
             <FieldRow
               icon={<Building2 className="size-4" />}
@@ -191,154 +197,189 @@ export async function JornadaCard({
 
       <Separator />
 
-      {/* ── DADOS ESSENCIAIS ── */}
+      {/* ── TABS: GERAL / DISPONIBILIDADE ── */}
       <div className="px-5 py-4">
-        <SectionTitle>{t('sections.essentialData')}</SectionTitle>
-        <CheckRow
-          label={t('essentialData.nome')}
-          ok={hasNome}
-          detail={hasNome ? produto.nome! : undefined}
-        />
-        <CheckRow
-          label={t('essentialData.descricao')}
-          ok={hasDescricao}
-          detail={
-            hasDescricao ? (
-              <span className="line-clamp-1">{produto.descricao!}</span>
-            ) : undefined
-          }
-        />
-        <CheckRow
-          label={t('essentialData.imagem')}
-          ok={hasImagem}
-          detail={
-            hasImagem ? (
-              <a
-                href={produto.img_external!}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-primary inline-flex items-center gap-1 underline-offset-2 hover:underline"
-              >
-                ver imagem
-                <ExternalLink className="size-3" />
-              </a>
-            ) : undefined
-          }
-        />
-      </div>
+        <Tabs defaultValue="geral">
+          <TabsList>
+            <TabsTrigger value="geral">{t('tabs.geral')}</TabsTrigger>
+            <TabsTrigger value="disponibilidade">
+              {t('tabs.disponibilidade')}
+              {lojas.length > 0 && (
+                <span className="bg-muted ml-2 rounded-full px-1.5 py-0.5 text-[10px] font-normal">
+                  {lojas.length}
+                </span>
+              )}
+            </TabsTrigger>
+            <TabsTrigger value="logs">
+              {t('tabs.logs')}
+              {logs.length > 0 && (
+                <span className="bg-muted ml-2 rounded-full px-1.5 py-0.5 text-[10px] font-normal">
+                  {logs.length}
+                </span>
+              )}
+            </TabsTrigger>
+          </TabsList>
 
-      <Separator />
-
-      {/* ── APROVAÇÃO ── */}
-      <div className="px-5 py-4">
-        <SectionTitle>{t('sections.approval')}</SectionTitle>
-        {produto.aproved ? (
-          <div className="space-y-0.5">
-            {(approverEmail ?? produto.aproved_user) && (
-              <FieldRow
-                icon={<User className="size-4" />}
-                label={t('approval.approvedBy')}
-                value={approverEmail ?? produto.aproved_user}
+          <TabsContent value="geral" className="space-y-4 pt-4">
+            {/* ── DADOS ESSENCIAIS ── */}
+            <div>
+              <SectionTitle>{t('sections.essentialData')}</SectionTitle>
+              <CheckRow
+                label={t('essentialData.nome')}
+                ok={hasNome}
+                detail={hasNome ? produto.nome! : undefined}
               />
-            )}
-            {produto.aproved_at && (
-              <FieldRow
-                icon={<Calendar className="size-4" />}
-                label={t('approval.approvedAt')}
-                value={<span className="text-xs">{formatDateTime(produto.aproved_at)}</span>}
+              <CheckRow
+                label={t('essentialData.descricao')}
+                ok={hasDescricao}
+                detail={
+                  hasDescricao ? (
+                    <span className="line-clamp-1">{produto.descricao!}</span>
+                  ) : undefined
+                }
               />
-            )}
-          </div>
-        ) : (
-          <p className="text-muted-foreground text-sm">{t('approval.notApproved')}</p>
-        )}
-      </div>
-
-      <Separator />
-
-      {/* ── HIERARQUIA ── */}
-      <div className="px-5 py-4">
-        <SectionTitle>{t('sections.hierarchy')}</SectionTitle>
-        {isPai ? (
-          <div className="flex items-center gap-2">
-            <Badge variant="default">{t('hierarchy.pai')}</Badge>
-            <span className="text-muted-foreground text-sm">
-              Este produto é pai — define o grupo de filhos
-            </span>
-          </div>
-        ) : (
-          <div className="space-y-2">
-            <div className="flex items-center gap-2">
-              <Badge variant="secondary">{t('hierarchy.filho')}</Badge>
-              <span className="text-muted-foreground text-sm">
-                {t('hierarchy.parentEan')}:{' '}
-                <span className="font-mono font-medium text-foreground">{produto.pai}</span>
-              </span>
-              <Button variant="outline" size="sm" asChild>
-                <Link href={`/jornada-produto?q=${encodeURIComponent(produto.pai ?? '')}` as `/${string}`}>
-                  <ExternalLink className="size-3" />
-                  {t('hierarchy.viewParent')}
-                </Link>
-              </Button>
-            </div>
-            {paiProduto && (
-              <p className="text-muted-foreground text-xs">
-                Pai: <span className="text-foreground font-medium">{paiProduto.nome ?? paiProduto.ean}</span>
-                {paiProduto.campanha && ` · Campanha ${paiProduto.campanha}`}
-              </p>
-            )}
-          </div>
-        )}
-      </div>
-
-      <Separator />
-
-      {/* ── AGRUPAMENTOS ── */}
-      <div className="px-5 py-4">
-        <SectionTitle>
-          {t('sections.agrupamentos')}
-          {agrupamentos.length > 0 && (
-            <span className="bg-muted ml-2 rounded-full px-1.5 py-0.5 text-xs font-normal normal-case">
-              {agrupamentos.length}
-            </span>
-          )}
-        </SectionTitle>
-
-        {agrupamentos.length === 0 ? (
-          <p className="text-muted-foreground text-sm">{t('agrupamentos.noAgrupamentos')}</p>
-        ) : (
-          <div className="border-border divide-border divide-y overflow-hidden rounded-lg border text-sm">
-            <div className="bg-muted/50 grid grid-cols-4 px-3 py-1.5 text-xs font-medium">
-              <span>{t('agrupamentos.grupo')}</span>
-              <span>{t('agrupamentos.campanha')}</span>
-              <span>{t('agrupamentos.createdBy')}</span>
-              <span>{t('agrupamentos.createdAt')}</span>
-            </div>
-            {agrupamentos.map((ag) => (
-              <div key={ag.id} className="grid grid-cols-4 px-3 py-2">
-                <span className="truncate font-medium">{ag.grupo ?? '—'}</span>
-                <span>
-                  {ag.campanha ? (
-                    <Link
-                      href={`/agrupamentos/${ag.campanha}` as `/${string}`}
-                      className="hover:text-primary font-mono text-xs underline-offset-2 hover:underline"
+              <CheckRow
+                label={t('essentialData.imagem')}
+                ok={hasImagem}
+                detail={
+                  hasImagem ? (
+                    <a
+                      href={produto.img_external!}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:text-primary inline-flex items-center gap-1 underline-offset-2 hover:underline"
                     >
-                      {ag.campanha}
-                    </Link>
-                  ) : (
-                    '—'
+                      ver imagem
+                      <ExternalLink className="size-3" />
+                    </a>
+                  ) : undefined
+                }
+              />
+            </div>
+
+            <Separator />
+
+            {/* ── APROVAÇÃO ── */}
+            <div>
+              <SectionTitle>{t('sections.approval')}</SectionTitle>
+              {produto.aproved ? (
+                <div className="space-y-0.5">
+                  {(approverEmail ?? produto.aproved_user) && (
+                    <FieldRow
+                      icon={<User className="size-4" />}
+                      label={t('approval.approvedBy')}
+                      value={approverEmail ?? produto.aproved_user}
+                    />
                   )}
-                </span>
-                <span className="text-muted-foreground truncate text-xs">
-                  {ag.user ? (userEmailMap.get(ag.user) ?? ag.user) : '—'}
-                </span>
-                <span className="text-muted-foreground text-xs">
-                  {ag.userAt ? formatDateTime(ag.userAt) : '—'}
-                </span>
-              </div>
-            ))}
-          </div>
-        )}
+                  {produto.aproved_at && (
+                    <FieldRow
+                      icon={<Calendar className="size-4" />}
+                      label={t('approval.approvedAt')}
+                      value={<span className="text-xs">{formatDateTime(produto.aproved_at)}</span>}
+                    />
+                  )}
+                </div>
+              ) : (
+                <p className="text-muted-foreground text-sm">{t('approval.notApproved')}</p>
+              )}
+            </div>
+
+            <Separator />
+
+            {/* ── HIERARQUIA ── */}
+            <div>
+              <SectionTitle>{t('sections.hierarchy')}</SectionTitle>
+              {isPai ? (
+                <div className="flex items-center gap-2">
+                  <Badge variant="default">{t('hierarchy.pai')}</Badge>
+                  <span className="text-muted-foreground text-sm">
+                    Este produto é pai — define o grupo de filhos
+                  </span>
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <Badge variant="secondary">{t('hierarchy.filho')}</Badge>
+                    <span className="text-muted-foreground text-sm">
+                      {t('hierarchy.parentEan')}:{' '}
+                      <span className="font-mono font-medium text-foreground">{produto.pai}</span>
+                    </span>
+                    <Button variant="outline" size="sm" asChild>
+                      <Link href={`/jornada-produto?q=${encodeURIComponent(produto.pai ?? '')}` as `/${string}`}>
+                        <ExternalLink className="size-3" />
+                        {t('hierarchy.viewParent')}
+                      </Link>
+                    </Button>
+                  </div>
+                  {paiProduto && (
+                    <p className="text-muted-foreground text-xs">
+                      Pai: <span className="text-foreground font-medium">{paiProduto.nome ?? paiProduto.ean}</span>
+                      {paiProduto.campanha && ` · Campanha ${paiProduto.campanha}`}
+                    </p>
+                  )}
+                </div>
+              )}
+            </div>
+
+            <Separator />
+
+            {/* ── AGRUPAMENTOS ── */}
+            <div>
+              <SectionTitle>
+                {t('sections.agrupamentos')}
+                {agrupamentos.length > 0 && (
+                  <span className="bg-muted ml-2 rounded-full px-1.5 py-0.5 text-xs font-normal normal-case">
+                    {agrupamentos.length}
+                  </span>
+                )}
+              </SectionTitle>
+
+              {agrupamentos.length === 0 ? (
+                <p className="text-muted-foreground text-sm">{t('agrupamentos.noAgrupamentos')}</p>
+              ) : (
+                <div className="border-border divide-border divide-y overflow-hidden rounded-lg border text-sm">
+                  <div className="bg-muted/50 grid grid-cols-4 px-3 py-1.5 text-xs font-medium">
+                    <span>{t('agrupamentos.grupo')}</span>
+                    <span>{t('agrupamentos.campanha')}</span>
+                    <span>{t('agrupamentos.createdBy')}</span>
+                    <span>{t('agrupamentos.createdAt')}</span>
+                  </div>
+                  {agrupamentos.map((ag) => (
+                    <div key={ag.id} className="grid grid-cols-4 px-3 py-2">
+                      <span className="truncate font-medium">{ag.grupo ?? '—'}</span>
+                      <span>
+                        {ag.campanha ? (
+                          <Link
+                            href={`/agrupamentos/${ag.campanha}` as `/${string}`}
+                            className="hover:text-primary font-mono text-xs underline-offset-2 hover:underline"
+                          >
+                            {ag.campanha}
+                          </Link>
+                        ) : (
+                          '—'
+                        )}
+                      </span>
+                      <span className="text-muted-foreground truncate text-xs">
+                        {ag.user ? (userEmailMap.get(ag.user) ?? ag.user) : '—'}
+                      </span>
+                      <span className="text-muted-foreground text-xs">
+                        {ag.userAt ? formatDateTime(ag.userAt) : '—'}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </TabsContent>
+
+          <TabsContent value="disponibilidade" className="pt-4">
+            <LojasTab lojas={lojas} />
+          </TabsContent>
+
+          <TabsContent value="logs" className="pt-4">
+            <LogsTab logs={logs} />
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   )

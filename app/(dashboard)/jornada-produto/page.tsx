@@ -4,11 +4,20 @@ import { requireModuleRead } from '@/lib/auth/guards'
 import { pickString } from '@/lib/utils/search-params'
 import { SearchForm } from './_components/search-form'
 import { JornadaCard } from './_components/jornada-card'
-import type { Produto, Agrupamento } from '@/types/entities'
+import type { Produto, Agrupamento, Loja, LogEntry } from '@/types/entities'
 
 interface Props {
   searchParams: Promise<{ q?: string | string[] }>
 }
+
+interface PriceEntry {
+  lst_mix_regiao?: number[] | null
+}
+
+export type LojaDisponivel = Pick<
+  Loja,
+  'id' | 'title' | 'regiao' | 'cidade' | 'codLoja' | 'status'
+>
 
 function isPai(produto: Produto): boolean {
   return !produto.pai || produto.pai === produto.ean
@@ -36,6 +45,8 @@ export default async function JornadaProdutoPage({ searchParams }: Props) {
     paiProduto: Produto | null
     approverEmail: string | null
     userEmailMap: Map<string, string>
+    lojas: LojaDisponivel[]
+    logs: LogEntry[]
   }> = []
 
   let allForDuplicateCheck: Produto[] = []
@@ -127,6 +138,58 @@ export default async function JornadaProdutoPage({ searchParams }: Props) {
         }
       }
 
+      // 6 — for each produto, derive the lojas that have it from price.lst_mix_regiao
+      //     (despite the field name, the codes are loja identifiers — they match Lojas.codLoja)
+      const lojasResults = await Promise.all(
+        found.map(async (produto) => {
+          const priceArr =
+            (produto as unknown as { price: PriceEntry[] | null }).price ?? []
+
+          const codLojaSet = new Set<string>()
+          for (const entry of priceArr) {
+            for (const code of entry?.lst_mix_regiao ?? []) {
+              if (code != null) codLojaSet.add(String(code))
+            }
+          }
+
+          if (codLojaSet.size === 0) return [] as LojaDisponivel[]
+
+          const { data: lojasData } = await supabase
+            .from('Lojas')
+            .select('id, title, regiao, cidade, codLoja, status')
+            .in('codLoja', [...codLojaSet])
+            .eq('status', true)
+            .order('regiao', { ascending: true })
+            .order('title', { ascending: true })
+
+          return (lojasData ?? []) as unknown as LojaDisponivel[]
+        }),
+      )
+
+      // 7 — for each produto, fetch logs matching its UUID, campanha (cod or alias),
+      //     or EAN (as agrupamento parent) via JSONB payload accessors
+      const logsResults = await Promise.all(
+        found.map(async (produto) => {
+          const filters = [
+            produto.id ? `payload->>produto_id.eq.${produto.id}` : null,
+            produto.campanha ? `payload->>campanha.eq.${produto.campanha}` : null,
+            produto.campanha ? `payload->>cod_campanha.eq.${produto.campanha}` : null,
+            produto.ean ? `payload->>pai.eq.${produto.ean}` : null,
+          ].filter((s): s is string => s !== null)
+
+          if (filters.length === 0) return [] as LogEntry[]
+
+          const { data: logsData } = await supabase
+            .from('logs_with_users')
+            .select('id, created_at, event_name, user, email, module, payload')
+            .or(filters.join(','))
+            .order('created_at', { ascending: false })
+            .limit(200)
+
+          return (logsData ?? []) as unknown as LogEntry[]
+        }),
+      )
+
       reports = found.map((produto, i) => ({
         produto,
         agrupamentos: agrupamentosResults[i] ?? [],
@@ -135,6 +198,8 @@ export default async function JornadaProdutoPage({ searchParams }: Props) {
           ? (userEmailMap.get(produto.aproved_user) ?? produto.aproved_user)
           : null,
         userEmailMap,
+        lojas: lojasResults[i] ?? [],
+        logs: logsResults[i] ?? [],
       }))
     }
   }
@@ -165,7 +230,7 @@ export default async function JornadaProdutoPage({ searchParams }: Props) {
 
       {reports.length > 0 && (
         <div className="space-y-5">
-          {reports.map(({ produto, agrupamentos, paiProduto, approverEmail, userEmailMap }) => {
+          {reports.map(({ produto, agrupamentos, paiProduto, approverEmail, userEmailMap, lojas, logs }) => {
             const duplicates = produto.ean ? (eanCounts[produto.ean] ?? []) : []
             const isDuplicate = duplicates.length > 1
             return (
@@ -179,6 +244,8 @@ export default async function JornadaProdutoPage({ searchParams }: Props) {
                 userEmailMap={userEmailMap}
                 isDuplicate={isDuplicate}
                 allDuplicates={duplicates}
+                lojas={lojas}
+                logs={logs}
               />
             )
           })}

@@ -49,7 +49,7 @@ export async function ProdutoCard({ produto }: Props) {
         )}
 
         <ProdutoSyncButton
-          produtoId={produto.id}
+          campanhaCode={produto.campanha}
           className="absolute bottom-2 right-2 size-7"
         />
       </div>

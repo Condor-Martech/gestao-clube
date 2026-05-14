@@ -2,7 +2,6 @@ import { Megaphone } from 'lucide-react'
 import { getTranslations } from 'next-intl/server'
 import { createClient } from '@/lib/supabase/server'
 import { requireModuleRead } from '@/lib/auth/guards'
-import { canWrite } from '@/lib/rbac'
 import { PermissionGate } from '@/components/rbac/permission-gate'
 import {
   Table,
@@ -13,7 +12,7 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { Badge } from '@/components/ui/badge'
-import { CampanhaDialog } from './_components/campanha-dialog'
+import { SyncCampanhaDialog } from './_components/sync-campanha-dialog'
 import { CampanhaInlineActions } from './_components/campanha-inline-actions'
 import { CampanhasSearch } from './_components/campanhas-search'
 import { StatusTabs, type ProductFilter } from './_components/status-tabs'
@@ -40,12 +39,13 @@ interface Props {
 
 export default async function CampanhasPage({ searchParams }: Props) {
   const { isAdmin, moduleRoles } = await requireModuleRead('ofertas')
-  const write = canWrite(isAdmin, 'ofertas', moduleRoles)
   const sp = await searchParams
   const t = await getTranslations('campanhas')
   const tc = await getTranslations('common')
 
-  const filter = (pickString(sp.hasProducts) ?? 'with') as ProductFilter
+  const rawFilter = pickString(sp.hasProducts)
+  const filter: ProductFilter =
+    rawFilter === 'without' || rawFilter === 'approved' ? rawFilter : 'with'
   const search = pickString(sp.search)
   const page = parsePage(pickString(sp.page))
   const range = rangeFromPage({ page, pageSize: DEFAULT_PAGE_SIZE })
@@ -55,13 +55,20 @@ export default async function CampanhasPage({ searchParams }: Props) {
   let query = supabase
     .from('campanhas')
     .select('*', { count: 'exact' })
+    .order('qtd_produtos', { ascending: false, nullsFirst: false })
     .order('updated_at', { ascending: false, nullsFirst: false })
     .range(range.from, range.to)
 
   if (filter === 'with') {
-    query = query.gt('qtd_produtos', 0)
+    query = query
+      .gt('qtd_produtos', 0)
+      .or('dsc_situacao.is.null,dsc_situacao.not.ilike.aprovada')
+  } else if (filter === 'without') {
+    query = query
+      .or('qtd_produtos.is.null,qtd_produtos.eq.0')
+      .or('dsc_situacao.is.null,dsc_situacao.not.ilike.aprovada')
   } else {
-    query = query.or('qtd_produtos.is.null,qtd_produtos.eq.0')
+    query = query.ilike('dsc_situacao', 'aprovada')
   }
 
   if (search) {
@@ -80,7 +87,7 @@ export default async function CampanhasPage({ searchParams }: Props) {
       <header className="border-border bg-card flex flex-wrap items-center justify-between gap-3 rounded-lg border p-4">
         <h1 className="text-xl font-semibold tracking-tight">{t('title')}</h1>
         <PermissionGate isAdmin={isAdmin} moduleRoles={moduleRoles} module="ofertas">
-          <CampanhaDialog
+          <SyncCampanhaDialog
             trigger={
               <Button>
                 <Megaphone className="size-4" />
@@ -168,7 +175,7 @@ export default async function CampanhasPage({ searchParams }: Props) {
                     {c.dsc_tipo_campanha ?? '—'}
                   </TableCell>
                   <TableCell>
-                    <CampanhaInlineActions campanha={c} canWrite={write} />
+                    <CampanhaInlineActions campanha={c} />
                   </TableCell>
                 </TableRow>
               ))

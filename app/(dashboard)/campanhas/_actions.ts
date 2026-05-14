@@ -59,6 +59,35 @@ export async function updateCampanhaAction(
   return { ok: true }
 }
 
+const SYNC_CAMPANHA_WEBHOOK_URL =
+  process.env.SYNC_CAMPANHA_WEBHOOK_URL ??
+  'https://hooks.cndr.me/webhook/5676ea0d-b70f-4f0a-ad29-ebecc4acbcbb'
+
+export async function syncCampanhaAction(code: string): Promise<ActionResult> {
+  await requireModuleWrite('ofertas')
+  const trimmed = code?.trim()
+  if (!trimmed) return { ok: false, error: 'Código inválido' }
+
+  try {
+    const res = await fetch(SYNC_CAMPANHA_WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code: trimmed }),
+    })
+    if (!res.ok) {
+      return { ok: false, error: `Webhook respondeu ${res.status}` }
+    }
+  } catch (err) {
+    return {
+      ok: false,
+      error: err instanceof Error ? err.message : 'Falha de rede',
+    }
+  }
+
+  revalidatePath('/campanhas')
+  return { ok: true }
+}
+
 export async function deleteCampanhaAction(cod: string): Promise<ActionResult> {
   await requireModuleWrite('ofertas')
   if (!cod) return { ok: false, error: 'Código inválido' }

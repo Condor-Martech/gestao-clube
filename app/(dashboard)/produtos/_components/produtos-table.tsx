@@ -11,6 +11,7 @@ import {
 import { Badge } from '@/components/ui/badge'
 import { ProdutoEditDialog } from './produto-edit-dialog'
 import { ApproveButton } from './approve-button'
+import { ProdutoSyncButton } from './produto-sync-button'
 import {
   EditableNumberCell,
   EditableTextCell,
@@ -125,6 +126,12 @@ export async function ProdutosTable({ produtos, showCampanha = true, canWrite = 
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center justify-end gap-1">
+                    {canWrite && (
+                      <ProdutoSyncButton
+                        campanhaCode={p.campanha}
+                        variant="ghost"
+                      />
+                    )}
                     <ApproveButton produtoId={p.id} approved={!!p.aproved} canWrite={canWrite} />
                     {canWrite && <ProdutoEditDialog produto={p} />}
                   </div>

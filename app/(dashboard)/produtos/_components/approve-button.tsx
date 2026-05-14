@@ -37,6 +37,7 @@ export function ApproveButton({ produtoId, approved, canWrite = false }: Props) 
       size="sm"
       onClick={handleClick}
       disabled={isPending}
+      className="w-[110px] justify-center"
     >
       {isPending ? (
         <Loader2 className="size-4 animate-spin" />

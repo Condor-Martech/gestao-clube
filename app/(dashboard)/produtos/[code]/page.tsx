@@ -15,8 +15,9 @@ import {
   ProdutosViewToggle,
   type ProdutoView,
 } from '../_components/produtos-view-toggle'
+import { SyncAppDialog } from '../_components/sync-app-dialog'
 import { PaginationControls } from '@/components/shared/pagination-controls'
-import { formatDate } from '@/lib/utils/format'
+import { formatDate, formatDateTime } from '@/lib/utils/format'
 import {
   DEFAULT_PAGE_SIZE,
   parsePage,
@@ -85,6 +86,14 @@ export default async function ProdutosCampanhaPage({ params, searchParams }: Pro
 
   const { data, count, error } = await query
 
+  const { data: lastSync } = await supabase
+    .from('sync_app_with_email')
+    .select('created_at, email')
+    .eq('campanha', code)
+    .order('created_at', { ascending: false })
+    .limit(1)
+    .maybeSingle()
+
   const produtos = (data ?? []) as unknown as Produto[]
   const total = count ?? 0
   const pages = totalPages(total, pageSize)
@@ -124,8 +133,17 @@ export default async function ProdutosCampanhaPage({ params, searchParams }: Pro
             {' · '}
             {total} {total === 1 ? 'produto' : 'produtos'}
           </p>
+          {lastSync?.created_at && (
+            <p className="text-muted-foreground text-xs">
+              {t('syncApp.lastUpdate')}: {formatDateTime(lastSync.created_at)}
+              {lastSync.email && <> · {lastSync.email}</>}
+            </p>
+          )}
         </div>
-        <ProdutosViewToggle value={view} />
+        <div className="flex flex-wrap items-center gap-2">
+          {write && <SyncAppDialog code={code} />}
+          <ProdutosViewToggle value={view} />
+        </div>
       </header>
 
       <div className="flex flex-wrap items-center gap-2">
