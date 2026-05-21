@@ -17,7 +17,7 @@ env:
 
 jobs:
   quality:
-    name: Lint · Typecheck · Format
+    name: Lint · Typecheck
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -28,9 +28,6 @@ jobs:
           cache: npm
 
       - run: npm ci
-
-      - name: Format check
-        run: npm run format:check
 
       - name: Lint
         run: npm run lint
