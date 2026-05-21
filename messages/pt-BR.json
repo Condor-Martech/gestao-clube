@@ -29,6 +29,7 @@
     },
     "items": {
       "dashboard": "Dashboard",
+      "ofertasDashboard": "Painel de Ofertas",
       "campanhas": "Campanhas",
       "produtos": "Produtos",
       "jornadaProduto": "Jornada do Produto",
@@ -100,6 +101,36 @@
       "title": "Últimos logs do sistema",
       "viewAll": "Ver todos",
       "empty": "Sem logs recentes",
+      "loadError": "Não foi possível carregar os logs"
+    }
+  },
+  "ofertasDashboard": {
+    "title": "Painel de Ofertas",
+    "subtitle": "Visão consolidada de campanhas, produtos e agrupamentos do módulo de ofertas",
+    "kpis": {
+      "campanhas": "Campanhas",
+      "campanhasDesc": "Total cadastradas",
+      "produtos": "Produtos sincronizados",
+      "produtosDesc": "Total na base",
+      "produtosAprovados": "Produtos aprovados",
+      "produtosAprovadosDesc": "Aprovados no sistema",
+      "agrupamentos": "Agrupamentos",
+      "agrupamentosDesc": "Total cadastrados"
+    },
+    "charts": {
+      "produtosPorCampanha": "Produtos por campanha",
+      "produtosPorCampanhaDesc": "Top 8 campanhas por quantidade de produtos",
+      "produtosPorCampanhaAmostra": "Top 8 campanhas — amostra de {amostra} de {total} produtos",
+      "campanhasPorSituacao": "Campanhas por situação",
+      "campanhasPorSituacaoDesc": "Distribuição das campanhas conforme a situação",
+      "produtosLegend": "Produtos",
+      "semSituacao": "Sem situação",
+      "empty": "Sem dados para exibir"
+    },
+    "recentLogs": {
+      "title": "Auditoria recente de ofertas",
+      "viewAll": "Ver todos",
+      "empty": "Sem logs recentes no módulo de ofertas",
       "loadError": "Não foi possível carregar os logs"
     }
   },
