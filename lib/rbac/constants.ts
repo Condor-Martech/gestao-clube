@@ -24,6 +24,7 @@ export const ROUTE_MODULE_MAP = [
   { prefix: '/banner-super-app', module: 'conteudo' as const },
   { prefix: '/numero-da-sorte', module: 'conteudo' as const },
   { prefix: '/campanhas', module: 'ofertas' as const },
+  { prefix: '/ofertas', module: 'ofertas' as const },
   { prefix: '/agrupamentos', module: 'ofertas' as const },
   { prefix: '/produtos', module: 'ofertas' as const },
   { prefix: '/lojas', module: 'stores' as const },

@@ -5,6 +5,7 @@ export type Role = 'admin' | 'manager' | 'user'
 
 export type NavIconKey =
   | 'dashboard'
+  | 'ofertasDashboard'
   | 'campanhas'
   | 'produtos'
   | 'jornadaProduto'
@@ -48,6 +49,13 @@ export const NAV_SECTIONS: readonly NavSection[] = [
   {
     titleKey: 'commercial',
     items: [
+      {
+        href: '/ofertas',
+        labelKey: 'ofertasDashboard',
+        iconKey: 'ofertasDashboard',
+        roles: ['admin', 'manager', 'user'],
+        module: 'ofertas',
+      },
       {
         href: '/campanhas',
         labelKey: 'campanhas',

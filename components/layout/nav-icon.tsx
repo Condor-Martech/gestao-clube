@@ -15,6 +15,7 @@ import {
   FileCog,
   LayoutGrid,
   Gift,
+  Gauge,
   type LucideIcon,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
@@ -22,6 +23,7 @@ import type { NavIconKey } from '@/lib/navigation'
 
 const ICON_MAP: Record<NavIconKey, LucideIcon> = {
   dashboard: LayoutDashboard,
+  ofertasDashboard: Gauge,
   campanhas: Megaphone,
   produtos: Package,
   jornadaProduto: Route,
