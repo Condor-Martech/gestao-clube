@@ -6,10 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2 } from 'lucide-react'
 import { toast } from 'sonner'
 import { useTranslations } from 'next-intl'
-import {
-  LojaCreateSchema,
-  type LojaCreateInput,
-} from '@/lib/validators/loja'
+import { LojaCreateSchema, type LojaCreateInput } from '@/lib/validators/loja'
 import { createLojaAction } from '../_actions'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'

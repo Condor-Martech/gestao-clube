@@ -17,12 +17,7 @@ import { LogsFilters } from './_components/logs-filters'
 import { LogPayloadSheet } from './_components/log-payload-sheet'
 import { PaginationControls } from '@/components/shared/pagination-controls'
 import { formatDateTime } from '@/lib/utils/format'
-import {
-  DEFAULT_PAGE_SIZE,
-  parsePage,
-  rangeFromPage,
-  totalPages,
-} from '@/lib/utils/pagination'
+import { DEFAULT_PAGE_SIZE, parsePage, rangeFromPage, totalPages } from '@/lib/utils/pagination'
 import { pickString } from '@/lib/utils/search-params'
 import type { LogEntry } from '@/types/entities'
 
@@ -71,9 +66,7 @@ export default async function LogsPage({ searchParams }: Props) {
   if (userParam) query = query.eq('email', userParam)
   if (q) {
     const safe = escapeIlike(q)
-    query = query.or(
-      `event_name.ilike.%${safe}%,email.ilike.%${safe}%,module.ilike.%${safe}%`,
-    )
+    query = query.or(`event_name.ilike.%${safe}%,email.ilike.%${safe}%,module.ilike.%${safe}%`)
   }
 
   const [{ data, count, error }, { data: moduleRows }, { data: userRows }] = await Promise.all([
@@ -87,11 +80,19 @@ export default async function LogsPage({ searchParams }: Props) {
   const pages = totalPages(total, DEFAULT_PAGE_SIZE)
 
   const modules = Array.from(
-    new Set((moduleRows ?? []).map((r) => (r as { module: string | null }).module).filter(Boolean) as string[]),
+    new Set(
+      (moduleRows ?? [])
+        .map((r) => (r as { module: string | null }).module)
+        .filter(Boolean) as string[],
+    ),
   ).sort()
 
   const users = Array.from(
-    new Set((userRows ?? []).map((r) => (r as { email: string | null }).email).filter(Boolean) as string[]),
+    new Set(
+      (userRows ?? [])
+        .map((r) => (r as { email: string | null }).email)
+        .filter(Boolean) as string[],
+    ),
   ).sort()
 
   const exportParams = new URLSearchParams()
@@ -118,9 +119,7 @@ export default async function LogsPage({ searchParams }: Props) {
 
       <LogsFilters modules={modules} users={users} />
 
-      <div className="text-muted-foreground text-xs">
-        {t('totalCount', { count: total })}
-      </div>
+      <div className="text-muted-foreground text-xs">{t('totalCount', { count: total })}</div>
 
       <div className="border-border rounded-lg border">
         <Table>
@@ -163,9 +162,7 @@ export default async function LogsPage({ searchParams }: Props) {
                     {log.event_name ?? <span className="text-muted-foreground">—</span>}
                   </TableCell>
                   <TableCell className="text-muted-foreground hidden text-xs md:table-cell">
-                    {log.email ?? (
-                      <span className="font-mono">{log.user ?? '—'}</span>
-                    )}
+                    {log.email ?? <span className="font-mono">{log.user ?? '—'}</span>}
                   </TableCell>
                   <TableCell className="text-right">
                     <LogPayloadSheet log={log} />
@@ -177,9 +174,7 @@ export default async function LogsPage({ searchParams }: Props) {
         </Table>
       </div>
 
-      {total > DEFAULT_PAGE_SIZE && (
-        <PaginationControls page={page} totalPages={pages} />
-      )}
+      {total > DEFAULT_PAGE_SIZE && <PaginationControls page={page} totalPages={pages} />}
     </div>
   )
 }

@@ -15,8 +15,7 @@ export const LojaPartialUpdateSchema = z
 
 export type LojaPartialUpdateInput = z.infer<typeof LojaPartialUpdateSchema>
 
-const emptyToNull = (v: unknown) =>
-  typeof v === 'string' && v.trim() === '' ? null : v
+const emptyToNull = (v: unknown) => (typeof v === 'string' && v.trim() === '' ? null : v)
 
 export const LojaCreateSchema = z.object({
   title: z.string().min(1, 'Nome é obrigatório').max(200),

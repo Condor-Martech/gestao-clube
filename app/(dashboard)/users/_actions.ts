@@ -4,10 +4,7 @@ import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { requireAdmin } from '@/lib/auth/guards'
-import {
-  InviteUserSchema,
-  UpdateUserSchema,
-} from '@/lib/validators/user'
+import { InviteUserSchema, UpdateUserSchema } from '@/lib/validators/user'
 import { env } from '@/lib/env'
 
 type ActionResult<T = void> = { ok: true; data?: T } | { ok: false; error: string }
@@ -28,13 +25,10 @@ export async function inviteUserAction(input: unknown): Promise<ActionResult> {
   }
 
   const admin = createAdminClient()
-  const { data, error } = await admin.auth.admin.inviteUserByEmail(
-    parsed.data.email,
-    {
-      data: { role: parsed.data.role },
-      redirectTo: `${env.NEXT_PUBLIC_APP_URL}/login`,
-    },
-  )
+  const { data, error } = await admin.auth.admin.inviteUserByEmail(parsed.data.email, {
+    data: { role: parsed.data.role },
+    redirectTo: `${env.NEXT_PUBLIC_APP_URL}/login`,
+  })
 
   if (error || !data.user) {
     return {
@@ -63,10 +57,9 @@ export async function inviteUserAction(input: unknown): Promise<ActionResult> {
 
   // Persist module_roles in the dedicated table.
   const moduleRoles = parsed.data.role === 'admin' ? {} : (parsed.data.module_roles ?? {})
-  const { error: mrError } = await admin.from('user_module_roles').upsert(
-    { user_id: userId, module_roles: moduleRoles },
-    { onConflict: 'user_id' },
-  )
+  const { error: mrError } = await admin
+    .from('user_module_roles')
+    .upsert({ user_id: userId, module_roles: moduleRoles }, { onConflict: 'user_id' })
 
   if (mrError) {
     return { ok: false, error: mrError.message }
@@ -76,10 +69,7 @@ export async function inviteUserAction(input: unknown): Promise<ActionResult> {
   return { ok: true }
 }
 
-export async function updateUserAction(
-  id: string,
-  input: unknown,
-): Promise<ActionResult> {
+export async function updateUserAction(id: string, input: unknown): Promise<ActionResult> {
   await requireAdmin()
   if (!id) return { ok: false, error: 'ID inválido' }
 
@@ -111,10 +101,9 @@ export async function updateUserAction(
 
   // Upsert module_roles in the dedicated table.
   const moduleRoles = parsed.data.role === 'admin' ? {} : (parsed.data.module_roles ?? {})
-  const { error: mrError } = await supabase.from('user_module_roles').upsert(
-    { user_id: id, module_roles: moduleRoles },
-    { onConflict: 'user_id' },
-  )
+  const { error: mrError } = await supabase
+    .from('user_module_roles')
+    .upsert({ user_id: id, module_roles: moduleRoles }, { onConflict: 'user_id' })
 
   if (mrError) return { ok: false, error: mrError.message }
 

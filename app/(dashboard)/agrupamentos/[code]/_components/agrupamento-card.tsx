@@ -41,19 +41,9 @@ export function AgrupamentoCard({ produto, canWrite = false }: Props) {
       </div>
 
       <div className="flex flex-1 flex-col gap-2 p-3">
-        <h3 className="line-clamp-2 text-sm font-semibold leading-snug">
-          {produto.nome ?? '—'}
-        </h3>
-        {variant && (
-          <p className="text-muted-foreground line-clamp-2 text-xs">
-            {variant}
-          </p>
-        )}
-        {produto.ean && (
-          <p className="text-muted-foreground font-mono text-xs">
-            {produto.ean}
-          </p>
-        )}
+        <h3 className="line-clamp-2 text-sm leading-snug font-semibold">{produto.nome ?? '—'}</h3>
+        {variant && <p className="text-muted-foreground line-clamp-2 text-xs">{variant}</p>}
+        {produto.ean && <p className="text-muted-foreground font-mono text-xs">{produto.ean}</p>}
 
         <button
           type="button"
@@ -84,9 +74,7 @@ export function AgrupamentoCard({ produto, canWrite = false }: Props) {
             {produto.pai && produto.pai !== produto.ean && (
               <div className="flex justify-between gap-2">
                 <dt className="font-medium">{t('details.pai')}</dt>
-                <dd className="font-mono break-all text-right">
-                  {produto.pai}
-                </dd>
+                <dd className="text-right font-mono break-all">{produto.pai}</dd>
               </div>
             )}
           </dl>

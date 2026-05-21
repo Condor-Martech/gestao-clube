@@ -6,12 +6,7 @@ import { Badge } from '@/components/ui/badge'
 import { HistoryFilters } from './_components/history-filters'
 import { PaginationControls } from '@/components/shared/pagination-controls'
 import { formatDateTime } from '@/lib/utils/format'
-import {
-  DEFAULT_PAGE_SIZE,
-  parsePage,
-  rangeFromPage,
-  totalPages,
-} from '@/lib/utils/pagination'
+import { DEFAULT_PAGE_SIZE, parsePage, rangeFromPage, totalPages } from '@/lib/utils/pagination'
 import { pickString } from '@/lib/utils/search-params'
 import type { AuditActivation } from '@/types/entities'
 
@@ -83,8 +78,8 @@ export default async function HistoryPage({ searchParams }: Props) {
                     isFailed
                       ? 'text-destructive mt-0.5'
                       : isCancel
-                        ? 'text-amber-500 mt-0.5'
-                        : 'text-emerald-500 mt-0.5'
+                        ? 'mt-0.5 text-amber-500'
+                        : 'mt-0.5 text-emerald-500'
                   }
                 >
                   <Icon className="size-5 shrink-0" />
@@ -106,7 +101,7 @@ export default async function HistoryPage({ searchParams }: Props) {
                       <span className="font-mono">campaign: {event.campaign_code}</span>
                     )}
                     {event.product_id && (
-                      <span className="font-mono ml-3">product: {event.product_id}</span>
+                      <span className="ml-3 font-mono">product: {event.product_id}</span>
                     )}
                   </div>
                 </div>
@@ -116,9 +111,7 @@ export default async function HistoryPage({ searchParams }: Props) {
         )}
       </div>
 
-      {total > DEFAULT_PAGE_SIZE && (
-        <PaginationControls page={page} totalPages={pages} />
-      )}
+      {total > DEFAULT_PAGE_SIZE && <PaginationControls page={page} totalPages={pages} />}
     </div>
   )
 }

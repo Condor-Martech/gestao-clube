@@ -6,10 +6,7 @@ import { Upload, Loader2, Trash2 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
-import {
-  removeBannerImageAction,
-  uploadBannerImageAction,
-} from '../_actions'
+import { removeBannerImageAction, uploadBannerImageAction } from '../_actions'
 
 type Field = 'carrosel' | 'carrosel2' | 'carrosel3'
 
@@ -68,11 +65,7 @@ export function CarouselManager({ bannerId, field, images }: Props) {
           onClick={() => inputRef.current?.click()}
           disabled={isPending}
         >
-          {isPending ? (
-            <Loader2 className="size-4 animate-spin" />
-          ) : (
-            <Upload className="size-4" />
-          )}
+          {isPending ? <Loader2 className="size-4 animate-spin" /> : <Upload className="size-4" />}
           {t('addImage')}
         </Button>
         <input
@@ -107,7 +100,7 @@ export function CarouselManager({ bannerId, field, images }: Props) {
                 type="button"
                 onClick={() => handleRemove(url)}
                 disabled={isPending}
-                className="bg-destructive/80 hover:bg-destructive text-destructive-foreground absolute right-1 top-1 rounded p-1 transition-colors"
+                className="bg-destructive/80 hover:bg-destructive text-destructive-foreground absolute top-1 right-1 rounded p-1 transition-colors"
                 aria-label={t('remove')}
               >
                 <Trash2 className="size-3" />

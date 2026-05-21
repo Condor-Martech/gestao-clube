@@ -73,10 +73,7 @@ export function BannerSuperAppCard({ banner, schedule }: Props) {
             className="h-full w-full object-cover"
           />
         ) : null}
-        <Badge
-          variant={isPublished ? 'default' : 'secondary'}
-          className="absolute right-2 top-2"
-        >
+        <Badge variant={isPublished ? 'default' : 'secondary'} className="absolute top-2 right-2">
           {isPublished ? t('status.published') : t('status.draft')}
         </Badge>
       </div>
@@ -84,16 +81,10 @@ export function BannerSuperAppCard({ banner, schedule }: Props) {
       <div className="space-y-3 p-4">
         <div className="flex items-start justify-between gap-2">
           <div className="space-y-1">
-            <h3 className="font-semibold leading-tight">
-              {banner.name ?? '—'}
-            </h3>
-            <p className="text-muted-foreground font-mono text-xs">
-              /{banner.slug}
-            </p>
+            <h3 className="leading-tight font-semibold">{banner.name ?? '—'}</h3>
+            <p className="text-muted-foreground font-mono text-xs">/{banner.slug}</p>
             <div className="flex flex-wrap items-center gap-2 pt-1 text-xs">
-              <Badge variant="outline">
-                {t(`positions.${banner.position}`)}
-              </Badge>
+              <Badge variant="outline">{t(`positions.${banner.position}`)}</Badge>
               <span className="text-muted-foreground">#{banner.order}</span>
             </div>
           </div>
@@ -113,11 +104,7 @@ export function BannerSuperAppCard({ banner, schedule }: Props) {
                 <Eye className="size-4" />
               )}
             </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setEditOpen(true)}
-            >
+            <Button variant="ghost" size="icon" onClick={() => setEditOpen(true)}>
               <Pencil className="size-4" />
             </Button>
             <AlertDialog>
@@ -133,9 +120,7 @@ export function BannerSuperAppCard({ banner, schedule }: Props) {
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
-                  <AlertDialogTitle>
-                    {tCommon('confirmDeleteTitle')}
-                  </AlertDialogTitle>
+                  <AlertDialogTitle>{tCommon('confirmDeleteTitle')}</AlertDialogTitle>
                   <AlertDialogDescription>
                     {tCommon('confirmDeleteDescription')}
                   </AlertDialogDescription>

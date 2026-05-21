@@ -19,14 +19,7 @@ const ACCEPT_MIME = {
   pdf: 'application/pdf',
 }
 
-export function FileInput({
-  value,
-  onChange,
-  accept,
-  currentUrl,
-  disabled,
-  className,
-}: Props) {
+export function FileInput({ value, onChange, accept, currentUrl, disabled, className }: Props) {
   const inputRef = useRef<HTMLInputElement>(null)
   const [previewUrl, setPreviewUrl] = useState<string | null>(null)
 
@@ -39,8 +32,7 @@ export function FileInput({
     setPreviewUrl(null)
   }, [value, accept])
 
-  const showImageUrl =
-    accept === 'image' ? (previewUrl ?? currentUrl ?? null) : null
+  const showImageUrl = accept === 'image' ? (previewUrl ?? currentUrl ?? null) : null
   const showPdfBlock = accept === 'pdf' && (value || currentUrl)
 
   return (
@@ -49,11 +41,7 @@ export function FileInput({
         <div className="bg-muted relative aspect-video w-full overflow-hidden rounded-md border">
           {showImageUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={showImageUrl}
-              alt=""
-              className="h-full w-full object-contain"
-            />
+            <img src={showImageUrl} alt="" className="h-full w-full object-contain" />
           ) : (
             <div className="text-muted-foreground flex h-full items-center justify-center text-xs">
               Sem imagem

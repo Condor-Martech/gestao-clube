@@ -12,10 +12,7 @@ interface Props {
 }
 
 function normalize(value: string): string {
-  return value
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '')
+  return value.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
 }
 
 export function LojasTab({ lojas }: Props) {
@@ -51,28 +48,26 @@ export function LojasTab({ lojas }: Props) {
   }, [lojas, query])
 
   if (lojas.length === 0) {
-    return (
-      <p className="text-muted-foreground py-2 text-sm">{t('lojas.noLojas')}</p>
-    )
+    return <p className="text-muted-foreground py-2 text-sm">{t('lojas.noLojas')}</p>
   }
 
   return (
     <div className="space-y-3">
       <div className="flex items-center gap-2">
         <div className="relative flex-1">
-          <Search className="text-muted-foreground pointer-events-none absolute left-2.5 top-1/2 size-4 -translate-y-1/2" />
+          <Search className="text-muted-foreground pointer-events-none absolute top-1/2 left-2.5 size-4 -translate-y-1/2" />
           <Input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder={t('lojas.searchPlaceholder')}
-            className="pl-8 pr-8"
+            className="pr-8 pl-8"
           />
           {query && (
             <Button
               type="button"
               variant="ghost"
               size="icon"
-              className="absolute right-1 top-1/2 size-7 -translate-y-1/2"
+              className="absolute top-1/2 right-1 size-7 -translate-y-1/2"
               onClick={() => setQuery('')}
               aria-label={t('lojas.clearSearch')}
             >
@@ -91,18 +86,13 @@ export function LojasTab({ lojas }: Props) {
       </div>
 
       {filtered.length === 0 ? (
-        <p className="text-muted-foreground py-2 text-sm">
-          {t('lojas.noMatches', { q: query })}
-        </p>
+        <p className="text-muted-foreground py-2 text-sm">{t('lojas.noMatches', { q: query })}</p>
       ) : (
         <div className="space-y-3">
           {sortedRegioes.map((regiao) => {
             const lojasInRegiao = groupedByRegiao.get(regiao) ?? []
             return (
-              <div
-                key={regiao}
-                className="border-border overflow-hidden rounded-lg border"
-              >
+              <div key={regiao} className="border-border overflow-hidden rounded-lg border">
                 <div className="bg-muted/50 flex flex-wrap items-center gap-x-4 gap-y-1 px-3 py-2 text-xs">
                   <span className="inline-flex items-center gap-1.5 font-medium">
                     <MapPin className="size-3.5" />
@@ -110,8 +100,7 @@ export function LojasTab({ lojas }: Props) {
                       t('lojas.semRegiao')
                     ) : (
                       <>
-                        {t('lojas.regiao')}{' '}
-                        <span className="font-mono">{regiao}</span>
+                        {t('lojas.regiao')} <span className="font-mono">{regiao}</span>
                       </>
                     )}
                   </span>
@@ -126,13 +115,9 @@ export function LojasTab({ lojas }: Props) {
                       className="flex flex-wrap items-center gap-x-3 gap-y-0.5 px-3 py-2"
                     >
                       <Store className="text-muted-foreground size-3.5 shrink-0" />
-                      <span className="truncate font-medium">
-                        {loja.title ?? '—'}
-                      </span>
+                      <span className="truncate font-medium">{loja.title ?? '—'}</span>
                       {loja.cidade && (
-                        <span className="text-muted-foreground text-xs">
-                          · {loja.cidade}
-                        </span>
+                        <span className="text-muted-foreground text-xs">· {loja.cidade}</span>
                       )}
                       {loja.codLoja && (
                         <span className="text-muted-foreground ml-auto font-mono text-xs">

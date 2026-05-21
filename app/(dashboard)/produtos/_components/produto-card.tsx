@@ -40,7 +40,7 @@ export async function ProdutoCard({ produto }: Props) {
 
         {isApproved && (
           <div
-            className="absolute right-2 top-2 flex size-7 items-center justify-center rounded-full bg-emerald-500 text-white shadow-md"
+            className="absolute top-2 right-2 flex size-7 items-center justify-center rounded-full bg-emerald-500 text-white shadow-md"
             title={t('approved')}
             aria-label={t('approved')}
           >
@@ -50,14 +50,12 @@ export async function ProdutoCard({ produto }: Props) {
 
         <ProdutoSyncButton
           campanhaCode={produto.campanha}
-          className="absolute bottom-2 right-2 size-7"
+          className="absolute right-2 bottom-2 size-7"
         />
       </div>
 
       <div className="space-y-1 p-3">
-        <h3 className="line-clamp-2 text-xs font-medium leading-snug">
-          {produto.nome ?? '—'}
-        </h3>
+        <h3 className="line-clamp-2 text-xs leading-snug font-medium">{produto.nome ?? '—'}</h3>
         {categoria && (
           <div
             className="text-muted-foreground flex items-start gap-1 text-[10px] leading-tight"

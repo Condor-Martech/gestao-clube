@@ -199,9 +199,7 @@ describe('mapPublisherAction', () => {
 })
 
 describe('buildScheduleMap', () => {
-  const action = (
-    overrides: Partial<PublisherAction> = {},
-  ): PublisherAction => ({
+  const action = (overrides: Partial<PublisherAction> = {}): PublisherAction => ({
     id: 1,
     executeAt: '2026-06-01T03:00:00.000Z',
     mode: 'publish',

@@ -23,9 +23,9 @@ lib/stores/
 
 The Play Store provider uses **two Google APIs** with one service account:
 
-| API | Used for | Required |
-|---|---|---|
-| `androidpublisher.googleapis.com` | Reviews | Always |
+| API                                     | Used for                                                | Required         |
+| --------------------------------------- | ------------------------------------------------------- | ---------------- |
+| `androidpublisher.googleapis.com`       | Reviews                                                 | Always           |
 | `playdeveloperreporting.googleapis.com` | Installs, uninstalls, ratings, country/device breakdown | For metrics tabs |
 
 ### Step 1 — GCP project setup
@@ -117,13 +117,13 @@ repository.fetchMetricsInWindow() ──→ aggregator(rows) ──→ list*() o
 
 Table: `cc_app_metrics_daily`
 
-| Column | Type | Notes |
-|---|---|---|
-| `id`, `app_id`, `store`, `date` | base columns | — |
-| `average_rating`, `ratings_count`, `reviews_count`, `downloads`, `version` | legacy columns | preserved for back-compat |
-| `country_code` | text, nullable | ISO 3166-1 alpha-2; NULL = aggregate / not applicable |
-| `device_type` | text, nullable | PHONE/TABLET/TV/WEAR/OTHER; NULL = aggregate / not applicable (e.g. ratings rows) |
-| `installs`, `uninstalls` | integer, nullable | from `playdeveloperreporting` |
+| Column                                                                     | Type              | Notes                                                                             |
+| -------------------------------------------------------------------------- | ----------------- | --------------------------------------------------------------------------------- |
+| `id`, `app_id`, `store`, `date`                                            | base columns      | —                                                                                 |
+| `average_rating`, `ratings_count`, `reviews_count`, `downloads`, `version` | legacy columns    | preserved for back-compat                                                         |
+| `country_code`                                                             | text, nullable    | ISO 3166-1 alpha-2; NULL = aggregate / not applicable                             |
+| `device_type`                                                              | text, nullable    | PHONE/TABLET/TV/WEAR/OTHER; NULL = aggregate / not applicable (e.g. ratings rows) |
+| `installs`, `uninstalls`                                                   | integer, nullable | from `playdeveloperreporting`                                                     |
 
 Uniqueness: `UNIQUE NULLS NOT DISTINCT (app_id, store, date, country_code, device_type)` — Postgres 15+ feature so NULLs in the constraint are treated as equal (one canonical aggregate row per date).
 
@@ -131,12 +131,12 @@ Uniqueness: `UNIQUE NULLS NOT DISTINCT (app_id, store, date, country_code, devic
 
 `/stores` is a hub with shared layout + sub-routes. Each tab is its own URL (bookmarkeable):
 
-| URL | Tab | Component |
-|---|---|---|
-| `/stores` | Visão geral | KPIs + ratings/volume charts |
-| `/stores/reviews` | Avaliações | Stub (TBD) |
-| `/stores/audiencia` | Audiência | Top countries table + device donut |
-| `/stores/tendencias` | Tendências | Installs vs uninstalls + rating correlation |
+| URL                  | Tab         | Component                                   |
+| -------------------- | ----------- | ------------------------------------------- |
+| `/stores`            | Visão geral | KPIs + ratings/volume charts                |
+| `/stores/reviews`    | Avaliações  | Stub (TBD)                                  |
+| `/stores/audiencia`  | Audiência   | Top countries table + device donut          |
+| `/stores/tendencias` | Tendências  | Installs vs uninstalls + rating correlation |
 
 The tabs nav is a custom Client Component (`_components/tabs-nav.tsx`) using `<Link>` + `usePathname` — NOT Radix `Tabs`, because we want URL-based navigation, not in-page state.
 
@@ -170,22 +170,24 @@ If `last_error` is null and rows exist → sync working.
 
 ### 2. UI tabs walkthrough
 
-| Action | Expected |
-|---|---|
-| Open `/stores` | Tabs nav visible with "Visão geral" active |
-| Click Audiência | URL becomes `/stores/audiencia`, period selector visible, tabs nav stays, "Visão geral" no longer active |
-| Change period 30d → 7d | URL gets `?period=7d`, data refetches |
-| Click Tendências | Charts render, axes correct (rating 0-5 left, installs auto right) |
-| Refresh page on `/stores/audiencia?period=90d` | URL preserved, data persists |
-| (No data scenario) | Empty state cards in Audiência/Tendências, "Em breve" in Reviews |
+| Action                                         | Expected                                                                                                 |
+| ---------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| Open `/stores`                                 | Tabs nav visible with "Visão geral" active                                                               |
+| Click Audiência                                | URL becomes `/stores/audiencia`, period selector visible, tabs nav stays, "Visão geral" no longer active |
+| Change period 30d → 7d                         | URL gets `?period=7d`, data refetches                                                                    |
+| Click Tendências                               | Charts render, axes correct (rating 0-5 left, installs auto right)                                       |
+| Refresh page on `/stores/audiencia?period=90d` | URL preserved, data persists                                                                             |
+| (No data scenario)                             | Empty state cards in Audiência/Tendências, "Em breve" in Reviews                                         |
 
 ### 3. Error states
 
 To test `MISSING_PLAY_PERMISSIONS`:
+
 - Temporarily remove the SA from Play Console → next sync writes the error to `cc_app_sync_state.last_error`
 - UI: status list under header shows the error string
 
 To test `RATE_LIMITED`:
+
 - Hard to trigger naturally (200 calls/day is generous). Skip unless adding observability.
 
 ## Tests
@@ -214,6 +216,7 @@ npx vitest run metrics-aggregations            # 13 tests
 4. Write specs in `tests/e2e/`
 
 Coverage suggested when added:
+
 - Tabs navigation + active state derivation from URL
 - Empty states (no metrics seeded)
 - With seed data: top countries renders, donut renders, charts render
@@ -230,9 +233,9 @@ Coverage suggested when added:
 
 ## Glossary
 
-| Term | Meaning |
-|---|---|
-| **Reviews** | User-submitted text + rating per individual review (`androidpublisher`) |
-| **Ratings** | Aggregate `averageRating` + `ratingsCount` per day per country (`playdeveloperreporting`) |
-| **Installs** | Active device installs counted on the dimension breakdown (`playdeveloperreporting`) |
-| **Aggregate row** | Row with `country_code IS NULL AND device_type IS NULL` — global daily total |
+| Term              | Meaning                                                                                   |
+| ----------------- | ----------------------------------------------------------------------------------------- |
+| **Reviews**       | User-submitted text + rating per individual review (`androidpublisher`)                   |
+| **Ratings**       | Aggregate `averageRating` + `ratingsCount` per day per country (`playdeveloperreporting`) |
+| **Installs**      | Active device installs counted on the dimension breakdown (`playdeveloperreporting`)      |
+| **Aggregate row** | Row with `country_code IS NULL AND device_type IS NULL` — global daily total              |

@@ -2,7 +2,9 @@ import { GoogleAuth } from 'google-auth-library'
 
 const raw = process.env.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON
 if (!raw) {
-  console.error('❌ GOOGLE_PLAY_SERVICE_ACCOUNT_JSON not set. Run with: node --env-file=.env.local scripts/test-gcs-bucket.mjs')
+  console.error(
+    '❌ GOOGLE_PLAY_SERVICE_ACCOUNT_JSON not set. Run with: node --env-file=.env.local scripts/test-gcs-bucket.mjs',
+  )
   process.exit(1)
 }
 
@@ -49,7 +51,8 @@ try {
   console.log('  Status:  ', status)
   console.log('  Message: ', e.message)
   if (e.response?.data) {
-    const body = typeof e.response.data === 'string' ? e.response.data : JSON.stringify(e.response.data)
+    const body =
+      typeof e.response.data === 'string' ? e.response.data : JSON.stringify(e.response.data)
     console.log('  Body:    ', body.slice(0, 500))
   }
   console.log('\n💡 Diagnóstico:')

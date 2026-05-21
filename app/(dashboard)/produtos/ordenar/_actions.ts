@@ -3,19 +3,11 @@
 import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
 import { requireModuleWrite } from '@/lib/auth/guards'
-import {
-  ApplyPipelineOrderSchema,
-  PipelineUpdateSchema,
-} from '@/lib/validators/pipeline'
+import { ApplyPipelineOrderSchema, PipelineUpdateSchema } from '@/lib/validators/pipeline'
 
-type ActionResult<T = void> =
-  | { ok: true; data?: T }
-  | { ok: false; error: string }
+type ActionResult<T = void> = { ok: true; data?: T } | { ok: false; error: string }
 
-export async function updatePipelineAction(
-  id: string,
-  input: unknown,
-): Promise<ActionResult> {
+export async function updatePipelineAction(id: string, input: unknown): Promise<ActionResult> {
   await requireModuleWrite('ofertas')
   if (!id) return { ok: false, error: 'ID inválido' }
 
@@ -28,10 +20,7 @@ export async function updatePipelineAction(
   }
 
   const supabase = await createClient()
-  const { error } = await supabase
-    .from('pipelines')
-    .update(parsed.data)
-    .eq('id', id)
+  const { error } = await supabase.from('pipelines').update(parsed.data).eq('id', id)
 
   if (error) {
     return { ok: false, error: error.message }

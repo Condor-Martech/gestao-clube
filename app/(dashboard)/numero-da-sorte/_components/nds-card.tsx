@@ -39,10 +39,7 @@ function computeStatus(nds: NumeroDaSorte): Status {
   return 'ativo'
 }
 
-const STATUS_VARIANT: Record<
-  Status,
-  'default' | 'secondary' | 'outline' | 'destructive'
-> = {
+const STATUS_VARIANT: Record<Status, 'default' | 'secondary' | 'outline' | 'destructive'> = {
   rascunho: 'secondary',
   agendado: 'outline',
   ativo: 'default',
@@ -87,16 +84,9 @@ export function NDSCard({ nds }: Props) {
       <div className="bg-muted relative aspect-video w-full">
         {nds.banner.url ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={nds.banner.url}
-            alt={nds.titulo}
-            className="h-full w-full object-cover"
-          />
+          <img src={nds.banner.url} alt={nds.titulo} className="h-full w-full object-cover" />
         ) : null}
-        <Badge
-          variant={STATUS_VARIANT[status]}
-          className="absolute right-2 top-2"
-        >
+        <Badge variant={STATUS_VARIANT[status]} className="absolute top-2 right-2">
           {t(`status.${status}`)}
         </Badge>
       </div>
@@ -104,21 +94,14 @@ export function NDSCard({ nds }: Props) {
       <div className="space-y-3 p-4">
         <div className="flex items-start justify-between gap-2">
           <div className="space-y-1">
-            <h3 className="font-semibold leading-tight">{nds.titulo}</h3>
-            <p className="text-muted-foreground font-mono text-xs">
-              #{nds.numeroCampanha}
-            </p>
+            <h3 className="leading-tight font-semibold">{nds.titulo}</h3>
+            <p className="text-muted-foreground font-mono text-xs">#{nds.numeroCampanha}</p>
             <p className="text-muted-foreground text-xs">
               {nds.startDate} → {nds.endDate}
             </p>
           </div>
           <div className="flex items-center gap-1">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={handleTogglePublish}
-              disabled={isPending}
-            >
+            <Button variant="ghost" size="icon" onClick={handleTogglePublish} disabled={isPending}>
               {isPending ? (
                 <Loader2 className="size-4 animate-spin" />
               ) : isPublished ? (
@@ -127,11 +110,7 @@ export function NDSCard({ nds }: Props) {
                 <Eye className="size-4" />
               )}
             </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setEditOpen(true)}
-            >
+            <Button variant="ghost" size="icon" onClick={() => setEditOpen(true)}>
               <Pencil className="size-4" />
             </Button>
             <AlertDialog>
@@ -147,9 +126,7 @@ export function NDSCard({ nds }: Props) {
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
-                  <AlertDialogTitle>
-                    {tCommon('confirmDeleteTitle')}
-                  </AlertDialogTitle>
+                  <AlertDialogTitle>{tCommon('confirmDeleteTitle')}</AlertDialogTitle>
                   <AlertDialogDescription>
                     {tCommon('confirmDeleteDescription')}
                   </AlertDialogDescription>

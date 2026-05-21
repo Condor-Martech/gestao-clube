@@ -29,9 +29,7 @@ export async function syncStoresAction(input: unknown): Promise<SyncActionResult
   const { appId, store, force } = parsed.data
   const stores: Store[] = store ? [store] : ['play', 'app_store']
 
-  const results = await Promise.all(
-    stores.map((s) => syncStores({ appId, store: s, force })),
-  )
+  const results = await Promise.all(stores.map((s) => syncStores({ appId, store: s, force })))
 
   revalidatePath('/stores')
 

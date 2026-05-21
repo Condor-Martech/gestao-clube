@@ -26,9 +26,7 @@ export function ProdutosViewToggle({ value }: Props) {
     if (next === 'list') sp.delete('view')
     else sp.set('view', next)
     const qs = sp.toString()
-    startTransition(() =>
-      router.replace(qs ? `${pathname}?${qs}` : pathname),
-    )
+    startTransition(() => router.replace(qs ? `${pathname}?${qs}` : pathname))
   }
 
   return (
@@ -38,10 +36,7 @@ export function ProdutosViewToggle({ value }: Props) {
         variant="ghost"
         size="sm"
         onClick={() => setView('list')}
-        className={cn(
-          'h-7 gap-1.5 px-2.5',
-          value === 'list' && 'bg-background shadow',
-        )}
+        className={cn('h-7 gap-1.5 px-2.5', value === 'list' && 'bg-background shadow')}
         aria-pressed={value === 'list'}
       >
         <List className="size-4" />
@@ -52,10 +47,7 @@ export function ProdutosViewToggle({ value }: Props) {
         variant="ghost"
         size="sm"
         onClick={() => setView('grid')}
-        className={cn(
-          'h-7 gap-1.5 px-2.5',
-          value === 'grid' && 'bg-background shadow',
-        )}
+        className={cn('h-7 gap-1.5 px-2.5', value === 'grid' && 'bg-background shadow')}
         aria-pressed={value === 'grid'}
       >
         <LayoutGrid className="size-4" />

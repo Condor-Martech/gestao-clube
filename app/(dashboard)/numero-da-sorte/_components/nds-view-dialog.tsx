@@ -43,22 +43,14 @@ function computeStatus(nds: NumeroDaSorte): Status {
   return 'ativo'
 }
 
-const STATUS_VARIANT: Record<
-  Status,
-  'default' | 'secondary' | 'outline' | 'destructive'
-> = {
+const STATUS_VARIANT: Record<Status, 'default' | 'secondary' | 'outline' | 'destructive'> = {
   rascunho: 'secondary',
   agendado: 'outline',
   ativo: 'default',
   encerrado: 'outline',
 }
 
-export function NDSViewDialog({
-  nds,
-  schedule,
-  open,
-  onOpenChange,
-}: Props) {
+export function NDSViewDialog({ nds, schedule, open, onOpenChange }: Props) {
   const t = useTranslations('numero_da_sorte')
 
   const status = computeStatus(nds)
@@ -70,36 +62,28 @@ export function NDSViewDialog({
         <DialogHeader>
           <DialogTitle className="flex items-center gap-3">
             <span>{nds.titulo}</span>
-            <Badge variant={STATUS_VARIANT[status]}>
-              {t(`status.${status}`)}
-            </Badge>
+            <Badge variant={STATUS_VARIANT[status]}>{t(`status.${status}`)}</Badge>
           </DialogTitle>
-          <DialogDescription className="font-mono">
-            #{nds.numeroCampanha}
-          </DialogDescription>
+          <DialogDescription className="font-mono">#{nds.numeroCampanha}</DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4">
           {nds.banner.url ? (
             <div className="bg-muted relative aspect-video w-full overflow-hidden rounded-md border">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={nds.banner.url}
-                alt={nds.titulo}
-                className="h-full w-full object-contain"
-              />
+              <img src={nds.banner.url} alt={nds.titulo} className="h-full w-full object-contain" />
             </div>
           ) : null}
 
           <dl className="grid grid-cols-2 gap-4 text-sm">
             <div>
-              <dt className="text-muted-foreground text-xs uppercase tracking-wide">
+              <dt className="text-muted-foreground text-xs tracking-wide uppercase">
                 {t('form.startLabel')}
               </dt>
               <dd className="mt-1 font-medium">{formatDate(nds.startDate)}</dd>
             </div>
             <div>
-              <dt className="text-muted-foreground text-xs uppercase tracking-wide">
+              <dt className="text-muted-foreground text-xs tracking-wide uppercase">
                 {t('form.endLabel')}
               </dt>
               <dd className="mt-1 font-medium">{formatDate(nds.endDate)}</dd>
@@ -108,16 +92,12 @@ export function NDSViewDialog({
 
           {nds.bannerSmall?.url ? (
             <div className="space-y-2">
-              <p className="text-muted-foreground text-xs uppercase tracking-wide">
+              <p className="text-muted-foreground text-xs tracking-wide uppercase">
                 {t('form.bannerSmallLabel')}
               </p>
               <div className="bg-muted relative aspect-video w-48 overflow-hidden rounded-md border">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={nds.bannerSmall.url}
-                  alt=""
-                  className="h-full w-full object-contain"
-                />
+                <img src={nds.bannerSmall.url} alt="" className="h-full w-full object-contain" />
               </div>
             </div>
           ) : null}
@@ -136,28 +116,20 @@ export function NDSViewDialog({
 
           {hasSchedule ? (
             <div className="border-border space-y-2 rounded-md border p-3">
-              <p className="text-muted-foreground flex items-center gap-2 text-xs uppercase tracking-wide">
+              <p className="text-muted-foreground flex items-center gap-2 text-xs tracking-wide uppercase">
                 <CalendarClock className="size-3" />
                 {t('schedule.title')}
               </p>
               {schedule?.publishAt ? (
                 <p className="text-sm">
-                  <span className="text-muted-foreground">
-                    {t('schedule.publishAt')}:
-                  </span>{' '}
-                  <span className="font-medium">
-                    {formatBRT(schedule.publishAt)}
-                  </span>
+                  <span className="text-muted-foreground">{t('schedule.publishAt')}:</span>{' '}
+                  <span className="font-medium">{formatBRT(schedule.publishAt)}</span>
                 </p>
               ) : null}
               {schedule?.unpublishAt ? (
                 <p className="text-sm">
-                  <span className="text-muted-foreground">
-                    {t('schedule.unpublishAt')}:
-                  </span>{' '}
-                  <span className="font-medium">
-                    {formatBRT(schedule.unpublishAt)}
-                  </span>
+                  <span className="text-muted-foreground">{t('schedule.unpublishAt')}:</span>{' '}
+                  <span className="font-medium">{formatBRT(schedule.unpublishAt)}</span>
                 </p>
               ) : null}
             </div>

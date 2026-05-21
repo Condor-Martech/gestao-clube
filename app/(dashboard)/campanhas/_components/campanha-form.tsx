@@ -12,10 +12,7 @@ import {
   type CampanhaInput,
   type CampanhaUpdateInput,
 } from '@/lib/validators/campanha'
-import {
-  createCampanhaAction,
-  updateCampanhaAction,
-} from '../_actions'
+import { createCampanhaAction, updateCampanhaAction } from '../_actions'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import {
@@ -36,9 +33,7 @@ import {
 } from '@/components/ui/select'
 import type { Campanha } from '@/types/entities'
 
-type Mode =
-  | { mode: 'create' }
-  | { mode: 'edit'; campanha: Campanha }
+type Mode = { mode: 'create' } | { mode: 'edit'; campanha: Campanha }
 
 interface Props {
   variant: Mode
@@ -62,8 +57,7 @@ export function CampanhaForm({ variant, onSuccess }: Props) {
           dta_vigencia_inicio: variant.campanha.dta_vigencia_inicio ?? '',
           dta_vigencia_fim: variant.campanha.dta_vigencia_fim ?? '',
           dsc_tipo_campanha: variant.campanha.dsc_tipo_campanha ?? '',
-          dsc_situacao:
-            variant.campanha.dsc_situacao === 'Inativa' ? 'Inativa' : 'Ativa',
+          dsc_situacao: variant.campanha.dsc_situacao === 'Inativa' ? 'Inativa' : 'Ativa',
         }
       : {
           cod_campanha: '',
@@ -78,10 +72,7 @@ export function CampanhaForm({ variant, onSuccess }: Props) {
   function onSubmit(values: CampanhaInput) {
     startTransition(async () => {
       const result = isEdit
-        ? await updateCampanhaAction(
-            variant.campanha.cod_campanha,
-            values as CampanhaUpdateInput,
-          )
+        ? await updateCampanhaAction(variant.campanha.cod_campanha, values as CampanhaUpdateInput)
         : await createCampanhaAction(values)
 
       if (!result.ok) {
@@ -135,11 +126,7 @@ export function CampanhaForm({ variant, onSuccess }: Props) {
             <FormItem>
               <FormLabel>{tForm('tipoLabel')}</FormLabel>
               <FormControl>
-                <Input
-                  placeholder={tForm('tipoPlaceholder')}
-                  disabled={isPending}
-                  {...field}
-                />
+                <Input placeholder={tForm('tipoPlaceholder')} disabled={isPending} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -181,11 +168,7 @@ export function CampanhaForm({ variant, onSuccess }: Props) {
           render={({ field }) => (
             <FormItem>
               <FormLabel>{tForm('situacaoLabel')}</FormLabel>
-              <Select
-                value={field.value}
-                onValueChange={field.onChange}
-                disabled={isPending}
-              >
+              <Select value={field.value} onValueChange={field.onChange} disabled={isPending}>
                 <FormControl>
                   <SelectTrigger>
                     <SelectValue />

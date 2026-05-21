@@ -1,12 +1,7 @@
 import { describe, expect, it } from 'vitest'
-import {
-  NumeroDaSorteCreateSchema,
-  NumeroDaSorteUpdateSchema,
-} from './numero-da-sorte'
+import { NumeroDaSorteCreateSchema, NumeroDaSorteUpdateSchema } from './numero-da-sorte'
 
-function makeImage(
-  opts: { name?: string; type?: string; size?: number } = {},
-): File {
+function makeImage(opts: { name?: string; type?: string; size?: number } = {}): File {
   const { name = 'banner.png', type = 'image/png', size = 1024 } = opts
   return new File([new Uint8Array(size)], name, { type })
 }
@@ -38,9 +33,7 @@ describe('NumeroDaSorteCreateSchema', () => {
     })
     expect(result.success).toBe(false)
     if (!result.success) {
-      expect(
-        result.error.issues.some((i) => i.path.includes('endDate')),
-      ).toBe(true)
+      expect(result.error.issues.some((i) => i.path.includes('endDate'))).toBe(true)
     }
   })
 

@@ -105,8 +105,7 @@ const MODULES: ModuleDoc[] = [
     slug: 'produtos',
     title: 'Produtos',
     icon: Package,
-    blurb:
-      'Catálogo navegável e editável. Lista global + lista por campanha em /produtos/[code].',
+    blurb: 'Catálogo navegável e editável. Lista global + lista por campanha em /produtos/[code].',
     steps: [
       'Alterne entre visão lista (datatable inline editável) e grid (cards com imagem).',
       'Edite nome, descrição, unidade e ordem clicando direto na célula. Enter salva, Escape cancela.',
@@ -198,8 +197,7 @@ const MODULES: ModuleDoc[] = [
     slug: 'banner',
     title: 'Banner',
     icon: ImageIcon,
-    blurb:
-      'CRUD de Ofertas com três carrosséis de imagens manejados individualmente.',
+    blurb: 'CRUD de Ofertas com três carrosséis de imagens manejados individualmente.',
     steps: [
       'Cada slot de carrossel aceita upload independente para Supabase Storage.',
       'A ordem dos slides define a ordem de exibição no APP.',
@@ -214,8 +212,7 @@ const MODULES: ModuleDoc[] = [
     slug: 'users',
     title: 'Users',
     icon: Users,
-    blurb:
-      'Convite e gestão de papéis. Usa a admin API do Supabase para invite por email.',
+    blurb: 'Convite e gestão de papéis. Usa a admin API do Supabase para invite por email.',
     steps: [
       'Convide um usuário pelo email — o Supabase envia o magic link de cadastro.',
       'Edite role e status na tabela. Status inativo bloqueia login.',
@@ -230,8 +227,7 @@ const MODULES: ModuleDoc[] = [
     slug: 'logs',
     title: 'Logs',
     icon: ScrollText,
-    blurb:
-      'Auditoria do sistema. View logs_with_users já joina logs.user → users.email.',
+    blurb: 'Auditoria do sistema. View logs_with_users já joina logs.user → users.email.',
     steps: [
       'Filtre por módulo, evento e período. JSON do payload aparece com highlight.',
       'Exporte um log em CSV ou em PNG de evidência (next/og + hash SHA-256).',
@@ -342,8 +338,8 @@ export function SystemDocsHub() {
     <div className="-mx-4 md:-mx-6">
       <article className="mx-auto max-w-6xl px-4 pb-24 md:px-8">
         {/* HERO ─────────────────────────────────────────────── */}
-        <header className="border-foreground/90 border-b pb-10 pt-6 md:pt-10">
-          <div className="text-muted-foreground flex flex-wrap items-center gap-3 font-mono text-[11px] uppercase tracking-[0.18em]">
+        <header className="border-foreground/90 border-b pt-6 pb-10 md:pt-10">
+          <div className="text-muted-foreground flex flex-wrap items-center gap-3 font-mono text-[11px] tracking-[0.18em] uppercase">
             <span>Vol. 01</span>
             <span className="bg-foreground/30 inline-block h-px w-6" />
             <span>Manual interno</span>
@@ -351,35 +347,30 @@ export function SystemDocsHub() {
             <span>pt-BR</span>
           </div>
 
-          <h1 className="mt-6 font-sans text-5xl font-semibold leading-[0.95] tracking-tighter md:text-7xl lg:text-[5.5rem]">
+          <h1 className="mt-6 font-sans text-5xl leading-[0.95] font-semibold tracking-tighter md:text-7xl lg:text-[5.5rem]">
             Central de Ajuda
-            <span className="text-muted-foreground/70 block italic">
-              do Sistema.
-            </span>
+            <span className="text-muted-foreground/70 block italic">do Sistema.</span>
           </h1>
 
           <div className="mt-8 grid gap-6 md:grid-cols-[1fr_auto] md:items-end">
             <p className="text-muted-foreground max-w-xl text-base leading-relaxed md:text-lg">
-              Documentação operacional de cada módulo do back-office.
-              Construído como referência diária — não como brochura. Tudo
-              vive aqui, em HTML, sem iframes externos.
+              Documentação operacional de cada módulo do back-office. Construído como referência
+              diária — não como brochura. Tudo vive aqui, em HTML, sem iframes externos.
             </p>
-            <dl className="text-muted-foreground grid grid-cols-3 gap-4 font-mono text-[11px] uppercase tracking-[0.14em] md:text-right">
+            <dl className="text-muted-foreground grid grid-cols-3 gap-4 font-mono text-[11px] tracking-[0.14em] uppercase md:text-right">
               <div>
                 <dt className="text-foreground/60">Versão</dt>
-                <dd className="text-foreground mt-1 text-sm normal-case tracking-normal">
-                  1.0
-                </dd>
+                <dd className="text-foreground mt-1 text-sm tracking-normal normal-case">1.0</dd>
               </div>
               <div>
                 <dt className="text-foreground/60">Atualizado</dt>
-                <dd className="text-foreground mt-1 text-sm normal-case tracking-normal">
+                <dd className="text-foreground mt-1 text-sm tracking-normal normal-case">
                   07.05.26
                 </dd>
               </div>
               <div>
                 <dt className="text-foreground/60">Módulos</dt>
-                <dd className="text-foreground mt-1 text-sm normal-case tracking-normal">
+                <dd className="text-foreground mt-1 text-sm tracking-normal normal-case">
                   {MODULES.length}
                 </dd>
               </div>
@@ -387,7 +378,7 @@ export function SystemDocsHub() {
           </div>
 
           {/* Search */}
-          <div className="bg-card mt-10 flex items-center gap-3 rounded-md border px-4 py-3 shadow-sm focus-within:ring-2 focus-within:ring-ring/40">
+          <div className="bg-card focus-within:ring-ring/40 mt-10 flex items-center gap-3 rounded-md border px-4 py-3 shadow-sm focus-within:ring-2">
             <Search className="text-muted-foreground size-4 shrink-0" />
             <Input
               type="text"
@@ -396,16 +387,13 @@ export function SystemDocsHub() {
               placeholder="Buscar módulo, ação ou termo técnico…"
               className="h-auto border-0 bg-transparent p-0 text-base shadow-none focus-visible:ring-0 focus-visible:ring-offset-0"
             />
-            <kbd className="text-muted-foreground hidden items-center gap-1 rounded border bg-muted/40 px-1.5 py-0.5 font-mono text-[10px] sm:inline-flex">
+            <kbd className="text-muted-foreground bg-muted/40 hidden items-center gap-1 rounded border px-1.5 py-0.5 font-mono text-[10px] sm:inline-flex">
               <KeyRound className="size-3" /> /
             </kbd>
           </div>
 
           {/* Filters */}
-          <nav
-            aria-label="Filtrar por área"
-            className="mt-5 flex flex-wrap gap-1.5"
-          >
+          <nav aria-label="Filtrar por área" className="mt-5 flex flex-wrap gap-1.5">
             {AREAS.map((a) => {
               const active = activeArea === a.id
               const count = counts.get(a.id) ?? 0
@@ -438,7 +426,7 @@ export function SystemDocsHub() {
 
         {/* INDEX ─────────────────────────────────────────────── */}
         <section className="grid gap-0 pt-2 md:grid-cols-12">
-          <aside className="text-muted-foreground hidden border-r py-10 pr-6 font-mono text-[11px] uppercase tracking-[0.14em] md:col-span-3 md:block">
+          <aside className="text-muted-foreground hidden border-r py-10 pr-6 font-mono text-[11px] tracking-[0.14em] uppercase md:col-span-3 md:block">
             <div className="sticky top-6">
               <p className="text-foreground/60 mb-4">Índice</p>
               <ol className="space-y-2.5">
@@ -446,17 +434,15 @@ export function SystemDocsHub() {
                   <li key={m.slug}>
                     <a
                       href={`#m-${m.slug}`}
-                      className="hover:text-foreground flex items-baseline gap-3 normal-case tracking-normal"
+                      className="hover:text-foreground flex items-baseline gap-3 tracking-normal normal-case"
                     >
-                      <span className="text-foreground/40 tabular-nums">
-                        {m.num}
-                      </span>
+                      <span className="text-foreground/40 tabular-nums">{m.num}</span>
                       <span>{m.title}</span>
                     </a>
                   </li>
                 ))}
                 {filtered.length === 0 && (
-                  <li className="text-muted-foreground/60 normal-case tracking-normal">
+                  <li className="text-muted-foreground/60 tracking-normal normal-case">
                     Nada encontrado.
                   </li>
                 )}
@@ -467,12 +453,11 @@ export function SystemDocsHub() {
           <div className="md:col-span-9 md:pl-10">
             {filtered.length === 0 ? (
               <div className="border-foreground/10 my-16 border-y py-20 text-center">
-                <p className="font-mono text-xs uppercase tracking-[0.18em] text-muted-foreground">
+                <p className="text-muted-foreground font-mono text-xs tracking-[0.18em] uppercase">
                   Sem resultados
                 </p>
                 <p className="mt-3 text-lg">
-                  Nenhum módulo casa com{' '}
-                  <span className="font-mono">“{query}”</span>.
+                  Nenhum módulo casa com <span className="font-mono">“{query}”</span>.
                 </p>
                 <button
                   type="button"
@@ -500,12 +485,10 @@ export function SystemDocsHub() {
         <section className="mt-24 border-t pt-12">
           <div className="mb-8 flex items-end justify-between gap-4">
             <div>
-              <p className="text-muted-foreground font-mono text-[11px] uppercase tracking-[0.18em]">
+              <p className="text-muted-foreground font-mono text-[11px] tracking-[0.18em] uppercase">
                 § Diário de bordo
               </p>
-              <h2 className="mt-2 text-3xl font-semibold tracking-tight md:text-4xl">
-                Novidades
-              </h2>
+              <h2 className="mt-2 text-3xl font-semibold tracking-tight md:text-4xl">Novidades</h2>
             </div>
             <Sparkles className="text-muted-foreground/40 size-5" />
           </div>
@@ -518,12 +501,10 @@ export function SystemDocsHub() {
                 <span className="text-muted-foreground w-20 shrink-0 font-mono text-xs tabular-nums">
                   {n.date}
                 </span>
-                <span className="text-foreground/90 flex-1 text-sm leading-relaxed">
-                  {n.title}
-                </span>
+                <span className="text-foreground/90 flex-1 text-sm leading-relaxed">{n.title}</span>
                 <Badge
                   variant="outline"
-                  className="w-fit text-[10px] font-mono uppercase tracking-wider"
+                  className="w-fit font-mono text-[10px] tracking-wider uppercase"
                 >
                   {n.tag}
                 </Badge>
@@ -534,7 +515,7 @@ export function SystemDocsHub() {
 
         {/* FAQ ───────────────────────────────────────────────── */}
         <section className="mt-24 border-t pt-12">
-          <p className="text-muted-foreground font-mono text-[11px] uppercase tracking-[0.18em]">
+          <p className="text-muted-foreground font-mono text-[11px] tracking-[0.18em] uppercase">
             § Perguntas frequentes
           </p>
           <h2 className="mt-2 text-3xl font-semibold tracking-tight md:text-4xl">
@@ -549,12 +530,10 @@ export function SystemDocsHub() {
                     <span className="text-muted-foreground w-7 shrink-0 font-mono text-xs tabular-nums">
                       {String(i + 1).padStart(2, '0')}
                     </span>
-                    <span className="flex-1 text-base font-medium md:text-lg">
-                      {item.q}
-                    </span>
+                    <span className="flex-1 text-base font-medium md:text-lg">{item.q}</span>
                     <ChevronRight className="text-muted-foreground size-4 shrink-0 transition-transform group-open:rotate-90" />
                   </summary>
-                  <p className="text-muted-foreground pb-6 pl-11 pr-8 text-sm leading-relaxed">
+                  <p className="text-muted-foreground pr-8 pb-6 pl-11 text-sm leading-relaxed">
                     {item.a}
                   </p>
                 </details>
@@ -567,16 +546,16 @@ export function SystemDocsHub() {
         <footer className="mt-24 border-t pt-10">
           <div className="grid gap-6 md:grid-cols-3 md:gap-10">
             <div>
-              <p className="text-muted-foreground font-mono text-[11px] uppercase tracking-[0.18em]">
+              <p className="text-muted-foreground font-mono text-[11px] tracking-[0.18em] uppercase">
                 Cólofon
               </p>
               <p className="mt-3 text-sm leading-relaxed">
-                Documento mantido pela equipe de plataforma. Editorial em
-                Montserrat; numeração em monospace.
+                Documento mantido pela equipe de plataforma. Editorial em Montserrat; numeração em
+                monospace.
               </p>
             </div>
             <div>
-              <p className="text-muted-foreground font-mono text-[11px] uppercase tracking-[0.18em]">
+              <p className="text-muted-foreground font-mono text-[11px] tracking-[0.18em] uppercase">
                 Erratas
               </p>
               <p className="mt-3 text-sm leading-relaxed">
@@ -591,16 +570,15 @@ export function SystemDocsHub() {
               </p>
             </div>
             <div>
-              <p className="text-muted-foreground font-mono text-[11px] uppercase tracking-[0.18em]">
+              <p className="text-muted-foreground font-mono text-[11px] tracking-[0.18em] uppercase">
                 Próxima edição
               </p>
               <p className="mt-3 text-sm leading-relaxed">
-                Inclusão de capítulo sobre Instance / WhatsApp e
-                automações de Banner.
+                Inclusão de capítulo sobre Instance / WhatsApp e automações de Banner.
               </p>
             </div>
           </div>
-          <p className="text-muted-foreground/60 mt-10 font-mono text-[10px] uppercase tracking-[0.18em]">
+          <p className="text-muted-foreground/60 mt-10 font-mono text-[10px] tracking-[0.18em] uppercase">
             Fim do volume — {MODULES.length} capítulos · Versão 1.0
           </p>
         </footer>
@@ -615,30 +593,27 @@ function ModuleEntry({ mod }: { mod: ModuleDoc }) {
     <li id={`m-${mod.slug}`} className="scroll-mt-6">
       <details className="group [&>summary]:list-none">
         <summary className="hover:bg-muted/30 flex cursor-pointer items-start gap-5 px-1 py-7 transition-colors md:gap-8 md:py-9">
-          <span className="text-muted-foreground/40 w-14 shrink-0 font-mono text-4xl font-medium leading-none tabular-nums md:w-20 md:text-6xl">
+          <span className="text-muted-foreground/40 w-14 shrink-0 font-mono text-4xl leading-none font-medium tabular-nums md:w-20 md:text-6xl">
             {mod.num}
           </span>
           <div className="min-w-0 flex-1">
             <div className="flex flex-wrap items-center gap-2">
-              <span className="text-muted-foreground font-mono text-[10px] uppercase tracking-[0.18em]">
+              <span className="text-muted-foreground font-mono text-[10px] tracking-[0.18em] uppercase">
                 {areaLabel(mod.area)}
               </span>
               {mod.badge && (
                 <Badge
                   variant="outline"
                   className={cn(
-                    'text-[10px] font-mono uppercase tracking-wider',
-                    mod.badge === 'novo' &&
-                      'border-foreground bg-foreground text-background',
+                    'font-mono text-[10px] tracking-wider uppercase',
+                    mod.badge === 'novo' && 'border-foreground bg-foreground text-background',
                   )}
                 >
                   {mod.badge}
                 </Badge>
               )}
             </div>
-            <h3 className="mt-2 text-2xl font-semibold tracking-tight md:text-3xl">
-              {mod.title}
-            </h3>
+            <h3 className="mt-2 text-2xl font-semibold tracking-tight md:text-3xl">{mod.title}</h3>
             <p className="text-muted-foreground mt-2 max-w-2xl text-sm leading-relaxed md:text-base">
               {mod.blurb}
             </p>
@@ -653,10 +628,10 @@ function ModuleEntry({ mod }: { mod: ModuleDoc }) {
           <ChevronRight className="text-muted-foreground size-5 shrink-0 transition-transform group-open:rotate-90 md:hidden" />
         </summary>
 
-        <div className="grid gap-8 pb-10 pl-[4.75rem] pr-2 md:grid-cols-[1fr_auto] md:gap-12 md:pl-[7rem]">
+        <div className="grid gap-8 pr-2 pb-10 pl-[4.75rem] md:grid-cols-[1fr_auto] md:gap-12 md:pl-[7rem]">
           <div className="space-y-6">
             <section>
-              <p className="text-muted-foreground font-mono text-[10px] uppercase tracking-[0.18em]">
+              <p className="text-muted-foreground font-mono text-[10px] tracking-[0.18em] uppercase">
                 Como usar
               </p>
               <ol className="mt-3 space-y-2.5 text-sm leading-relaxed">
@@ -673,7 +648,7 @@ function ModuleEntry({ mod }: { mod: ModuleDoc }) {
 
             {mod.tips && mod.tips.length > 0 && (
               <section>
-                <p className="text-muted-foreground font-mono text-[10px] uppercase tracking-[0.18em]">
+                <p className="text-muted-foreground font-mono text-[10px] tracking-[0.18em] uppercase">
                   Notas técnicas
                 </p>
                 <ul className="mt-3 space-y-2 text-sm leading-relaxed">
@@ -692,24 +667,22 @@ function ModuleEntry({ mod }: { mod: ModuleDoc }) {
 
           <aside className="bg-card flex w-full flex-col gap-5 rounded-md border p-5 md:w-64">
             <div>
-              <p className="text-muted-foreground flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.18em]">
+              <p className="text-muted-foreground flex items-center gap-1.5 font-mono text-[10px] tracking-[0.18em] uppercase">
                 <Shield className="size-3" /> Permissões
               </p>
               <p className="mt-2 text-sm leading-relaxed">{mod.permissions}</p>
             </div>
             <div>
-              <p className="text-muted-foreground font-mono text-[10px] uppercase tracking-[0.18em]">
+              <p className="text-muted-foreground font-mono text-[10px] tracking-[0.18em] uppercase">
                 Slug
               </p>
               <p className="mt-2 font-mono text-sm">/{mod.slug}</p>
             </div>
             <div>
-              <p className="text-muted-foreground font-mono text-[10px] uppercase tracking-[0.18em]">
+              <p className="text-muted-foreground font-mono text-[10px] tracking-[0.18em] uppercase">
                 Atualizado
               </p>
-              <p className="mt-2 font-mono text-sm tabular-nums">
-                {mod.updatedAt}
-              </p>
+              <p className="mt-2 font-mono text-sm tabular-nums">{mod.updatedAt}</p>
             </div>
             {mod.entryPath ? (
               <a
@@ -721,8 +694,7 @@ function ModuleEntry({ mod }: { mod: ModuleDoc }) {
               </a>
             ) : (
               <p className="text-muted-foreground mt-2 rounded-md border border-dashed px-3 py-2 text-xs leading-relaxed">
-                Acessível a partir de{' '}
-                <span className="font-mono">/campanhas</span>.
+                Acessível a partir de <span className="font-mono">/campanhas</span>.
               </p>
             )}
           </aside>

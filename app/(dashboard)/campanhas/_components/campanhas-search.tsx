@@ -29,7 +29,7 @@ export function CampanhasSearch() {
 
   return (
     <div className="flex items-center gap-2">
-      <Label htmlFor="campanha-search" className="text-muted-foreground whitespace-nowrap text-sm">
+      <Label htmlFor="campanha-search" className="text-muted-foreground text-sm whitespace-nowrap">
         {t('searchLabel')}
       </Label>
       <Input

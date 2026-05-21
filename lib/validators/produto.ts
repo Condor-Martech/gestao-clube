@@ -6,10 +6,7 @@ export const ProdutoUpdateSchema = z.object({
   nome: z.string().min(1, 'Nome é obrigatório').max(200),
   descricao: z.string().max(1000).optional().nullable(),
   ean: z.string().regex(EAN_REGEX, 'EAN deve ter entre 8 e 14 dígitos').optional().nullable(),
-  unidade: z
-    .string()
-    .min(1, 'Unidade é obrigatória')
-    .max(10, 'Unidade muito longa'),
+  unidade: z.string().min(1, 'Unidade é obrigatória').max(10, 'Unidade muito longa'),
   order: z.coerce.number().int().min(0).default(0),
   eletro: z.boolean().default(false),
 })
@@ -23,14 +20,7 @@ export const ProdutoApproveSchema = z.object({
 
 export type ProdutoApproveInput = z.infer<typeof ProdutoApproveSchema>
 
-export const PRODUTO_UNIDADES = [
-  'UN',
-  'KG',
-  'LT',
-  'CX',
-  'PCT',
-  'DZ',
-] as const
+export const PRODUTO_UNIDADES = ['UN', 'KG', 'LT', 'CX', 'PCT', 'DZ'] as const
 
 /**
  * Partial schema for inline cell edits. Each call updates exactly one field.
@@ -44,9 +34,6 @@ export const ProdutoPartialUpdateSchema = z
     unidade: z.string().min(1, 'Unidade é obrigatória').max(10).optional(),
     order: z.coerce.number().int().min(0).optional(),
   })
-  .refine(
-    (obj) => Object.keys(obj).length > 0,
-    { message: 'Nenhum campo para atualizar' },
-  )
+  .refine((obj) => Object.keys(obj).length > 0, { message: 'Nenhum campo para atualizar' })
 
 export type ProdutoPartialUpdateInput = z.infer<typeof ProdutoPartialUpdateSchema>

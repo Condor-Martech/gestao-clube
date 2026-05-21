@@ -11,11 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import {
-  DEFAULT_SORT,
-  PRODUTO_SORT_OPTIONS,
-  type ProdutoSortKey,
-} from '@/lib/utils/produto-sort'
+import { DEFAULT_SORT, PRODUTO_SORT_OPTIONS, type ProdutoSortKey } from '@/lib/utils/produto-sort'
 
 export function ProdutosSort() {
   const router = useRouter()
@@ -33,9 +29,7 @@ export function ProdutosSort() {
     else sp.set('sort', next)
     sp.delete('page')
     const qs = sp.toString()
-    startTransition(() =>
-      router.replace(qs ? `${pathname}?${qs}` : pathname),
-    )
+    startTransition(() => router.replace(qs ? `${pathname}?${qs}` : pathname))
   }
 
   return (

@@ -45,8 +45,7 @@ export async function syncSchedule(
   }
 
   for (const mode of ['publish', 'unpublish'] as const) {
-    const localInput =
-      mode === 'publish' ? input.publishAt : input.unpublishAt
+    const localInput = mode === 'publish' ? input.publishAt : input.unpublishAt
     const desired = localInput ? brtLocalToUtcIso(localInput) : null
     const current = byMode[mode]
 

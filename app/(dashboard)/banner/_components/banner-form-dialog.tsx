@@ -7,10 +7,7 @@ import { Loader2, Plus } from 'lucide-react'
 import { toast } from 'sonner'
 import { useTranslations } from 'next-intl'
 import { BannerSchema, type BannerInput } from '@/lib/validators/banner'
-import {
-  createBannerAction,
-  updateBannerAction,
-} from '../_actions'
+import { createBannerAction, updateBannerAction } from '../_actions'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import {
@@ -92,9 +89,7 @@ export function BannerFormDialog({ banner, trigger, open, onOpenChange }: Props)
 
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>
-            {isEdit ? tForm('editTitle') : tForm('addTitle')}
-          </DialogTitle>
+          <DialogTitle>{isEdit ? tForm('editTitle') : tForm('addTitle')}</DialogTitle>
           <DialogDescription>
             {isEdit ? tForm('editDescription') : tForm('addDescription')}
           </DialogDescription>
@@ -138,11 +133,7 @@ export function BannerFormDialog({ banner, trigger, open, onOpenChange }: Props)
                 <FormItem>
                   <FormLabel>{tForm('regiaoLabel')}</FormLabel>
                   <FormControl>
-                    <Input
-                      disabled={isPending}
-                      {...field}
-                      value={field.value ?? ''}
-                    />
+                    <Input disabled={isPending} {...field} value={field.value ?? ''} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

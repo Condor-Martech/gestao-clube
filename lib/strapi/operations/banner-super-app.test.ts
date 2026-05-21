@@ -54,9 +54,7 @@ describe('createBannerSuperApp', () => {
 
   it('does NOT call create when upload fails', async () => {
     const client = {
-      upload: vi
-        .fn()
-        .mockResolvedValue({ ok: false, error: 'too big', status: 413 }),
+      upload: vi.fn().mockResolvedValue({ ok: false, error: 'too big', status: 413 }),
       create: vi.fn(),
     } as unknown as StrapiClient
 
@@ -95,9 +93,7 @@ describe('createBannerSuperApp', () => {
   it('surfaces error from client.create', async () => {
     const client = {
       upload: vi.fn().mockResolvedValue(mediaResponse(99)),
-      create: vi
-        .fn()
-        .mockResolvedValue({ ok: false, error: 'duplicate slug' }),
+      create: vi.fn().mockResolvedValue({ ok: false, error: 'duplicate slug' }),
     } as unknown as StrapiClient
 
     const result = await createBannerSuperApp(client, {
@@ -113,9 +109,7 @@ describe('createBannerSuperApp', () => {
 
 describe('updateBannerSuperApp', () => {
   const noActions = {
-    listPublisherActions: vi
-      .fn()
-      .mockResolvedValue({ ok: true, data: [] }),
+    listPublisherActions: vi.fn().mockResolvedValue({ ok: true, data: [] }),
   }
 
   it('updates without uploading when image is omitted', async () => {

@@ -1,18 +1,11 @@
 import { z } from 'zod'
 
-const ALLOWED_IMAGE_MIME = [
-  'image/png',
-  'image/jpeg',
-  'image/jpg',
-  'image/webp',
-]
+const ALLOWED_IMAGE_MIME = ['image/png', 'image/jpeg', 'image/jpg', 'image/webp']
 const MAX_IMAGE_BYTES = 5 * 1024 * 1024
 const PDF_MIME = 'application/pdf'
 const MAX_PDF_BYTES = 10 * 1024 * 1024
 
-const dateString = z
-  .string()
-  .regex(/^\d{4}-\d{2}-\d{2}$/, 'Data inválida (YYYY-MM-DD)')
+const dateString = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Data inválida (YYYY-MM-DD)')
 
 const datetimeLocalString = z
   .string()
@@ -24,10 +17,7 @@ const datetimeLocalString = z
 const imageFileSchema = z
   .instanceof(File, { message: 'Imagem é obrigatória' })
   .refine((f) => f.size > 0, 'Arquivo vazio')
-  .refine(
-    (f) => ALLOWED_IMAGE_MIME.includes(f.type),
-    'Apenas PNG, JPG ou WEBP',
-  )
+  .refine((f) => ALLOWED_IMAGE_MIME.includes(f.type), 'Apenas PNG, JPG ou WEBP')
   .refine((f) => f.size <= MAX_IMAGE_BYTES, 'Imagem muito grande (máx 5MB)')
 
 const pdfFileSchema = z
@@ -47,10 +37,7 @@ const dateRefineOptions = {
 export const NumeroDaSorteCreateSchema = z
   .object({
     titulo: z.string().min(1, 'Título é obrigatório').max(200),
-    numeroCampanha: z.coerce
-      .number()
-      .int()
-      .positive('Número de campanha deve ser positivo'),
+    numeroCampanha: z.coerce.number().int().positive('Número de campanha deve ser positivo'),
     startDate: dateString,
     endDate: dateString,
     banner: imageFileSchema,
@@ -61,17 +48,12 @@ export const NumeroDaSorteCreateSchema = z
   })
   .refine(dateRefine, dateRefineOptions)
 
-export type NumeroDaSorteCreateInput = z.infer<
-  typeof NumeroDaSorteCreateSchema
->
+export type NumeroDaSorteCreateInput = z.infer<typeof NumeroDaSorteCreateSchema>
 
 export const NumeroDaSorteUpdateSchema = z
   .object({
     titulo: z.string().min(1, 'Título é obrigatório').max(200),
-    numeroCampanha: z.coerce
-      .number()
-      .int()
-      .positive('Número de campanha deve ser positivo'),
+    numeroCampanha: z.coerce.number().int().positive('Número de campanha deve ser positivo'),
     startDate: dateString,
     endDate: dateString,
     banner: imageFileSchema.optional(),
@@ -82,6 +64,4 @@ export const NumeroDaSorteUpdateSchema = z
   })
   .refine(dateRefine, dateRefineOptions)
 
-export type NumeroDaSorteUpdateInput = z.infer<
-  typeof NumeroDaSorteUpdateSchema
->
+export type NumeroDaSorteUpdateInput = z.infer<typeof NumeroDaSorteUpdateSchema>

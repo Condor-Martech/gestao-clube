@@ -39,11 +39,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { cn } from '@/lib/utils'
-import {
-  runPipeline,
-  PipelineRunnerError,
-  type PipelineContext,
-} from '@/lib/pipeline/runner'
+import { runPipeline, PipelineRunnerError, type PipelineContext } from '@/lib/pipeline/runner'
 import type {
   Pipeline,
   PipelineEdge,
@@ -52,10 +48,7 @@ import type {
   PipelineNodeType,
   Produto,
 } from '@/types/entities'
-import {
-  applyPipelineOrderAction,
-  updatePipelineAction,
-} from '../_actions'
+import { applyPipelineOrderAction, updatePipelineAction } from '../_actions'
 
 interface SelectOption {
   value: string
@@ -71,21 +64,14 @@ interface Props {
   eanToCampanhas: Record<string, ReadonlyArray<string>>
 }
 
-const EDITABLE_NODE_TYPES: PipelineNodeType[] = [
-  'boostCampanha',
-  'filterMercadologico',
-  'sortAuto',
-]
+const EDITABLE_NODE_TYPES: PipelineNodeType[] = ['boostCampanha', 'filterMercadologico', 'sortAuto']
 
 interface MakeNodeContext {
   departamentos?: string[]
   setores?: string[]
 }
 
-function makeNode(
-  type: PipelineNodeType,
-  ctx: MakeNodeContext = {},
-): PipelineNode {
+function makeNode(type: PipelineNodeType, ctx: MakeNodeContext = {}): PipelineNode {
   const data: PipelineNodeData = (() => {
     switch (type) {
       case 'boostCampanha':
@@ -112,9 +98,7 @@ function makeNode(
 }
 
 function ensureSourceAndApply(nodes: PipelineNode[]): PipelineNode[] {
-  const middle = nodes.filter(
-    (n) => n.type !== 'source' && n.type !== 'apply',
-  )
+  const middle = nodes.filter((n) => n.type !== 'source' && n.type !== 'apply')
   const source = nodes.find((n) => n.type === 'source') ?? makeNode('source')
   const apply = nodes.find((n) => n.type === 'apply') ?? makeNode('apply')
   return [source, ...middle, apply]
@@ -127,7 +111,6 @@ function deriveLinearEdges(nodes: PipelineNode[]): PipelineEdge[] {
     target: nodes[i + 1]!.id,
   }))
 }
-
 
 export function PipelineEditor({
   pipeline,
@@ -168,8 +151,7 @@ export function PipelineEditor({
         ),
       }
     } catch (err) {
-      const message =
-        err instanceof PipelineRunnerError ? err.message : String(err)
+      const message = err instanceof PipelineRunnerError ? err.message : String(err)
       return { ok: false as const, error: message }
     }
   }, [pipeline, nodes, produtos, context])
@@ -178,22 +160,15 @@ export function PipelineEditor({
   // para mostrar badge + lista. O orderedEans já é único por construção.
   const previewWithEan = preview.ok
     ? preview.produtos.filter(
-        (p): p is Produto & { ean: string } =>
-          typeof p.ean === 'string' && p.ean.length > 0,
+        (p): p is Produto & { ean: string } => typeof p.ean === 'string' && p.ean.length > 0,
       )
     : []
-  const previewWithoutEan = preview.ok
-    ? preview.produtos.filter((p) => !p.ean)
-    : []
+  const previewWithoutEan = preview.ok ? preview.produtos.filter((p) => !p.ean) : []
   const previewSortableIds = previewWithEan.map((p) => p.id)
   const orderedEans = previewWithEan.map((p) => p.ean)
 
   const updateData = (id: string, patch: Partial<PipelineNodeData>) => {
-    setNodes((prev) =>
-      prev.map((n) =>
-        n.id === id ? { ...n, data: { ...n.data, ...patch } } : n,
-      ),
-    )
+    setNodes((prev) => prev.map((n) => (n.id === id ? { ...n, data: { ...n.data, ...patch } } : n)))
     setIsDirty(true)
   }
 
@@ -265,9 +240,7 @@ export function PipelineEditor({
     applyManualOrder(reordered.map((p) => p.ean))
   }
 
-  const dndSensors = useSensors(
-    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
-  )
+  const dndSensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 5 } }))
 
   const handleSave = () => {
     startSave(async () => {
@@ -289,28 +262,21 @@ export function PipelineEditor({
     startApply(async () => {
       const result = await applyPipelineOrderAction({ orderedEans })
       if (result.ok) {
-        toast.success(
-          t('editor.appliedSuccess', { count: result.data?.affected ?? 0 }),
-        )
+        toast.success(t('editor.appliedSuccess', { count: result.data?.affected ?? 0 }))
       } else {
         toast.error(result.error)
       }
     })
   }
 
-  const applyDisabled =
-    isApplying || isDirty || !preview.ok || orderedEans.length === 0
+  const applyDisabled = isApplying || isDirty || !preview.ok || orderedEans.length === 0
 
   return (
     <div className="grid gap-4 lg:grid-cols-[420px_1fr]">
       <section className="border-border bg-card space-y-3 rounded-lg border p-4">
         <header className="flex items-center justify-between">
           <h2 className="text-sm font-semibold">{t('detail.nodes')}</h2>
-          <Button
-            size="sm"
-            onClick={handleSave}
-            disabled={!isDirty || isSaving}
-          >
+          <Button size="sm" onClick={handleSave} disabled={!isDirty || isSaving}>
             <Save className="size-4" />
             {t('editor.save')}
           </Button>
@@ -334,29 +300,19 @@ export function PipelineEditor({
               onMoveDown={() => moveNode(node.id, 1)}
             />
           ))}
-          <NodeRow
-            node={nodes[nodes.length - 1]!}
-            index={nodes.length - 1}
-            fixed
-          />
+          <NodeRow node={nodes[nodes.length - 1]!} index={nodes.length - 1} fixed />
         </ol>
 
         <AddNodeBar onAdd={addNode} />
 
-        {isDirty && (
-          <p className="text-muted-foreground text-xs italic">
-            {t('editor.dirty')}
-          </p>
-        )}
+        {isDirty && <p className="text-muted-foreground text-xs italic">{t('editor.dirty')}</p>}
       </section>
 
       <section className="border-border bg-card space-y-3 rounded-lg border p-4">
         <header className="flex flex-wrap items-center justify-between gap-2">
           <div>
             <h2 className="text-sm font-semibold">{t('detail.preview')}</h2>
-            <p className="text-muted-foreground text-xs">
-              {t('detail.previewSubtitle')}
-            </p>
+            <p className="text-muted-foreground text-xs">{t('detail.previewSubtitle')}</p>
           </div>
           <div className="flex items-center gap-2">
             {preview.ok && (
@@ -388,11 +344,9 @@ export function PipelineEditor({
                 {t('editor.applyDisabledDirty')}
               </p>
             )}
-            <p className="text-muted-foreground text-[11px]">
-              {t('editor.dragHint')}
-            </p>
+            <p className="text-muted-foreground text-[11px]">{t('editor.dragHint')}</p>
             <div className="border-border rounded-md border">
-              <div className="bg-muted/40 grid grid-cols-[72px_60px_1fr_140px_140px_120px] items-center border-b px-2 py-2 text-[11px] font-semibold uppercase tracking-wide">
+              <div className="bg-muted/40 grid grid-cols-[72px_60px_1fr_140px_140px_120px] items-center border-b px-2 py-2 text-[11px] font-semibold tracking-wide uppercase">
                 <div></div>
                 <div>#</div>
                 <div>{t('detail.previewColumns.nome')}</div>
@@ -416,9 +370,7 @@ export function PipelineEditor({
                           key={p.id}
                           produto={p}
                           index={i}
-                          campanhasAssociadas={
-                            eanToCampanhas[p.ean] ?? []
-                          }
+                          campanhasAssociadas={eanToCampanhas[p.ean] ?? []}
                           onMoveToTop={handleMoveToTop}
                         />
                       ))}
@@ -476,17 +428,10 @@ function NodeRow({
 }: NodeRowProps) {
   const t = useTranslations('regrasOrdenacao')
   return (
-    <li
-      className={cn(
-        'border-border space-y-2 rounded-md border p-3',
-        fixed && 'bg-muted/30',
-      )}
-    >
+    <li className={cn('border-border space-y-2 rounded-md border p-3', fixed && 'bg-muted/30')}>
       <header className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-2">
-          <span className="text-muted-foreground w-5 font-mono text-xs">
-            {index + 1}
-          </span>
+          <span className="text-muted-foreground w-5 font-mono text-xs">{index + 1}</span>
           <span className="text-sm font-medium">
             {t.has(`detail.nodeTypes.${node.type}` as never)
               ? t(`detail.nodeTypes.${node.type}` as never)
@@ -549,13 +494,7 @@ interface NodeFieldsProps {
   onUpdate: (patch: Partial<PipelineNodeData>) => void
 }
 
-function NodeFields({
-  node,
-  campanhas,
-  departamentos,
-  setores,
-  onUpdate,
-}: NodeFieldsProps) {
+function NodeFields({ node, campanhas, departamentos, setores, onUpdate }: NodeFieldsProps) {
   const t = useTranslations('regrasOrdenacao')
   switch (node.type) {
     case 'boostCampanha':
@@ -608,38 +547,24 @@ function NodeFields({
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="order">
-                  {t('editor.fieldOptions.order')}
-                </SelectItem>
-                <SelectItem value="nome">
-                  {t('editor.fieldOptions.nome')}
-                </SelectItem>
-                <SelectItem value="ean">
-                  {t('editor.fieldOptions.ean')}
-                </SelectItem>
-                <SelectItem value="updated_at">
-                  {t('editor.fieldOptions.updated_at')}
-                </SelectItem>
+                <SelectItem value="order">{t('editor.fieldOptions.order')}</SelectItem>
+                <SelectItem value="nome">{t('editor.fieldOptions.nome')}</SelectItem>
+                <SelectItem value="ean">{t('editor.fieldOptions.ean')}</SelectItem>
+                <SelectItem value="updated_at">{t('editor.fieldOptions.updated_at')}</SelectItem>
               </SelectContent>
             </Select>
           </Field>
           <Field label={t('editor.fields.dir')}>
             <Select
               value={node.data.dir ?? 'asc'}
-              onValueChange={(v) =>
-                onUpdate({ dir: v as 'asc' | 'desc' })
-              }
+              onValueChange={(v) => onUpdate({ dir: v as 'asc' | 'desc' })}
             >
               <SelectTrigger className="h-8">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="asc">
-                  {t('editor.dirOptions.asc')}
-                </SelectItem>
-                <SelectItem value="desc">
-                  {t('editor.dirOptions.desc')}
-                </SelectItem>
+                <SelectItem value="asc">{t('editor.dirOptions.asc')}</SelectItem>
+                <SelectItem value="desc">{t('editor.dirOptions.desc')}</SelectItem>
               </SelectContent>
             </Select>
           </Field>
@@ -671,18 +596,10 @@ function NodeFields({
   }
 }
 
-function Field({
-  label,
-  children,
-}: {
-  label: string
-  children: React.ReactNode
-}) {
+function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <label className="block space-y-1">
-      <span className="text-muted-foreground text-[11px] font-medium uppercase">
-        {label}
-      </span>
+      <span className="text-muted-foreground text-[11px] font-medium uppercase">{label}</span>
       {children}
     </label>
   )
@@ -700,9 +617,7 @@ function MultiCheckSelect({
   const t = useTranslations('regrasOrdenacao')
   const [search, setSearch] = useState('')
   const set = new Set(value)
-  const filtered = options.filter((o) =>
-    o.label.toLowerCase().includes(search.toLowerCase()),
-  )
+  const filtered = options.filter((o) => o.label.toLowerCase().includes(search.toLowerCase()))
   const toggle = (val: string) => {
     if (set.has(val)) onChange(value.filter((v) => v !== val))
     else onChange([...value, val])
@@ -718,9 +633,7 @@ function MultiCheckSelect({
       />
       <div className="border-border max-h-40 overflow-y-auto rounded-md border">
         {filtered.length === 0 ? (
-          <p className="text-muted-foreground p-2 text-xs italic">
-            {t('editor.noOptions')}
-          </p>
+          <p className="text-muted-foreground p-2 text-xs italic">{t('editor.noOptions')}</p>
         ) : (
           filtered.map((opt) => (
             <label
@@ -750,10 +663,7 @@ function AddNodeBar({ onAdd }: { onAdd: (type: PipelineNodeType) => void }) {
   const [type, setType] = useState<PipelineNodeType>(EDITABLE_NODE_TYPES[0]!)
   return (
     <div className="border-border flex items-center gap-2 rounded-md border border-dashed p-2">
-      <Select
-        value={type}
-        onValueChange={(v) => setType(v as PipelineNodeType)}
-      >
+      <Select value={type} onValueChange={(v) => setType(v as PipelineNodeType)}>
         <SelectTrigger className="h-8 flex-1 text-xs">
           <SelectValue />
         </SelectTrigger>
@@ -853,7 +763,7 @@ function SortablePreviewRow({
       </div>
       <div className="truncate" title={campanhasJoined || produto.campanha || ''}>
         {totalCampanhas === 0
-          ? produto.campanha ?? '—'
+          ? (produto.campanha ?? '—')
           : totalCampanhas === 1
             ? campanhasAssociadas[0]
             : `${campanhasAssociadas[0]} +${totalCampanhas - 1}`}

@@ -1,9 +1,4 @@
-import type {
-  Pipeline,
-  PipelineNode,
-  PipelineNodeData,
-  Produto,
-} from '@/types/entities'
+import type { Pipeline, PipelineNode, PipelineNodeData, Produto } from '@/types/entities'
 
 export interface PipelineContext {
   campanhas: ReadonlyArray<{ cod: string; nome: string | null }>
@@ -46,25 +41,16 @@ function topologicalOrder(pipeline: Pipeline): PipelineNode[] {
 
   const sources = nodes.filter((n) => n.type === 'source')
   if (sources.length === 0) {
-    throw new PipelineRunnerError(
-      'Pipeline sem nó source',
-      'NO_SOURCE',
-    )
+    throw new PipelineRunnerError('Pipeline sem nó source', 'NO_SOURCE')
   }
   if (sources.length > 1) {
-    throw new PipelineRunnerError(
-      'Pipeline com múltiplos nós source',
-      'MULTIPLE_SOURCES',
-    )
+    throw new PipelineRunnerError('Pipeline com múltiplos nós source', 'MULTIPLE_SOURCES')
   }
 
   const byId = new Map(nodes.map((n) => [n.id, n]))
   for (const edge of edges) {
     if (!byId.has(edge.source) || !byId.has(edge.target)) {
-      throw new PipelineRunnerError(
-        `Edge ${edge.id} aponta para nó inexistente`,
-        'DANGLING_EDGE',
-      )
+      throw new PipelineRunnerError(`Edge ${edge.id} aponta para nó inexistente`, 'DANGLING_EDGE')
     }
   }
 
@@ -88,10 +74,7 @@ function topologicalOrder(pipeline: Pipeline): PipelineNode[] {
   let currentId: string | undefined = sources[0]!.id
   while (currentId) {
     if (visited.has(currentId)) {
-      throw new PipelineRunnerError(
-        `Ciclo detectado no nó ${currentId}`,
-        'CYCLE',
-      )
+      throw new PipelineRunnerError(`Ciclo detectado no nó ${currentId}`, 'CYCLE')
     }
     visited.add(currentId)
     result.push(byId.get(currentId)!)
@@ -100,20 +83,13 @@ function topologicalOrder(pipeline: Pipeline): PipelineNode[] {
 
   const last = result[result.length - 1]
   if (last?.type !== 'apply') {
-    throw new PipelineRunnerError(
-      'Pipeline não termina em nó apply',
-      'NO_APPLY_TERMINAL',
-    )
+    throw new PipelineRunnerError('Pipeline não termina em nó apply', 'NO_APPLY_TERMINAL')
   }
 
   return result
 }
 
-function executeNode(
-  node: PipelineNode,
-  input: Produto[],
-  context: PipelineContext,
-): Produto[] {
+function executeNode(node: PipelineNode, input: Produto[], context: PipelineContext): Produto[] {
   switch (node.type) {
     case 'source':
       return input
@@ -163,10 +139,7 @@ function boostByCampanha(
   return [...boosted, ...rest]
 }
 
-function filterByMercadologico(
-  input: Produto[],
-  data: PipelineNodeData,
-): Produto[] {
+function filterByMercadologico(input: Produto[], data: PipelineNodeData): Produto[] {
   const departamentos = data.departamentos
   const setores = data.setores
   const hasDept = departamentos && departamentos.length > 0
@@ -213,10 +186,7 @@ function compareField(
   return String(av).localeCompare(String(bv))
 }
 
-function sortByManualOrder(
-  input: Produto[],
-  data: PipelineNodeData,
-): Produto[] {
+function sortByManualOrder(input: Produto[], data: PipelineNodeData): Produto[] {
   const ordered = data.orderedEans
   if (!ordered || ordered.length === 0) return input
   const rank = new Map<string, number>()

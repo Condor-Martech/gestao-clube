@@ -36,10 +36,7 @@ export async function createBannerAction(input: unknown): Promise<ActionResult<{
   return { ok: true, data: { id: data.id as string } }
 }
 
-export async function updateBannerAction(
-  id: string,
-  input: unknown,
-): Promise<ActionResult> {
+export async function updateBannerAction(id: string, input: unknown): Promise<ActionResult> {
   await requireAdmin()
   if (!id) return { ok: false, error: 'ID inválido' }
 
@@ -103,14 +100,9 @@ export async function uploadBannerImageAction(
   const supabase = await createClient()
 
   // Read current array, append new URL.
-  const { data: current } = await supabase
-    .from('Ofertas')
-    .select(field)
-    .eq('id', id)
-    .maybeSingle()
+  const { data: current } = await supabase.from('Ofertas').select(field).eq('id', id).maybeSingle()
 
-  const existing =
-    (current as Record<string, string[] | null> | null)?.[field] ?? []
+  const existing = (current as Record<string, string[] | null> | null)?.[field] ?? []
   const next = [...existing, upload.url]
 
   const { error } = await supabase
@@ -133,14 +125,9 @@ export async function removeBannerImageAction(
   if (!id || !url) return { ok: false, error: 'Dados inválidos' }
 
   const supabase = await createClient()
-  const { data: current } = await supabase
-    .from('Ofertas')
-    .select(field)
-    .eq('id', id)
-    .maybeSingle()
+  const { data: current } = await supabase.from('Ofertas').select(field).eq('id', id).maybeSingle()
 
-  const existing =
-    (current as Record<string, string[] | null> | null)?.[field] ?? []
+  const existing = (current as Record<string, string[] | null> | null)?.[field] ?? []
   const next = existing.filter((u) => u !== url)
 
   const { error } = await supabase

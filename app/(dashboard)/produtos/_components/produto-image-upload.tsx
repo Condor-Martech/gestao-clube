@@ -47,13 +47,7 @@ export function ProdutoImageUpload({ produtoId, field, currentUrl, label }: Prop
       <div className="flex items-center gap-3">
         <div className="border-border bg-muted relative size-20 overflow-hidden rounded-md border">
           {preview ? (
-            <Image
-              src={preview}
-              alt={label}
-              fill
-              sizes="80px"
-              className="object-cover"
-            />
+            <Image src={preview} alt={label} fill sizes="80px" className="object-cover" />
           ) : (
             <div className="text-muted-foreground flex h-full items-center justify-center text-xs">
               —
@@ -75,11 +69,7 @@ export function ProdutoImageUpload({ produtoId, field, currentUrl, label }: Prop
           onClick={() => inputRef.current?.click()}
           disabled={isPending}
         >
-          {isPending ? (
-            <Loader2 className="size-4 animate-spin" />
-          ) : (
-            <Upload className="size-4" />
-          )}
+          {isPending ? <Loader2 className="size-4 animate-spin" /> : <Upload className="size-4" />}
           {isPending ? t('uploading') : t('selectFile')}
         </Button>
       </div>

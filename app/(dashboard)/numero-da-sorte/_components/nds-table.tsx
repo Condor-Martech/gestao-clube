@@ -1,15 +1,7 @@
 'use client'
 
 import { useMemo, useState, useTransition } from 'react'
-import {
-  Archive,
-  Eye,
-  FileText,
-  Globe,
-  Loader2,
-  Pencil,
-  Trash2,
-} from 'lucide-react'
+import { Archive, Eye, FileText, Globe, Loader2, Pencil, Trash2 } from 'lucide-react'
 import { toast } from 'sonner'
 import { useTranslations } from 'next-intl'
 import {
@@ -60,10 +52,7 @@ function computeStatus(nds: NumeroDaSorte): Status {
   return 'ativo'
 }
 
-const STATUS_VARIANT: Record<
-  Status,
-  'default' | 'secondary' | 'outline' | 'destructive'
-> = {
+const STATUS_VARIANT: Record<Status, 'default' | 'secondary' | 'outline' | 'destructive'> = {
   rascunho: 'secondary',
   agendado: 'outline',
   ativo: 'default',
@@ -79,9 +68,7 @@ export function NDSTable({ items, schedules, canWrite = false }: Props) {
     const q = filter.trim().toLowerCase()
     if (!q) return items
     return items.filter(
-      (i) =>
-        i.titulo.toLowerCase().includes(q) ||
-        String(i.numeroCampanha).includes(q),
+      (i) => i.titulo.toLowerCase().includes(q) || String(i.numeroCampanha).includes(q),
     )
   }, [items, filter])
 
@@ -109,18 +96,13 @@ export function NDSTable({ items, schedules, canWrite = false }: Props) {
               <TableHead className="hidden w-[100px] lg:table-cell">
                 {t('columns.regulamento')}
               </TableHead>
-              <TableHead className="w-[140px] text-right">
-                {tCommon('actions')}
-              </TableHead>
+              <TableHead className="w-[140px] text-right">{tCommon('actions')}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {filtered.length === 0 ? (
               <TableRow>
-                <TableCell
-                  colSpan={7}
-                  className="text-muted-foreground p-12 text-center"
-                >
+                <TableCell colSpan={7} className="text-muted-foreground p-12 text-center">
                   {filter ? tCommon('noResults') : t('empty')}
                 </TableCell>
               </TableRow>
@@ -179,25 +161,17 @@ function NDSRow({
           >
             {nds.banner.url ? (
               // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={nds.banner.url}
-                alt={nds.titulo}
-                className="h-full w-full object-cover"
-              />
+              <img src={nds.banner.url} alt={nds.titulo} className="h-full w-full object-cover" />
             ) : null}
           </button>
         </TableCell>
         <TableCell className="font-medium">{nds.titulo}</TableCell>
-        <TableCell className="font-mono text-xs">
-          #{nds.numeroCampanha}
-        </TableCell>
+        <TableCell className="font-mono text-xs">#{nds.numeroCampanha}</TableCell>
         <TableCell className="text-muted-foreground hidden text-xs md:table-cell">
           {formatDate(nds.startDate)} → {formatDate(nds.endDate)}
         </TableCell>
         <TableCell>
-          <Badge variant={STATUS_VARIANT[status]}>
-            {t(`status.${status}`)}
-          </Badge>
+          <Badge variant={STATUS_VARIANT[status]}>{t(`status.${status}`)}</Badge>
         </TableCell>
         <TableCell className="hidden lg:table-cell">
           {nds.regulamento.url ? (
@@ -261,9 +235,7 @@ function NDSRow({
                   <AlertDialogContent>
                     <AlertDialogHeader>
                       <AlertDialogTitle>{t('deleteConfirm')}</AlertDialogTitle>
-                      <AlertDialogDescription>
-                        {t('deleteConfirmDesc')}
-                      </AlertDialogDescription>
+                      <AlertDialogDescription>{t('deleteConfirmDesc')}</AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
                       <AlertDialogCancel>{tCommon('cancel')}</AlertDialogCancel>
@@ -287,18 +259,8 @@ function NDSRow({
           </div>
         </TableCell>
       </TableRow>
-      <NDSViewDialog
-        nds={nds}
-        schedule={schedule}
-        open={viewOpen}
-        onOpenChange={setViewOpen}
-      />
-      <NDSFormDialog
-        nds={nds}
-        schedule={schedule}
-        open={editOpen}
-        onOpenChange={setEditOpen}
-      />
+      <NDSViewDialog nds={nds} schedule={schedule} open={viewOpen} onOpenChange={setViewOpen} />
+      <NDSFormDialog nds={nds} schedule={schedule} open={editOpen} onOpenChange={setEditOpen} />
     </>
   )
 }

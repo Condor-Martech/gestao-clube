@@ -4,18 +4,10 @@ import { canWrite as computeCanWrite } from '@/lib/rbac'
 import { PermissionGate } from '@/components/rbac/permission-gate'
 import { env } from '@/lib/env'
 import { createStrapiClient } from '@/lib/strapi/client'
-import {
-  buildScheduleMap,
-  mapNumeroDaSorte,
-  mapPublisherAction,
-} from '@/lib/strapi/mappers'
+import { buildScheduleMap, mapNumeroDaSorte, mapPublisherAction } from '@/lib/strapi/mappers'
 import type { NumeroDaSorte } from '@/types/entities'
 import { PaginationControls } from '@/components/shared/pagination-controls'
-import {
-  parsePage,
-  rangeFromPage,
-  totalPages,
-} from '@/lib/utils/pagination'
+import { parsePage, rangeFromPage, totalPages } from '@/lib/utils/pagination'
 import { pickString } from '@/lib/utils/search-params'
 import { NDSFormDialog } from './_components/nds-form-dialog'
 import { NDSTable } from './_components/nds-table'
@@ -91,9 +83,7 @@ export default async function NumeroDaSortePage({ searchParams }: Props) {
         <NDSTable items={paged} schedules={schedules} canWrite={write} />
       )}
 
-      {total > PAGE_SIZE && (
-        <PaginationControls page={page} totalPages={pages} />
-      )}
+      {total > PAGE_SIZE && <PaginationControls page={page} totalPages={pages} />}
     </div>
   )
 }

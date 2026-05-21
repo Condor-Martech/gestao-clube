@@ -1,15 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import type {
-  Pipeline,
-  PipelineEdge,
-  PipelineNode,
-  Produto,
-} from '@/types/entities'
-import {
-  PipelineRunnerError,
-  runPipeline,
-  type PipelineContext,
-} from './runner'
+import type { Pipeline, PipelineEdge, PipelineNode, Produto } from '@/types/entities'
+import { PipelineRunnerError, runPipeline, type PipelineContext } from './runner'
 
 const EMPTY_CTX: PipelineContext = { campanhas: [], eanToCampanhas: {} }
 
@@ -40,10 +31,7 @@ function makeProduto(overrides: Partial<Produto> = {}): Produto {
   }
 }
 
-function makePipeline(
-  nodes: PipelineNode[],
-  edges: PipelineEdge[],
-): Pipeline {
+function makePipeline(nodes: PipelineNode[], edges: PipelineEdge[]): Pipeline {
   return {
     id: 'pipe-1',
     name: 'Test',
@@ -202,7 +190,10 @@ describe('runPipeline — filtros', () => {
       data: {},
     }
     const produtos = [makeProduto({ ean: '1', departamento: 'X' })]
-    const result = runPipeline(makePipeline([source, node, apply], chain(source, node, apply)), produtos)
+    const result = runPipeline(
+      makePipeline([source, node, apply], chain(source, node, apply)),
+      produtos,
+    )
     expect(result).toHaveLength(1)
   })
 
@@ -218,10 +209,12 @@ describe('runPipeline — filtros', () => {
       makeProduto({ ean: '2', departamento: 'MERCEARIA', setor: 'BISCOITO' }),
       makeProduto({ ean: '3', departamento: 'BEBIDAS', setor: 'CAFE' }),
     ]
-    const result = runPipeline(makePipeline([source, node, apply], chain(source, node, apply)), produtos)
+    const result = runPipeline(
+      makePipeline([source, node, apply], chain(source, node, apply)),
+      produtos,
+    )
     expect(result.map((p) => p.ean)).toEqual(['1'])
   })
-
 })
 
 describe('runPipeline — ordenação', () => {
@@ -237,7 +230,10 @@ describe('runPipeline — ordenação', () => {
       makeProduto({ ean: '2', nome: 'Açúcar' }),
       makeProduto({ ean: '3', nome: 'Biscoito' }),
     ]
-    const result = runPipeline(makePipeline([source, node, apply], chain(source, node, apply)), produtos)
+    const result = runPipeline(
+      makePipeline([source, node, apply], chain(source, node, apply)),
+      produtos,
+    )
     expect(result.map((p) => p.ean)).toEqual(['2', '3', '1'])
   })
 
@@ -253,7 +249,10 @@ describe('runPipeline — ordenação', () => {
       makeProduto({ ean: '2', order: 10 }),
       makeProduto({ ean: '3', order: 1 }),
     ]
-    const result = runPipeline(makePipeline([source, node, apply], chain(source, node, apply)), produtos)
+    const result = runPipeline(
+      makePipeline([source, node, apply], chain(source, node, apply)),
+      produtos,
+    )
     expect(result.map((p) => p.ean)).toEqual(['2', '1', '3'])
   })
 
@@ -270,7 +269,10 @@ describe('runPipeline — ordenação', () => {
       makeProduto({ ean: '3', order: null }),
       makeProduto({ ean: '4', order: 2 }),
     ]
-    const result = runPipeline(makePipeline([source, node, apply], chain(source, node, apply)), produtos)
+    const result = runPipeline(
+      makePipeline([source, node, apply], chain(source, node, apply)),
+      produtos,
+    )
     expect(result.map((p) => p.ean)).toEqual(['2', '4', '1', '3'])
   })
 
@@ -281,10 +283,7 @@ describe('runPipeline — ordenação', () => {
       position: POS,
       data: { field: 'nome', dir: 'asc' },
     }
-    const produtos = [
-      makeProduto({ ean: '1', nome: 'Z' }),
-      makeProduto({ ean: '2', nome: 'A' }),
-    ]
+    const produtos = [makeProduto({ ean: '1', nome: 'Z' }), makeProduto({ ean: '2', nome: 'A' })]
     runPipeline(makePipeline([source, node, apply], chain(source, node, apply)), produtos)
     expect(produtos.map((p) => p.ean)).toEqual(['1', '2'])
   })
@@ -302,7 +301,10 @@ describe('runPipeline — ordenação', () => {
       makeProduto({ ean: '3' }),
       makeProduto({ ean: '4' }),
     ]
-    const result = runPipeline(makePipeline([source, node, apply], chain(source, node, apply)), produtos)
+    const result = runPipeline(
+      makePipeline([source, node, apply], chain(source, node, apply)),
+      produtos,
+    )
     expect(result.map((p) => p.ean)).toEqual(['3', '1', '2', '4'])
   })
 
@@ -314,7 +316,10 @@ describe('runPipeline — ordenação', () => {
       data: {},
     }
     const produtos = [makeProduto({ ean: '1' }), makeProduto({ ean: '2' })]
-    const result = runPipeline(makePipeline([source, node, apply], chain(source, node, apply)), produtos)
+    const result = runPipeline(
+      makePipeline([source, node, apply], chain(source, node, apply)),
+      produtos,
+    )
     expect(result.map((p) => p.ean)).toEqual(['1', '2'])
   })
 })
@@ -364,9 +369,7 @@ describe('runPipeline — integração', () => {
 
 describe('runPipeline — erros estruturais', () => {
   it('lança NO_SOURCE quando não há nó source', () => {
-    expect(() =>
-      runPipeline(makePipeline([apply], []), []),
-    ).toThrowError(PipelineRunnerError)
+    expect(() => runPipeline(makePipeline([apply], []), [])).toThrowError(PipelineRunnerError)
   })
 
   it('lança MULTIPLE_SOURCES com mais de um source', () => {
@@ -383,9 +386,9 @@ describe('runPipeline — erros estruturais', () => {
       position: POS,
       data: {},
     }
-    expect(() =>
-      runPipeline(makePipeline([source, sa], chain(source, sa)), []),
-    ).toThrowError(/apply/)
+    expect(() => runPipeline(makePipeline([source, sa], chain(source, sa)), [])).toThrowError(
+      /apply/,
+    )
   })
 
   it('lança NON_LINEAR com nó de saída múltipla', () => {
@@ -406,17 +409,13 @@ describe('runPipeline — erros estruturais', () => {
       { id: 'e2', source: 's', target: 'fc' },
       { id: 'e3', source: 'fa', target: 'a' },
     ]
-    expect(() =>
-      runPipeline(makePipeline([source, fa, fc, apply], edges), []),
-    ).toThrowError(/cadeia linear/)
+    expect(() => runPipeline(makePipeline([source, fa, fc, apply], edges), [])).toThrowError(
+      /cadeia linear/,
+    )
   })
 
   it('lança DANGLING_EDGE quando edge aponta a nó inexistente', () => {
-    const edges: PipelineEdge[] = [
-      { id: 'e1', source: 's', target: 'fantasma' },
-    ]
-    expect(() =>
-      runPipeline(makePipeline([source, apply], edges), []),
-    ).toThrowError(/inexistente/)
+    const edges: PipelineEdge[] = [{ id: 'e1', source: 's', target: 'fantasma' }]
+    expect(() => runPipeline(makePipeline([source, apply], edges), [])).toThrowError(/inexistente/)
   })
 })

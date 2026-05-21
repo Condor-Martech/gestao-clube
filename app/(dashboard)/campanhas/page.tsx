@@ -20,12 +20,7 @@ import { Button } from '@/components/ui/button'
 import { PaginationControls } from '@/components/shared/pagination-controls'
 import { formatDate, formatDateTime } from '@/lib/utils/format'
 import { statusVariant } from '@/lib/utils/campanha-status'
-import {
-  DEFAULT_PAGE_SIZE,
-  parsePage,
-  rangeFromPage,
-  totalPages,
-} from '@/lib/utils/pagination'
+import { DEFAULT_PAGE_SIZE, parsePage, rangeFromPage, totalPages } from '@/lib/utils/pagination'
 import { pickString } from '@/lib/utils/search-params'
 import type { Campanha } from '@/types/entities'
 
@@ -60,9 +55,7 @@ export default async function CampanhasPage({ searchParams }: Props) {
     .range(range.from, range.to)
 
   if (filter === 'with') {
-    query = query
-      .gt('qtd_produtos', 0)
-      .or('dsc_situacao.is.null,dsc_situacao.not.ilike.aprovada')
+    query = query.gt('qtd_produtos', 0).or('dsc_situacao.is.null,dsc_situacao.not.ilike.aprovada')
   } else if (filter === 'without') {
     query = query
       .or('qtd_produtos.is.null,qtd_produtos.eq.0')
@@ -72,9 +65,7 @@ export default async function CampanhasPage({ searchParams }: Props) {
   }
 
   if (search) {
-    query = query.or(
-      `cod_campanha.ilike.%${search}%,nom_campanha.ilike.%${search}%`,
-    )
+    query = query.or(`cod_campanha.ilike.%${search}%,nom_campanha.ilike.%${search}%`)
   }
 
   const { data, count, error } = await query
@@ -112,16 +103,10 @@ export default async function CampanhasPage({ searchParams }: Props) {
               <TableHead className="w-[280px]">{t('columns.nom')}</TableHead>
               <TableHead className="w-[110px]">{t('columns.inicio')}</TableHead>
               <TableHead className="w-[110px]">{t('columns.fim')}</TableHead>
-              <TableHead className="w-[80px] text-right">
-                {t('columns.produtos')}
-              </TableHead>
+              <TableHead className="w-[80px] text-right">{t('columns.produtos')}</TableHead>
               <TableHead className="w-[120px]">{t('columns.situacao')}</TableHead>
-              <TableHead className="hidden w-[180px] lg:table-cell">
-                {t('columns.tipo')}
-              </TableHead>
-              <TableHead className="w-[260px] text-right">
-                {t('columns.actions')}
-              </TableHead>
+              <TableHead className="hidden w-[180px] lg:table-cell">{t('columns.tipo')}</TableHead>
+              <TableHead className="w-[260px] text-right">{t('columns.actions')}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -140,14 +125,10 @@ export default async function CampanhasPage({ searchParams }: Props) {
             ) : (
               campanhas.map((c) => (
                 <TableRow key={c.cod_campanha}>
-                  <TableCell className="font-mono text-xs font-medium">
-                    {c.cod_campanha}
-                  </TableCell>
+                  <TableCell className="font-mono text-xs font-medium">{c.cod_campanha}</TableCell>
                   <TableCell className="w-[280px] max-w-[280px]">
                     <div className="flex flex-col leading-tight">
-                      <span className="truncate text-xs font-medium">
-                        {c.nom_campanha ?? '—'}
-                      </span>
+                      <span className="truncate text-xs font-medium">{c.nom_campanha ?? '—'}</span>
                       {c.updated_at && (
                         <span className="text-muted-foreground text-[11px]">
                           {t('updatedAt', { at: formatDateTime(c.updated_at) })}
@@ -166,9 +147,7 @@ export default async function CampanhasPage({ searchParams }: Props) {
                   </TableCell>
                   <TableCell>
                     {c.dsc_situacao && (
-                      <Badge variant={statusVariant(c.dsc_situacao)}>
-                        {c.dsc_situacao}
-                      </Badge>
+                      <Badge variant={statusVariant(c.dsc_situacao)}>{c.dsc_situacao}</Badge>
                     )}
                   </TableCell>
                   <TableCell className="text-muted-foreground hidden text-xs lg:table-cell">
@@ -184,9 +163,7 @@ export default async function CampanhasPage({ searchParams }: Props) {
         </Table>
       </div>
 
-      {total > DEFAULT_PAGE_SIZE && (
-        <PaginationControls page={page} totalPages={pages} />
-      )}
+      {total > DEFAULT_PAGE_SIZE && <PaginationControls page={page} totalPages={pages} />}
     </div>
   )
 }

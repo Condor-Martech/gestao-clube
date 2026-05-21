@@ -22,11 +22,7 @@ export function hasModuleAccess(
  * - user-level module assignment: always false
  * - manager-level module assignment: true
  */
-export function canWrite(
-  isAdmin: boolean,
-  module: Module,
-  moduleRoles: ModuleRoles,
-): boolean {
+export function canWrite(isAdmin: boolean, module: Module, moduleRoles: ModuleRoles): boolean {
   if (isAdmin) return true
   if (module === 'sistemas') return false
   return moduleRoles[module] === 'manager'

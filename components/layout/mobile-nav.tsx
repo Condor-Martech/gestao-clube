@@ -33,9 +33,7 @@ export function MobileNav({ sections }: MobileNavProps) {
           className="border-border flex h-14 items-center gap-2 border-b px-6"
         >
           <Megaphone className="size-5 shrink-0" />
-          <span className="text-sm font-semibold tracking-tight">
-            {t('app.title')}
-          </span>
+          <span className="text-sm font-semibold tracking-tight">{t('app.title')}</span>
         </Link>
         <ScrollArea className="h-[calc(100svh-3.5rem)]">
           <div className="p-4">

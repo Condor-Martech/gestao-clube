@@ -3,18 +3,12 @@
 import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
 import { requireModuleWrite } from '@/lib/auth/guards'
-import {
-  ProdutoUpdateSchema,
-  ProdutoPartialUpdateSchema,
-} from '@/lib/validators/produto'
+import { ProdutoUpdateSchema, ProdutoPartialUpdateSchema } from '@/lib/validators/produto'
 import { uploadProdutoImage } from '@/lib/storage'
 
 type ActionResult<T = void> = { ok: true; data?: T } | { ok: false; error: string }
 
-export async function updateProdutoAction(
-  id: string,
-  input: unknown,
-): Promise<ActionResult> {
+export async function updateProdutoAction(id: string, input: unknown): Promise<ActionResult> {
   await requireModuleWrite('ofertas')
   const parsed = ProdutoUpdateSchema.safeParse(input)
   if (!parsed.success) {
@@ -25,10 +19,7 @@ export async function updateProdutoAction(
   }
 
   const supabase = await createClient()
-  const { error } = await supabase
-    .from('produto')
-    .update(parsed.data)
-    .eq('id', id)
+  const { error } = await supabase.from('produto').update(parsed.data).eq('id', id)
 
   if (error) {
     return { ok: false, error: error.message }
@@ -38,10 +29,7 @@ export async function updateProdutoAction(
   return { ok: true }
 }
 
-export async function updateProdutoFieldsAction(
-  id: string,
-  input: unknown,
-): Promise<ActionResult> {
+export async function updateProdutoFieldsAction(id: string, input: unknown): Promise<ActionResult> {
   await requireModuleWrite('ofertas')
   if (!id) return { ok: false, error: 'ID inválido' }
 
@@ -54,10 +42,7 @@ export async function updateProdutoFieldsAction(
   }
 
   const supabase = await createClient()
-  const { error } = await supabase
-    .from('produto')
-    .update(parsed.data)
-    .eq('id', id)
+  const { error } = await supabase.from('produto').update(parsed.data).eq('id', id)
 
   if (error) {
     return { ok: false, error: error.message }
@@ -67,10 +52,7 @@ export async function updateProdutoFieldsAction(
   return { ok: true }
 }
 
-export async function approveProdutoAction(
-  id: string,
-  approve: boolean,
-): Promise<ActionResult> {
+export async function approveProdutoAction(id: string, approve: boolean): Promise<ActionResult> {
   await requireModuleWrite('ofertas')
   if (!id) return { ok: false, error: 'ID inválido' }
 
@@ -95,9 +77,7 @@ export async function approveProdutoAction(
   return { ok: true }
 }
 
-export async function syncProdutosAppAction(
-  code: string,
-): Promise<ActionResult> {
+export async function syncProdutosAppAction(code: string): Promise<ActionResult> {
   const session = await requireModuleWrite('ofertas')
   const trimmed = code?.trim()
   if (!trimmed) return { ok: false, error: 'Código inválido' }
@@ -126,9 +106,7 @@ const SYNC_PRODUTO_BIP_WEBHOOK_URL =
   process.env.SYNC_PRODUTO_BIP_WEBHOOK_URL ??
   'https://hooks.cndr.me/webhook/996ad469-e84e-4652-ba34-b9bb3d224b95'
 
-export async function syncProdutoBipAction(
-  campanhaCode: string | null,
-): Promise<ActionResult> {
+export async function syncProdutoBipAction(campanhaCode: string | null): Promise<ActionResult> {
   const session = await requireModuleWrite('ofertas')
   const trimmed = campanhaCode?.trim()
   if (!trimmed) return { ok: false, error: 'Campanha inválida' }

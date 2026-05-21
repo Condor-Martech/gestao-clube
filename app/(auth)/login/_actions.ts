@@ -22,9 +22,7 @@ export async function signInAction(input: unknown): Promise<ActionResult> {
     return {
       ok: false,
       error:
-        error.message === 'Invalid login credentials'
-          ? 'Email ou senha incorretos'
-          : error.message,
+        error.message === 'Invalid login credentials' ? 'Email ou senha incorretos' : error.message,
     }
   }
 

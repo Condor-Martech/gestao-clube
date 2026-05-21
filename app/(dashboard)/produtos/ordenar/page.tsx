@@ -27,10 +27,7 @@ export default async function OrdenarPage() {
       .eq('aproved', true)
       .order('order', { ascending: true, nullsFirst: false })
       .limit(PRODUCTOS_HARD_CAP),
-    supabase
-      .from('campanhas')
-      .select('cod_campanha, nom_campanha')
-      .order('cod_campanha'),
+    supabase.from('campanhas').select('cod_campanha, nom_campanha').order('cod_campanha'),
   ])
 
   // mercadologico_web é JSONB array em Produtos. Estrutura real:
@@ -41,25 +38,16 @@ export default async function OrdenarPage() {
     dsc_mercadologico?: string | null
     ind_nivel?: number | null
   } | null
-  type ProdutoRow = Omit<
-    Produto,
-    'departamento' | 'departamento_cod' | 'setor' | 'setor_cod'
-  > & {
-    mercadologico_web?:
-      | Array<{
-          setor?: MercNode
-          departamento?: MercNode
-          grupoFamilia?: unknown
-        }>
-      | null
+  type ProdutoRow = Omit<Produto, 'departamento' | 'departamento_cod' | 'setor' | 'setor_cod'> & {
+    mercadologico_web?: Array<{
+      setor?: MercNode
+      departamento?: MercNode
+      grupoFamilia?: unknown
+    }> | null
   }
 
-  const produtosRaw: Produto[] = (
-    (produtosRow ?? []) as unknown as ProdutoRow[]
-  ).map((row) => {
-    const first = Array.isArray(row.mercadologico_web)
-      ? row.mercadologico_web[0]
-      : null
+  const produtosRaw: Produto[] = ((produtosRow ?? []) as unknown as ProdutoRow[]).map((row) => {
+    const first = Array.isArray(row.mercadologico_web) ? row.mercadologico_web[0] : null
     return {
       ...row,
       departamento: first?.departamento?.dsc_mercadologico ?? null,
@@ -125,9 +113,7 @@ export default async function OrdenarPage() {
 
 type SupabaseClient = Awaited<ReturnType<typeof createClient>>
 
-async function getOrCreateSingleton(
-  supabase: SupabaseClient,
-): Promise<Pipeline> {
+async function getOrCreateSingleton(supabase: SupabaseClient): Promise<Pipeline> {
   const { data: existing } = await supabase
     .from('pipelines')
     .select('id, name, owner_id, nodes, edges, created_at, updated_at')
@@ -159,11 +145,7 @@ async function getOrCreateSingleton(
       error,
       ownerId,
     })
-    throw new Error(
-      error?.message ||
-        error?.details ||
-        'Falha ao inicializar pipeline padrão',
-    )
+    throw new Error(error?.message || error?.details || 'Falha ao inicializar pipeline padrão')
   }
 
   return created as unknown as Pipeline

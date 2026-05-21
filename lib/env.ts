@@ -49,9 +49,7 @@ if (!parsed.success) {
   const summary = Object.entries(fieldErrors)
     .map(([key, errs]) => `${key}: ${(errs ?? []).join(', ')}`)
     .join(' | ')
-  throw new Error(
-    `Invalid environment variables — ${summary} — see docs/08_ENV_CONFIG.md`,
-  )
+  throw new Error(`Invalid environment variables — ${summary} — see docs/08_ENV_CONFIG.md`)
 }
 
 export const env = parsed.data

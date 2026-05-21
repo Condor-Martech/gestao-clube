@@ -40,20 +40,20 @@ Abrir http://localhost:3000 — se redirige a `/login` si no hay sesión.
 
 ## Scripts
 
-| Script | Hace |
-|--------|------|
-| `npm run dev` | Dev server con Turbopack en puerto 3000 |
-| `npm run build` | Build de producción |
-| `npm run start` | Server de producción (después de build) |
-| `npm run type-check` | TSC sin emit |
-| `npm run lint` | ESLint |
-| `npm run format` | Prettier (escribe) |
-| `npm run format:check` | Prettier (solo verifica) |
-| `npm run test` | Vitest watch |
-| `npm run test:run` | Vitest single-pass |
-| `npm run test:coverage` | Vitest con coverage |
-| `npm run test:e2e` | Playwright |
-| `npm run db:types` | Regenera `types/database.types.ts` desde Supabase |
+| Script                  | Hace                                              |
+| ----------------------- | ------------------------------------------------- |
+| `npm run dev`           | Dev server con Turbopack en puerto 3000           |
+| `npm run build`         | Build de producción                               |
+| `npm run start`         | Server de producción (después de build)           |
+| `npm run type-check`    | TSC sin emit                                      |
+| `npm run lint`          | ESLint                                            |
+| `npm run format`        | Prettier (escribe)                                |
+| `npm run format:check`  | Prettier (solo verifica)                          |
+| `npm run test`          | Vitest watch                                      |
+| `npm run test:run`      | Vitest single-pass                                |
+| `npm run test:coverage` | Vitest con coverage                               |
+| `npm run test:e2e`      | Playwright                                        |
+| `npm run db:types`      | Regenera `types/database.types.ts` desde Supabase |
 
 ---
 
@@ -105,6 +105,7 @@ Ver [`../../docs/02_TECHNICAL_SPEC.md`](../../docs/02_TECHNICAL_SPEC.md) para de
 Este scaffold es el output de la **Fase 0** del plan documentado en [`../../docs/03_MIGRATION_PLAN.md`](../../docs/03_MIGRATION_PLAN.md).
 
 Próximas fases:
+
 - **Fase 1**: Auth (login, middleware, logout)
 - **Fase 2**: Layout & Theme (sidebar, theme toggle)
 - **Fase 3**: Pantallas read-only (dashboard, lojas, logs, history)
@@ -117,15 +118,19 @@ Ver el plan completo para todas las fases.
 ## Troubleshooting
 
 ### `Invalid environment variables`
+
 Faltan vars en `.env.local`. Comparar con `.env.example` y ver [`../../docs/08_ENV_CONFIG.md`](../../docs/08_ENV_CONFIG.md).
 
 ### Tipos de Supabase desactualizados
+
 ```bash
 npm run db:types
 ```
+
 Requiere `SUPABASE_PROJECT_ID` en env.
 
 ### shadcn no instala
+
 ```bash
 npx shadcn@latest init
 # Si pregunta, decir que sí a "use existing components.json"
