@@ -19,3 +19,13 @@ export function toIsoDate(value: Date | string): string {
   const date = typeof value === 'string' ? parseISO(value) : value
   return format(date, 'yyyy-MM-dd')
 }
+
+const brlFormatter = new Intl.NumberFormat('pt-BR', {
+  style: 'currency',
+  currency: 'BRL',
+})
+
+export function formatCurrency(value: number | null | undefined): string {
+  if (value == null || Number.isNaN(value)) return '—'
+  return brlFormatter.format(value)
+}
