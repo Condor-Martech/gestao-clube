@@ -15,6 +15,7 @@ import {
   FileCog,
   LayoutGrid,
   Gift,
+  Settings,
   type LucideIcon,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
@@ -35,6 +36,7 @@ const ICON_MAP: Record<NavIconKey, LucideIcon> = {
   helpSystem: FileCog,
   bannerSuperApp: LayoutGrid,
   numeroDaSorte: Gift,
+  configuracoes: Settings,
 }
 
 interface Props extends React.SVGProps<SVGSVGElement> {

@@ -21,6 +21,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { formatDateTime } from '@/lib/utils/format'
 import { LogPayloadSheet } from '@/app/(dashboard)/logs/_components/log-payload-sheet'
+import { SensitiveProductsCard } from './_components/sensitive-products-card'
 import type { LogEntry } from '@/types/entities'
 
 const RECENT_LOGS_LIMIT = 10
@@ -133,6 +134,10 @@ export default async function DashboardPage() {
             </CardContent>
           </Card>
         ))}
+      </section>
+
+      <section>
+        <SensitiveProductsCard />
       </section>
 
       <section className="space-y-3">
