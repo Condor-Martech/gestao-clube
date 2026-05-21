@@ -1,14 +1,13 @@
 'use client'
 
-import { useTransition } from 'react'
-import Link from 'next/link'
+import { useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Loader2 } from 'lucide-react'
+import { Loader2, MailCheck } from 'lucide-react'
 import { toast } from 'sonner'
 import { useTranslations } from 'next-intl'
-import { LoginSchema, type LoginInput } from '@/lib/validators/auth'
-import { signInAction } from '../_actions'
+import { ForgotPasswordSchema, type ForgotPasswordInput } from '@/lib/validators/auth'
+import { requestPasswordResetAction } from '../_actions'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import {
@@ -20,23 +19,34 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 
-export function LoginForm() {
+export function ForgotPasswordForm() {
   const [isPending, startTransition] = useTransition()
+  const [sent, setSent] = useState(false)
   const t = useTranslations('auth')
 
-  const form = useForm<LoginInput>({
-    resolver: zodResolver(LoginSchema),
-    defaultValues: { email: '', password: '' },
+  const form = useForm<ForgotPasswordInput>({
+    resolver: zodResolver(ForgotPasswordSchema),
+    defaultValues: { email: '' },
   })
 
-  function onSubmit(values: LoginInput) {
+  function onSubmit(values: ForgotPasswordInput) {
     startTransition(async () => {
-      const result = await signInAction(values)
-      if (result && !result.ok) {
+      const result = await requestPasswordResetAction(values)
+      if (result.ok) {
+        setSent(true)
+      } else {
         toast.error(result.error)
-        form.setError('password', { message: ' ' })
       }
     })
+  }
+
+  if (sent) {
+    return (
+      <div className="flex flex-col items-center gap-3 py-2 text-center">
+        <MailCheck className="text-primary size-10" />
+        <p className="text-sm">{t('forgotSentMessage')}</p>
+      </div>
+    )
   }
 
   return (
@@ -62,38 +72,10 @@ export function LoginForm() {
           )}
         />
 
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>{t('passwordLabel')}</FormLabel>
-              <FormControl>
-                <Input
-                  type="password"
-                  autoComplete="current-password"
-                  disabled={isPending}
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
         <Button type="submit" className="w-full" disabled={isPending}>
           {isPending && <Loader2 className="size-4 animate-spin" />}
-          {t('submit')}
+          {t('forgotSubmit')}
         </Button>
-
-        <p className="text-center text-sm">
-          <Link
-            href="/forgot-password"
-            className="text-muted-foreground hover:text-foreground underline underline-offset-4"
-          >
-            {t('forgotPasswordLink')}
-          </Link>
-        </p>
       </form>
     </Form>
   )
