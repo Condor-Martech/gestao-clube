@@ -120,6 +120,7 @@
     "charts": {
       "produtosPorCampanha": "Produtos por campanha",
       "produtosPorCampanhaDesc": "Top 8 campanhas por quantidade de produtos",
+      "produtosPorCampanhaAmostra": "Top 8 campanhas — amostra de {amostra} de {total} produtos",
       "campanhasPorSituacao": "Campanhas por situação",
       "campanhasPorSituacaoDesc": "Distribuição das campanhas conforme a situação",
       "produtosLegend": "Produtos",

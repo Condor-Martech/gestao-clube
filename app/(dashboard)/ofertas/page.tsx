@@ -27,6 +27,10 @@ import { CampanhasSituacaoChart } from './_components/campanhas-situacao-chart'
 
 const RECENT_LOGS_LIMIT = 8
 const TOP_CAMPANHAS = 8
+// Tope de filas leídas de Produtos para o gráfico produtos-por-campanha.
+// Supabase pagina os resultados; se a tabela superar este tope, o gráfico
+// é uma amostra e o subtítulo do card o deixa explícito.
+const PRODUTOS_SAMPLE = 5000
 const PAYLOAD_SUMMARY_KEYS = ['nome', 'name', 'title', 'descricao', 'description']
 
 /** Extrai um resumo curto e legível do payload JSONB de um log. */
@@ -65,7 +69,12 @@ export default async function OfertasDashboardPage() {
       .select('id', { count: 'exact', head: true })
       .eq('aproved', true),
     supabase.from('Agrupamentos').select('id', { count: 'exact', head: true }),
-    supabase.from('Produtos').select('campanha').not('campanha', 'is', null),
+    supabase
+      .from('Produtos')
+      .select('campanha')
+      .not('campanha', 'is', null)
+      .order('id', { ascending: false })
+      .limit(PRODUTOS_SAMPLE),
     supabase.from('campanhas').select('cod_campanha, nom_campanha, dsc_situacao'),
     supabase
       .from('logs_with_users')
@@ -75,29 +84,31 @@ export default async function OfertasDashboardPage() {
       .limit(RECENT_LOGS_LIMIT),
   ])
 
+  // Uma query com erro devolve `count: null`. Propagamos `null` (em vez de
+  // mascarar com `0`) para que o KPI mostre "—" e não um número enganoso.
   const kpis = [
     {
       label: t('kpis.campanhas'),
       description: t('kpis.campanhasDesc'),
-      value: campanhasCountRes.count ?? 0,
+      value: campanhasCountRes.error ? null : (campanhasCountRes.count ?? 0),
       icon: Megaphone,
     },
     {
       label: t('kpis.produtos'),
       description: t('kpis.produtosDesc'),
-      value: produtosCountRes.count ?? 0,
+      value: produtosCountRes.error ? null : (produtosCountRes.count ?? 0),
       icon: Package,
     },
     {
       label: t('kpis.produtosAprovados'),
       description: t('kpis.produtosAprovadosDesc'),
-      value: aprovadosRes.count ?? 0,
+      value: aprovadosRes.error ? null : (aprovadosRes.count ?? 0),
       icon: CheckCircle2,
     },
     {
       label: t('kpis.agrupamentos'),
       description: t('kpis.agrupamentosDesc'),
-      value: agrupamentosRes.count ?? 0,
+      value: agrupamentosRes.error ? null : (agrupamentosRes.count ?? 0),
       icon: Layers,
     },
   ]
@@ -134,6 +145,12 @@ export default async function OfertasDashboardPage() {
     .sort((a, b) => b.total - a.total)
     .slice(0, TOP_CAMPANHAS)
 
+  // O gráfico se computa sobre as filas lidas de Produtos. Se a tabela
+  // superar PRODUTOS_SAMPLE, é uma amostra — o subtítulo o torna explícito.
+  const produtosLidos = produtosCampanhaRes.data?.length ?? 0
+  const produtosTotal = produtosCountRes.count ?? 0
+  const produtosPorCampanhaEhAmostra = produtosTotal > produtosLidos
+
   const campanhasPorSituacao = [...situacaoCount.entries()]
     .map(([situacao, total]) => ({ situacao, total }))
     .sort((a, b) => b.total - a.total)
@@ -161,7 +178,7 @@ export default async function OfertasDashboardPage() {
             </CardHeader>
             <CardContent>
               <p className="text-3xl font-semibold tabular-nums">
-                {value.toLocaleString('pt-BR')}
+                {value === null ? '—' : value.toLocaleString('pt-BR')}
               </p>
             </CardContent>
           </Card>
@@ -175,7 +192,12 @@ export default async function OfertasDashboardPage() {
               {t('charts.produtosPorCampanha')}
             </CardTitle>
             <CardDescription>
-              {t('charts.produtosPorCampanhaDesc')}
+              {produtosPorCampanhaEhAmostra
+                ? t('charts.produtosPorCampanhaAmostra', {
+                    amostra: produtosLidos.toLocaleString('pt-BR'),
+                    total: produtosTotal.toLocaleString('pt-BR'),
+                  })
+                : t('charts.produtosPorCampanhaDesc')}
             </CardDescription>
           </CardHeader>
           <CardContent>
