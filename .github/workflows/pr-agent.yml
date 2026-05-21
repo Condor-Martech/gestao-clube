@@ -4,8 +4,12 @@ on:
   issue_comment:
     types: [created]
 
+# The concurrency group includes `event_name` so that `issue_comment` runs
+# (e.g. the Vercel bot posting a preview comment seconds after a PR opens)
+# do NOT cancel an in-progress `pull_request` review run. Without this, a bot
+# comment racing the docker build cancels the review before it ever starts.
 concurrency:
-  group: pr-agent-${{ github.event.pull_request.number || github.event.issue.number }}
+  group: pr-agent-${{ github.event.pull_request.number || github.event.issue.number }}-${{ github.event_name }}
   cancel-in-progress: true
 
 jobs:
