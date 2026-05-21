@@ -1,6 +1,8 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 
-const mockEnv = { GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: undefined as string | undefined }
+const { mockEnv } = vi.hoisted(() => ({
+  mockEnv: { GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: undefined as string | undefined },
+}))
 vi.mock('@/lib/env', () => ({ env: mockEnv }))
 
 import { getPlayAuth, __resetPlayAuthCache } from './play-store-auth'
