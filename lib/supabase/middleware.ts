@@ -28,8 +28,11 @@ export async function updateSession(request: NextRequest) {
   const { data } = await supabase.auth.getClaims()
   const user = data?.claims
 
+  // Public paths — reachable without an authenticated session. /auth/confirm
+  // and /reset-password are part of the invite + password-reset flows.
+  const PUBLIC_PREFIXES = ['/login', '/forgot-password', '/reset-password', '/auth/confirm']
   const isPublicPath =
-    request.nextUrl.pathname.startsWith('/login') ||
+    PUBLIC_PREFIXES.some((prefix) => request.nextUrl.pathname.startsWith(prefix)) ||
     request.nextUrl.pathname.startsWith('/api/auth')
 
   if (!user && !isPublicPath) {

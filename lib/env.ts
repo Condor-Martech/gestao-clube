@@ -18,6 +18,22 @@ const envSchema = z.object({
   CONDOR_WEBHOOK_BASE: z.string().url().optional(),
   CONDOR_WEBHOOK_SECRET: z.string().optional(),
 
+  // Mail — SMTP transport for auth emails (user invite, password reset).
+  // generateLink() produces the token; nodemailer delivers the branded email.
+  MAIL_SMTP: z.string().min(1).optional(),
+  MAIL_PORT: z.coerce.number().int().positive().default(587),
+  // NOTE: never use z.coerce.boolean() here — Boolean('false') is `true`.
+  // Port 465 → secure: true. Port 587 (STARTTLS) → secure: false.
+  MAIL_SECURE: z
+    .enum(['true', 'false'])
+    .default('false')
+    .transform((v) => v === 'true'),
+  MAIL_TRANSPORT: z.string().default('smtp'),
+  APP_MAIL_USER: z.string().min(1).optional(),
+  APP_MAIL_PASS: z.string().min(1).optional(),
+  // The "From:" header. APP_MAIL_USER is the SMTP login, NOT the sender address.
+  MAIL_FROM: z.string().min(1).default('Clube Condor <web@condor.com.br>'),
+
   // Strapi — backend for banner-super-app and numero-da-sorte features
   STRAPI_API_URL: z.string().url(),
   STRAPI_API_TOKEN: z.string().min(1),

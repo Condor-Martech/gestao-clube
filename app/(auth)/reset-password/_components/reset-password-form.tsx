@@ -1,14 +1,13 @@
 'use client'
 
 import { useTransition } from 'react'
-import Link from 'next/link'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2 } from 'lucide-react'
 import { toast } from 'sonner'
 import { useTranslations } from 'next-intl'
-import { LoginSchema, type LoginInput } from '@/lib/validators/auth'
-import { signInAction } from '../_actions'
+import { ResetPasswordSchema, type ResetPasswordInput } from '@/lib/validators/auth'
+import { updatePasswordAction } from '../_actions'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import {
@@ -20,21 +19,21 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 
-export function LoginForm() {
+export function ResetPasswordForm({ welcome }: { welcome: boolean }) {
   const [isPending, startTransition] = useTransition()
   const t = useTranslations('auth')
 
-  const form = useForm<LoginInput>({
-    resolver: zodResolver(LoginSchema),
-    defaultValues: { email: '', password: '' },
+  const form = useForm<ResetPasswordInput>({
+    resolver: zodResolver(ResetPasswordSchema),
+    defaultValues: { password: '', confirmPassword: '' },
   })
 
-  function onSubmit(values: LoginInput) {
+  function onSubmit(values: ResetPasswordInput) {
     startTransition(async () => {
-      const result = await signInAction(values)
+      // On success the action redirects, so it never resolves to { ok: true }.
+      const result = await updatePasswordAction(values)
       if (result && !result.ok) {
         toast.error(result.error)
-        form.setError('password', { message: ' ' })
       }
     })
   }
@@ -44,15 +43,14 @@ export function LoginForm() {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <FormField
           control={form.control}
-          name="email"
+          name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>{t('emailLabel')}</FormLabel>
+              <FormLabel>{t('resetPasswordLabel')}</FormLabel>
               <FormControl>
                 <Input
-                  type="email"
-                  autoComplete="email"
-                  placeholder={t('emailPlaceholder')}
+                  type="password"
+                  autoComplete="new-password"
                   disabled={isPending}
                   {...field}
                 />
@@ -64,14 +62,14 @@ export function LoginForm() {
 
         <FormField
           control={form.control}
-          name="password"
+          name="confirmPassword"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>{t('passwordLabel')}</FormLabel>
+              <FormLabel>{t('resetConfirmLabel')}</FormLabel>
               <FormControl>
                 <Input
                   type="password"
-                  autoComplete="current-password"
+                  autoComplete="new-password"
                   disabled={isPending}
                   {...field}
                 />
@@ -83,17 +81,8 @@ export function LoginForm() {
 
         <Button type="submit" className="w-full" disabled={isPending}>
           {isPending && <Loader2 className="size-4 animate-spin" />}
-          {t('submit')}
+          {welcome ? t('welcomeSubmit') : t('resetSubmit')}
         </Button>
-
-        <p className="text-center text-sm">
-          <Link
-            href="/forgot-password"
-            className="text-muted-foreground hover:text-foreground underline underline-offset-4"
-          >
-            {t('forgotPasswordLink')}
-          </Link>
-        </p>
       </form>
     </Form>
   )

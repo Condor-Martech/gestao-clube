@@ -14,7 +14,23 @@
     "errorInvalidCredentials": "Email ou senha incorretos",
     "errorEmailRequired": "Email é obrigatório",
     "errorEmailInvalid": "Email inválido",
-    "errorPasswordMin": "Senha deve ter no mínimo 8 caracteres"
+    "errorPasswordMin": "Senha deve ter no mínimo 8 caracteres",
+    "forgotPasswordLink": "Esqueci minha senha",
+    "forgotTitle": "Esqueceu sua senha?",
+    "forgotDescription": "Informe seu email e enviaremos um link para redefinir a senha.",
+    "forgotSubmit": "Enviar link de redefinição",
+    "forgotSentMessage": "Se houver uma conta associada a este email, você receberá um link para redefinir sua senha em instantes.",
+    "backToLogin": "Voltar para o login",
+    "resetTitle": "Redefinir senha",
+    "resetDescription": "Escolha uma nova senha para a sua conta.",
+    "resetSubmit": "Salvar nova senha",
+    "welcomeTitle": "Bem-vindo ao Clube Condor",
+    "welcomeDescription": "Defina uma senha para ativar o seu acesso.",
+    "welcomeSubmit": "Ativar minha conta",
+    "resetLinkInvalid": "Este link é inválido ou expirou. Solicite um novo para continuar.",
+    "requestNewLink": "Solicitar um novo link",
+    "resetPasswordLabel": "Nova senha",
+    "resetConfirmLabel": "Confirmar nova senha"
   },
   "nav": {
     "sections": {

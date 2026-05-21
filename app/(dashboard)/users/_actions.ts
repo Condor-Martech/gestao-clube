@@ -4,6 +4,8 @@ import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { requireAdmin } from '@/lib/auth/guards'
+import { generateAuthLink } from '@/lib/auth/email-links'
+import { sendMail, inviteEmail } from '@/lib/mail'
 import { InviteUserSchema, UpdateUserSchema } from '@/lib/validators/user'
 import { env } from '@/lib/env'
 
@@ -25,19 +27,36 @@ export async function inviteUserAction(input: unknown): Promise<ActionResult> {
   }
 
   const admin = createAdminClient()
-  const { data, error } = await admin.auth.admin.inviteUserByEmail(parsed.data.email, {
+
+  // Generate the invite token (this creates the auth user) WITHOUT sending an
+  // email — GoTrue's SMTP is bypassed; we deliver our own branded email below.
+  const link = await generateAuthLink({
+    admin,
+    type: 'invite',
+    email: parsed.data.email,
     data: { role: parsed.data.role },
-    redirectTo: `${env.NEXT_PUBLIC_APP_URL}/login`,
   })
 
-  if (error || !data.user) {
-    return {
-      ok: false,
-      error: error?.message ?? 'Falha ao convidar usuário',
-    }
+  if (!link.ok) {
+    return { ok: false, error: link.error }
   }
 
-  const userId = data.user.id
+  const userId = link.userId
+
+  // Deliver the branded invite email. If it fails, roll back the auth user so
+  // the admin can retry cleanly instead of leaving an orphan account behind.
+  const invite = inviteEmail({ actionUrl: link.url })
+  const sent = await sendMail({
+    to: parsed.data.email,
+    subject: invite.subject,
+    html: invite.html,
+    text: invite.text,
+  })
+
+  if (!sent.ok) {
+    await admin.auth.admin.deleteUser(userId)
+    return { ok: false, error: `Falha ao enviar o email de convite: ${sent.error}` }
+  }
 
   // Create profile row with app role and status.
   const { error: profileError } = await admin.from('profiles').insert({
