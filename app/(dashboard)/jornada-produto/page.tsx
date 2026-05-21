@@ -12,9 +12,27 @@ interface Props {
 
 interface PriceEntry {
   lst_mix_regiao?: number[] | null
+  vlr_crm?: number | null
+  vlr_preco_regular?: number | null
+  vlr_preco_clube?: number | null
+  vlr_margem?: number | null
+  vlr_margem_crm?: number | null
+  vlr_margem_clube?: number | null
 }
 
-export type LojaDisponivel = Pick<Loja, 'id' | 'title' | 'regiao' | 'cidade' | 'codLoja' | 'status'>
+export interface LojaPrice {
+  vlr_crm: number | null
+  vlr_preco_regular: number | null
+  vlr_preco_clube: number | null
+  vlr_margem: number | null
+  vlr_margem_crm: number | null
+  vlr_margem_clube: number | null
+}
+
+export type LojaDisponivel = Pick<
+  Loja,
+  'id' | 'title' | 'regiao' | 'cidade' | 'codLoja' | 'status'
+> & { price: LojaPrice | null }
 
 function isPai(produto: Produto): boolean {
   return !produto.pai || produto.pai === produto.ean
@@ -136,24 +154,43 @@ export default async function JornadaProdutoPage({ searchParams }: Props) {
         found.map(async (produto) => {
           const priceArr = (produto as unknown as { price: PriceEntry[] | null }).price ?? []
 
-          const codLojaSet = new Set<string>()
+          // map each loja code to its price entry — the price belongs to the
+          // mix group, not the produto, so different lojas may carry different prices
+          const codLojaToPrice = new Map<string, PriceEntry>()
           for (const entry of priceArr) {
             for (const code of entry?.lst_mix_regiao ?? []) {
-              if (code != null) codLojaSet.add(String(code))
+              if (code != null) codLojaToPrice.set(String(code), entry)
             }
           }
 
-          if (codLojaSet.size === 0) return [] as LojaDisponivel[]
+          if (codLojaToPrice.size === 0) return [] as LojaDisponivel[]
 
           const { data: lojasData } = await supabase
             .from('Lojas')
             .select('id, title, regiao, cidade, codLoja, status')
-            .in('codLoja', [...codLojaSet])
+            .in('codLoja', [...codLojaToPrice.keys()])
             .eq('status', true)
             .order('regiao', { ascending: true })
             .order('title', { ascending: true })
 
-          return (lojasData ?? []) as unknown as LojaDisponivel[]
+          return ((lojasData ?? []) as unknown as Array<Omit<LojaDisponivel, 'price'>>).map(
+            (loja) => {
+              const entry = loja.codLoja != null ? codLojaToPrice.get(loja.codLoja) : undefined
+              return {
+                ...loja,
+                price: entry
+                  ? {
+                      vlr_crm: entry.vlr_crm ?? null,
+                      vlr_preco_regular: entry.vlr_preco_regular ?? null,
+                      vlr_preco_clube: entry.vlr_preco_clube ?? null,
+                      vlr_margem: entry.vlr_margem ?? null,
+                      vlr_margem_crm: entry.vlr_margem_crm ?? null,
+                      vlr_margem_clube: entry.vlr_margem_clube ?? null,
+                    }
+                  : null,
+              }
+            },
+          )
         }),
       )
 

@@ -5,10 +5,34 @@ import { useTranslations } from 'next-intl'
 import { Search, Store, MapPin, X } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import { formatCurrency } from '@/lib/utils/format'
 import type { LojaDisponivel } from '../page'
 
 interface Props {
   lojas: LojaDisponivel[]
+}
+
+function PriceChip({
+  label,
+  value,
+  variant,
+}: {
+  label: string
+  value: number | null
+  variant: 'preco' | 'margem'
+}) {
+  return (
+    <span
+      className={
+        variant === 'preco'
+          ? 'bg-muted/70 inline-flex items-center gap-1.5 rounded px-1.5 py-0.5 text-xs'
+          : 'border-border inline-flex items-center gap-1.5 rounded border px-1.5 py-0.5 text-xs'
+      }
+    >
+      <span className="text-muted-foreground">{label}</span>
+      <span className="font-medium tabular-nums">{formatCurrency(value)}</span>
+    </span>
+  )
 }
 
 function normalize(value: string): string {
@@ -110,19 +134,52 @@ export function LojasTab({ lojas }: Props) {
                 </div>
                 <div className="divide-border divide-y text-sm">
                   {lojasInRegiao.map((loja) => (
-                    <div
-                      key={loja.id}
-                      className="flex flex-wrap items-center gap-x-3 gap-y-0.5 px-3 py-2"
-                    >
-                      <Store className="text-muted-foreground size-3.5 shrink-0" />
-                      <span className="truncate font-medium">{loja.title ?? '—'}</span>
-                      {loja.cidade && (
-                        <span className="text-muted-foreground text-xs">· {loja.cidade}</span>
-                      )}
-                      {loja.codLoja && (
-                        <span className="text-muted-foreground ml-auto font-mono text-xs">
-                          #{loja.codLoja}
-                        </span>
+                    <div key={loja.id} className="px-3 py-2">
+                      <div className="flex flex-wrap items-center gap-x-3 gap-y-0.5">
+                        <Store className="text-muted-foreground size-3.5 shrink-0" />
+                        <span className="truncate font-medium">{loja.title ?? '—'}</span>
+                        {loja.cidade && (
+                          <span className="text-muted-foreground text-xs">· {loja.cidade}</span>
+                        )}
+                        {loja.codLoja && (
+                          <span className="text-muted-foreground ml-auto font-mono text-xs">
+                            #{loja.codLoja}
+                          </span>
+                        )}
+                      </div>
+                      {loja.price && (
+                        <div className="mt-1.5 flex flex-wrap items-center gap-1.5 pl-[1.625rem]">
+                          <PriceChip
+                            label={t('lojas.precoRegular')}
+                            value={loja.price.vlr_preco_regular}
+                            variant="preco"
+                          />
+                          <PriceChip
+                            label={t('lojas.precoClube')}
+                            value={loja.price.vlr_preco_clube}
+                            variant="preco"
+                          />
+                          <PriceChip
+                            label={t('lojas.precoCrm')}
+                            value={loja.price.vlr_crm}
+                            variant="preco"
+                          />
+                          <PriceChip
+                            label={t('lojas.margem')}
+                            value={loja.price.vlr_margem}
+                            variant="margem"
+                          />
+                          <PriceChip
+                            label={t('lojas.margemClube')}
+                            value={loja.price.vlr_margem_clube}
+                            variant="margem"
+                          />
+                          <PriceChip
+                            label={t('lojas.margemCrm')}
+                            value={loja.price.vlr_margem_crm}
+                            variant="margem"
+                          />
+                        </div>
                       )}
                     </div>
                   ))}
