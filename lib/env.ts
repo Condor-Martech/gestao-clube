@@ -13,6 +13,8 @@ const envSchema = z.object({
   SUPABASE_SERVICE_ROLE_KEY: z.string().min(1).optional(),
   EVOLUTION_API_URL: z.string().url().optional(),
   EVOLUTION_API_KEY: z.string().min(1).optional(),
+  EVOLUTION_API_INSTANCE: z.string().min(1).optional(),
+  CRON_SECRET: z.string().min(1).optional(),
   STRIPE_SECRET_KEY: z.string().startsWith('sk_').optional(),
   STRIPE_WEBHOOK_SECRET: z.string().startsWith('whsec_').optional(),
   CONDOR_WEBHOOK_BASE: z.string().url().optional(),

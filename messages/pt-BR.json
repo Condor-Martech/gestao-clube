@@ -40,6 +40,7 @@
       "lojas": "Lojas",
       "history": "Histórico",
       "users": "Usuários",
+      "configuracoes": "Configurações",
       "logs": "Logs",
       "manual": "Guia de Diagnóstico",
       "sistema": "Central de Ajuda"
@@ -102,7 +103,44 @@
       "viewAll": "Ver todos",
       "empty": "Sem logs recentes",
       "loadError": "Não foi possível carregar os logs"
+    },
+    "sensitiveProducts": {
+      "title": "Produtos sensíveis em campanhas",
+      "description": "Itens essenciais (leite, óleo, açúcar…) detectados em campanhas",
+      "empty": "Nenhum produto sensível em campanhas no momento",
+      "loadError": "Não foi possível carregar os produtos sensíveis",
+      "newCount": "{count} novo(s) em 24h",
+      "newTag": "Novo",
+      "andMore": "+ {count} outros produtos"
     }
+  },
+  "configuracoes": {
+    "title": "Configurações",
+    "subtitle": "Alertas de produtos sensíveis em campanhas",
+    "saved": "Configuração salva",
+    "statusTitle": "Status do alerta",
+    "statusDesc": "Liga ou desliga o envio automático do resumo por WhatsApp.",
+    "ativoLabel": "Envio automático",
+    "ativoOn": "Ativado",
+    "ativoOff": "Desativado",
+    "ativoHelp": "Quando desativado, o card do dashboard continua funcionando, mas nenhum WhatsApp é enviado.",
+    "keywordsTitle": "Detecção de produtos sensíveis",
+    "keywordsDesc": "Um produto é sensível quando a PRIMEIRA palavra do nome é uma destas palavras-chave.",
+    "keywordsLabel": "Palavras-chave",
+    "keywordsPlaceholder": "ex.: leite, óleo, açúcar…",
+    "keywordsHelp": "Comparação por palavra inteira e sem acento — \"Óleo de Soja\" entra; \"Cafeteira\" e \"Doce de Leite\" não.",
+    "add": "Adicionar",
+    "removeItem": "Remover",
+    "envioTitle": "Envio do resumo",
+    "envioDesc": "Para quais grupos de WhatsApp e em quais horários o resumo é enviado.",
+    "gruposLabel": "Grupos de WhatsApp",
+    "gruposHelp": "Nome (livre) e JID do grupo — algo como 120363XXXXXXXX@g.us.",
+    "gruposEmpty": "Nenhum grupo configurado — adicione ao menos um para receber o resumo.",
+    "grupoLabelPlaceholder": "Nome do grupo",
+    "grupoJidPlaceholder": "120363XXXXXXXX@g.us",
+    "addGrupo": "Adicionar grupo",
+    "horasLabel": "Horários do resumo",
+    "horasHelp": "Horas do dia (fuso de Brasília) em que o resumo é enviado. Cada resumo cobre o período desde o anterior."
   },
   "ofertasDashboard": {
     "title": "Painel de Ofertas",

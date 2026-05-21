@@ -19,6 +19,7 @@ export type NavIconKey =
   | 'helpSystem'
   | 'bannerSuperApp'
   | 'numeroDaSorte'
+  | 'configuracoes'
 
 export interface NavItem {
   href: string
@@ -140,6 +141,13 @@ export const NAV_SECTIONS: readonly NavSection[] = [
         href: '/users',
         labelKey: 'users',
         iconKey: 'users',
+        roles: ['admin'],
+        module: 'sistemas',
+      },
+      {
+        href: '/configuracoes',
+        labelKey: 'configuracoes',
+        iconKey: 'configuracoes',
         roles: ['admin'],
         module: 'sistemas',
       },
