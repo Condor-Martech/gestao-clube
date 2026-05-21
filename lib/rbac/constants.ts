@@ -1,10 +1,4 @@
-export const MODULES = [
-  'ofertas',
-  'conteudo',
-  'stores',
-  'operacionais',
-  'sistemas',
-] as const
+export const MODULES = ['ofertas', 'conteudo', 'stores', 'operacionais', 'sistemas'] as const
 
 export type Module = (typeof MODULES)[number]
 

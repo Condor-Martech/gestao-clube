@@ -13,13 +13,7 @@ interface Props {
   className?: string
 }
 
-export function ImageInput({
-  value,
-  onChange,
-  currentUrl,
-  disabled,
-  className,
-}: Props) {
+export function ImageInput({ value, onChange, currentUrl, disabled, className }: Props) {
   const inputRef = useRef<HTMLInputElement>(null)
   const [previewUrl, setPreviewUrl] = useState<string | null>(null)
 
@@ -39,11 +33,7 @@ export function ImageInput({
       <div className="bg-muted relative aspect-video w-full overflow-hidden rounded-md border">
         {showUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={showUrl}
-            alt=""
-            className="h-full w-full object-contain"
-          />
+          <img src={showUrl} alt="" className="h-full w-full object-contain" />
         ) : (
           <div className="text-muted-foreground flex h-full items-center justify-center text-xs">
             Sem imagem

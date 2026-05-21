@@ -50,9 +50,7 @@ export async function GET(req: NextRequest) {
   if (moduleParam) query = query.eq('module', moduleParam)
   if (q) {
     const safe = escapeIlike(q)
-    query = query.or(
-      `event_name.ilike.%${safe}%,email.ilike.%${safe}%,module.ilike.%${safe}%`,
-    )
+    query = query.or(`event_name.ilike.%${safe}%,email.ilike.%${safe}%,module.ilike.%${safe}%`)
   }
 
   const { data, error } = await query

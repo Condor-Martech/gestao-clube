@@ -22,9 +22,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       { protocol: 'https', hostname: '**.supabase.co' },
       { protocol: 'https', hostname: 'stage.z0n.co' },
-      ...(strapiHost
-        ? [{ protocol: 'https' as const, hostname: strapiHost }]
-        : []),
+      ...(strapiHost ? [{ protocol: 'https' as const, hostname: strapiHost }] : []),
     ],
   },
   allowedDevOrigins: ['10.1.2.62'],

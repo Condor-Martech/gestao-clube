@@ -37,13 +37,21 @@ interface Props {
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
-    <h3 className="text-muted-foreground mb-3 text-xs font-semibold uppercase tracking-wider">
+    <h3 className="text-muted-foreground mb-3 text-xs font-semibold tracking-wider uppercase">
       {children}
     </h3>
   )
 }
 
-function FieldRow({ icon, label, value }: { icon: React.ReactNode; label: string; value: React.ReactNode }) {
+function FieldRow({
+  icon,
+  label,
+  value,
+}: {
+  icon: React.ReactNode
+  label: string
+  value: React.ReactNode
+}) {
   return (
     <div className="flex items-start gap-3 py-1.5">
       <span className="text-muted-foreground mt-0.5 size-4 shrink-0">{icon}</span>
@@ -89,7 +97,7 @@ export async function JornadaCard({
     <div className="border-border bg-card rounded-xl border shadow-sm">
       {/* ── DUPLICATE WARNING ── */}
       {isDuplicate && (
-        <div className="bg-amber-500/10 border-amber-500/30 flex items-start gap-3 rounded-t-xl border-b px-5 py-3">
+        <div className="flex items-start gap-3 rounded-t-xl border-b border-amber-500/30 bg-amber-500/10 px-5 py-3">
           <AlertTriangle className="mt-0.5 size-4 shrink-0 text-amber-500" />
           <div className="flex-1">
             <p className="text-sm font-semibold text-amber-600 dark:text-amber-400">
@@ -102,7 +110,7 @@ export async function JornadaCard({
               {allDuplicates.map((d) => (
                 <span
                   key={d.id}
-                  className="border-amber-300/50 bg-amber-500/10 inline-flex items-center gap-1.5 rounded-md border px-2 py-0.5 text-xs"
+                  className="inline-flex items-center gap-1.5 rounded-md border border-amber-300/50 bg-amber-500/10 px-2 py-0.5 text-xs"
                 >
                   <span className="font-mono font-medium">{d.campanha ?? '—'}</span>
                   {d.aproved ? (
@@ -302,10 +310,14 @@ export async function JornadaCard({
                     <Badge variant="secondary">{t('hierarchy.filho')}</Badge>
                     <span className="text-muted-foreground text-sm">
                       {t('hierarchy.parentEan')}:{' '}
-                      <span className="font-mono font-medium text-foreground">{produto.pai}</span>
+                      <span className="text-foreground font-mono font-medium">{produto.pai}</span>
                     </span>
                     <Button variant="outline" size="sm" asChild>
-                      <Link href={`/jornada-produto?q=${encodeURIComponent(produto.pai ?? '')}` as `/${string}`}>
+                      <Link
+                        href={
+                          `/jornada-produto?q=${encodeURIComponent(produto.pai ?? '')}` as `/${string}`
+                        }
+                      >
                         <ExternalLink className="size-3" />
                         {t('hierarchy.viewParent')}
                       </Link>
@@ -313,7 +325,10 @@ export async function JornadaCard({
                   </div>
                   {paiProduto && (
                     <p className="text-muted-foreground text-xs">
-                      Pai: <span className="text-foreground font-medium">{paiProduto.nome ?? paiProduto.ean}</span>
+                      Pai:{' '}
+                      <span className="text-foreground font-medium">
+                        {paiProduto.nome ?? paiProduto.ean}
+                      </span>
                       {paiProduto.campanha && ` · Campanha ${paiProduto.campanha}`}
                     </p>
                   )}

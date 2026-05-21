@@ -42,11 +42,7 @@ export function SyncButton({ appId }: Props) {
 
   return (
     <Button onClick={handleClick} disabled={isPending} size="sm" variant="default">
-      {isPending ? (
-        <Loader2 className="size-4 animate-spin" />
-      ) : (
-        <RefreshCw className="size-4" />
-      )}
+      {isPending ? <Loader2 className="size-4 animate-spin" /> : <RefreshCw className="size-4" />}
       {isPending ? t('syncing') : t('button')}
     </Button>
   )

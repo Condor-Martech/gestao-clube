@@ -37,7 +37,7 @@ export async function SyncStatusList({ rows }: Props) {
 
         if (row.last_error) {
           return (
-            <span key={store} className="inline-flex items-center gap-1.5 text-destructive">
+            <span key={store} className="text-destructive inline-flex items-center gap-1.5">
               <AlertCircle className="size-3.5" />
               <strong className="font-medium">{label}:</strong>
               <span title={row.last_error}>{t('error')}</span>

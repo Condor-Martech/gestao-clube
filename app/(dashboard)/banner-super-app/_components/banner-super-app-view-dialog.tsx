@@ -32,12 +32,7 @@ function formatBRT(iso: string): string {
   return BRT_DATETIME.format(new Date(iso))
 }
 
-export function BannerSuperAppViewDialog({
-  banner,
-  schedule,
-  open,
-  onOpenChange,
-}: Props) {
+export function BannerSuperAppViewDialog({ banner, schedule, open, onOpenChange }: Props) {
   const t = useTranslations('banner_super_app')
 
   const isPublished = banner.publishedAt !== null
@@ -53,9 +48,7 @@ export function BannerSuperAppViewDialog({
               {isPublished ? t('status.published') : t('status.draft')}
             </Badge>
           </DialogTitle>
-          <DialogDescription className="font-mono">
-            /{banner.slug}
-          </DialogDescription>
+          <DialogDescription className="font-mono">/{banner.slug}</DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4">
@@ -72,17 +65,15 @@ export function BannerSuperAppViewDialog({
 
           <dl className="grid grid-cols-2 gap-4 text-sm">
             <div>
-              <dt className="text-muted-foreground text-xs uppercase tracking-wide">
+              <dt className="text-muted-foreground text-xs tracking-wide uppercase">
                 {t('form.positionLabel')}
               </dt>
               <dd className="mt-1">
-                <Badge variant="outline">
-                  {t(`positions.${banner.position}`)}
-                </Badge>
+                <Badge variant="outline">{t(`positions.${banner.position}`)}</Badge>
               </dd>
             </div>
             <div>
-              <dt className="text-muted-foreground text-xs uppercase tracking-wide">
+              <dt className="text-muted-foreground text-xs tracking-wide uppercase">
                 {t('form.orderLabel')}
               </dt>
               <dd className="mt-1 font-medium">#{banner.order}</dd>
@@ -103,28 +94,20 @@ export function BannerSuperAppViewDialog({
 
           {hasSchedule ? (
             <div className="border-border space-y-2 rounded-md border p-3">
-              <p className="text-muted-foreground flex items-center gap-2 text-xs uppercase tracking-wide">
+              <p className="text-muted-foreground flex items-center gap-2 text-xs tracking-wide uppercase">
                 <CalendarClock className="size-3" />
                 {t('schedule.title')}
               </p>
               {schedule?.publishAt ? (
                 <p className="text-sm">
-                  <span className="text-muted-foreground">
-                    {t('schedule.publishAt')}:
-                  </span>{' '}
-                  <span className="font-medium">
-                    {formatBRT(schedule.publishAt)}
-                  </span>
+                  <span className="text-muted-foreground">{t('schedule.publishAt')}:</span>{' '}
+                  <span className="font-medium">{formatBRT(schedule.publishAt)}</span>
                 </p>
               ) : null}
               {schedule?.unpublishAt ? (
                 <p className="text-sm">
-                  <span className="text-muted-foreground">
-                    {t('schedule.unpublishAt')}:
-                  </span>{' '}
-                  <span className="font-medium">
-                    {formatBRT(schedule.unpublishAt)}
-                  </span>
+                  <span className="text-muted-foreground">{t('schedule.unpublishAt')}:</span>{' '}
+                  <span className="font-medium">{formatBRT(schedule.unpublishAt)}</span>
                 </p>
               ) : null}
             </div>

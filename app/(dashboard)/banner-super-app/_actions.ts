@@ -53,9 +53,7 @@ export async function updateBannerSuperAppAction(
   return result
 }
 
-export async function deleteBannerSuperAppAction(
-  id: number,
-): Promise<ActionResult> {
+export async function deleteBannerSuperAppAction(id: number): Promise<ActionResult> {
   await requireModuleWrite('conteudo')
   if (!id) return { ok: false, error: 'ID inválido' }
   const result = await ops.deleteBannerSuperApp(getClient(), id)

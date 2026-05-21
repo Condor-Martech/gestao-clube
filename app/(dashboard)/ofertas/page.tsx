@@ -3,13 +3,7 @@ import { ArrowRight, CheckCircle2, Layers, Megaphone, Package } from 'lucide-rea
 import { getTranslations } from 'next-intl/server'
 import { createClient } from '@/lib/supabase/server'
 import { requireModuleRead } from '@/lib/auth/guards'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import {
   Table,
   TableBody,
@@ -64,10 +58,7 @@ export default async function OfertasDashboardPage() {
   ] = await Promise.all([
     supabase.from('campanhas').select('id', { count: 'exact', head: true }),
     supabase.from('Produtos').select('id', { count: 'exact', head: true }),
-    supabase
-      .from('produtos_pai')
-      .select('id', { count: 'exact', head: true })
-      .eq('aproved', true),
+    supabase.from('produtos_pai').select('id', { count: 'exact', head: true }).eq('aproved', true),
     supabase.from('Agrupamentos').select('id', { count: 'exact', head: true }),
     supabase
       .from('Produtos')
@@ -123,10 +114,7 @@ export default async function OfertasDashboardPage() {
       dsc_situacao: string | null
     }
     if (c.cod_campanha) {
-      campanhaNomePorCodigo.set(
-        c.cod_campanha,
-        c.nom_campanha?.trim() || c.cod_campanha,
-      )
+      campanhaNomePorCodigo.set(c.cod_campanha, c.nom_campanha?.trim() || c.cod_campanha)
     }
     const situacao = c.dsc_situacao?.trim() || t('charts.semSituacao')
     situacaoCount.set(situacao, (situacaoCount.get(situacao) ?? 0) + 1)
@@ -170,9 +158,7 @@ export default async function OfertasDashboardPage() {
             <CardHeader className="flex flex-row items-start justify-between gap-2 space-y-0">
               <div className="space-y-1">
                 <CardTitle className="text-sm font-medium">{label}</CardTitle>
-                <CardDescription className="text-xs">
-                  {description}
-                </CardDescription>
+                <CardDescription className="text-xs">{description}</CardDescription>
               </div>
               <Icon className="text-muted-foreground size-5 shrink-0" />
             </CardHeader>
@@ -188,9 +174,7 @@ export default async function OfertasDashboardPage() {
       <section className="grid gap-4 lg:grid-cols-2">
         <Card>
           <CardHeader>
-            <CardTitle className="text-base">
-              {t('charts.produtosPorCampanha')}
-            </CardTitle>
+            <CardTitle className="text-base">{t('charts.produtosPorCampanha')}</CardTitle>
             <CardDescription>
               {produtosPorCampanhaEhAmostra
                 ? t('charts.produtosPorCampanhaAmostra', {
@@ -207,12 +191,8 @@ export default async function OfertasDashboardPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle className="text-base">
-              {t('charts.campanhasPorSituacao')}
-            </CardTitle>
-            <CardDescription>
-              {t('charts.campanhasPorSituacaoDesc')}
-            </CardDescription>
+            <CardTitle className="text-base">{t('charts.campanhasPorSituacao')}</CardTitle>
+            <CardDescription>{t('charts.campanhasPorSituacaoDesc')}</CardDescription>
           </CardHeader>
           <CardContent>
             <CampanhasSituacaoChart data={campanhasPorSituacao} />
@@ -222,9 +202,7 @@ export default async function OfertasDashboardPage() {
 
       <section className="space-y-3">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold tracking-tight">
-            {t('recentLogs.title')}
-          </h2>
+          <h2 className="text-lg font-semibold tracking-tight">{t('recentLogs.title')}</h2>
           <Button asChild variant="ghost" size="sm">
             <Link href="/logs?module=ofertas">
               {t('recentLogs.viewAll')}
@@ -237,34 +215,22 @@ export default async function OfertasDashboardPage() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="w-[180px]">
-                  {tLogs('columns.timestamp')}
-                </TableHead>
+                <TableHead className="w-[180px]">{tLogs('columns.timestamp')}</TableHead>
                 <TableHead>{tLogs('columns.event')}</TableHead>
-                <TableHead className="hidden md:table-cell">
-                  {tLogs('columns.user')}
-                </TableHead>
-                <TableHead className="w-[120px] text-right">
-                  {tLogs('columns.actions')}
-                </TableHead>
+                <TableHead className="hidden md:table-cell">{tLogs('columns.user')}</TableHead>
+                <TableHead className="w-[120px] text-right">{tLogs('columns.actions')}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {logsRes.error ? (
                 <TableRow>
-                  <TableCell
-                    colSpan={4}
-                    className="text-destructive py-8 text-center"
-                  >
+                  <TableCell colSpan={4} className="text-destructive py-8 text-center">
                     {t('recentLogs.loadError')}
                   </TableCell>
                 </TableRow>
               ) : logs.length === 0 ? (
                 <TableRow>
-                  <TableCell
-                    colSpan={4}
-                    className="text-muted-foreground py-8 text-center"
-                  >
+                  <TableCell colSpan={4} className="text-muted-foreground py-8 text-center">
                     {t('recentLogs.empty')}
                   </TableCell>
                 </TableRow>
@@ -279,9 +245,7 @@ export default async function OfertasDashboardPage() {
                       <TableCell className="max-w-[420px]">
                         <div className="flex flex-col leading-tight">
                           <span className="font-medium">
-                            {log.event_name ?? (
-                              <span className="text-muted-foreground">—</span>
-                            )}
+                            {log.event_name ?? <span className="text-muted-foreground">—</span>}
                           </span>
                           {summary && (
                             <span className="text-muted-foreground truncate text-xs">
@@ -291,9 +255,7 @@ export default async function OfertasDashboardPage() {
                         </div>
                       </TableCell>
                       <TableCell className="text-muted-foreground hidden text-xs md:table-cell">
-                        {log.email ?? (
-                          <span className="font-mono">{log.user ?? '—'}</span>
-                        )}
+                        {log.email ?? <span className="font-mono">{log.user ?? '—'}</span>}
                       </TableCell>
                       <TableCell className="text-right">
                         <LogPayloadSheet log={log} />

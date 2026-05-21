@@ -1,12 +1,6 @@
 'use client'
 
-import {
-  useEffect,
-  useRef,
-  useState,
-  useTransition,
-  type KeyboardEvent,
-} from 'react'
+import { useEffect, useRef, useState, useTransition, type KeyboardEvent } from 'react'
 import { Loader2 } from 'lucide-react'
 import { toast } from 'sonner'
 import { useTranslations } from 'next-intl'
@@ -320,7 +314,7 @@ export function EditableSelectCell({
     <Select value={value || undefined} onValueChange={handleChange} disabled={isPending}>
       <SelectTrigger
         className={cn(
-          'h-7 w-20 border-none bg-transparent px-2 shadow-none hover:bg-muted/60 focus:ring-1',
+          'hover:bg-muted/60 h-7 w-20 border-none bg-transparent px-2 shadow-none focus:ring-1',
           className,
         )}
       >

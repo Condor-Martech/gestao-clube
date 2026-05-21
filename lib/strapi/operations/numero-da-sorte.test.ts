@@ -43,9 +43,7 @@ describe('createNumeroDaSorte', () => {
     let n = 0
     const create = vi.fn().mockResolvedValue({ ok: true, data: { id: 1 } })
     const client = {
-      upload: vi
-        .fn()
-        .mockImplementation(() => Promise.resolve(mediaResponse(++n))),
+      upload: vi.fn().mockImplementation(() => Promise.resolve(mediaResponse(++n))),
       create,
     } as unknown as StrapiClient
 
@@ -69,9 +67,7 @@ describe('createNumeroDaSorte', () => {
     let n = 0
     const create = vi.fn().mockResolvedValue({ ok: true, data: { id: 1 } })
     const client = {
-      upload: vi
-        .fn()
-        .mockImplementation(() => Promise.resolve(mediaResponse(++n))),
+      upload: vi.fn().mockImplementation(() => Promise.resolve(mediaResponse(++n))),
       create,
     } as unknown as StrapiClient
 
@@ -135,9 +131,7 @@ describe('createNumeroDaSorte', () => {
 
 describe('updateNumeroDaSorte', () => {
   const noActions = {
-    listPublisherActions: vi
-      .fn()
-      .mockResolvedValue({ ok: true, data: [] }),
+    listPublisherActions: vi.fn().mockResolvedValue({ ok: true, data: [] }),
   }
 
   it('updates scalars without uploads when no media changed', async () => {
@@ -166,9 +160,7 @@ describe('updateNumeroDaSorte', () => {
     let n = 0
     const update = vi.fn().mockResolvedValue({ ok: true, data: { id: 1 } })
     const client = {
-      upload: vi
-        .fn()
-        .mockImplementation(() => Promise.resolve(mediaResponse(++n))),
+      upload: vi.fn().mockImplementation(() => Promise.resolve(mediaResponse(++n))),
       update,
       ...noActions,
     } as unknown as StrapiClient

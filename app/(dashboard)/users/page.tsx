@@ -15,12 +15,7 @@ import { EditUserDialog } from './_components/edit-user-dialog'
 import { UsersSearch } from './_components/users-search'
 import { PaginationControls } from '@/components/shared/pagination-controls'
 import { formatDateTime } from '@/lib/utils/format'
-import {
-  DEFAULT_PAGE_SIZE,
-  parsePage,
-  rangeFromPage,
-  totalPages,
-} from '@/lib/utils/pagination'
+import { DEFAULT_PAGE_SIZE, parsePage, rangeFromPage, totalPages } from '@/lib/utils/pagination'
 import { pickString } from '@/lib/utils/search-params'
 import type { UserSystem, UserRole } from '@/types/entities'
 
@@ -81,13 +76,9 @@ export default async function UsersPage({ searchParams }: Props) {
             <TableRow>
               <TableHead>{t('columns.email')}</TableHead>
               <TableHead className="w-[140px]">{t('columns.role')}</TableHead>
-              <TableHead className="hidden md:table-cell">
-                {t('columns.phone')}
-              </TableHead>
+              <TableHead className="hidden md:table-cell">{t('columns.phone')}</TableHead>
               <TableHead className="w-[100px]">{t('columns.status')}</TableHead>
-              <TableHead className="hidden lg:table-cell">
-                {t('columns.lastLogin')}
-              </TableHead>
+              <TableHead className="hidden lg:table-cell">{t('columns.lastLogin')}</TableHead>
               <TableHead className="w-[60px]"></TableHead>
             </TableRow>
           </TableHeader>
@@ -137,9 +128,7 @@ export default async function UsersPage({ searchParams }: Props) {
         </Table>
       </div>
 
-      {total > DEFAULT_PAGE_SIZE && (
-        <PaginationControls page={page} totalPages={pages} />
-      )}
+      {total > DEFAULT_PAGE_SIZE && <PaginationControls page={page} totalPages={pages} />}
     </div>
   )
 }

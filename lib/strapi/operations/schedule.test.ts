@@ -4,9 +4,7 @@ import { syncSchedule } from './schedule'
 
 const SLUG = 'api::numero-da-sorte.numero-da-sorte'
 
-function makeClient(
-  overrides: Partial<StrapiClient> = {},
-): StrapiClient {
+function makeClient(overrides: Partial<StrapiClient> = {}): StrapiClient {
   return {
     list: vi.fn(),
     get: vi.fn(),
@@ -21,11 +19,7 @@ function makeClient(
   } as unknown as StrapiClient
 }
 
-function rawAction(
-  mode: 'publish' | 'unpublish',
-  executeAt: string,
-  id = 1,
-) {
+function rawAction(mode: 'publish' | 'unpublish', executeAt: string, id = 1) {
   return {
     id,
     attributes: { mode, executeAt, entityId: 17, entitySlug: SLUG },
@@ -128,9 +122,7 @@ describe('syncSchedule', () => {
 
   it('aborts on first sub-call error', async () => {
     const client = makeClient({
-      create: vi
-        .fn()
-        .mockResolvedValue({ ok: false, error: 'forbidden', status: 403 }),
+      create: vi.fn().mockResolvedValue({ ok: false, error: 'forbidden', status: 403 }),
     })
 
     const r = await syncSchedule(client, SLUG, 17, {

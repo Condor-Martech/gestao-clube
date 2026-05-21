@@ -23,14 +23,13 @@ export function SidebarNav({ sections, onNavigate, collapsed = false }: SidebarN
       {sections.map((section) => (
         <div key={section.titleKey} className="flex flex-col gap-1">
           {!collapsed && (
-            <h2 className="text-muted-foreground px-3 text-xs font-semibold uppercase tracking-wider">
+            <h2 className="text-muted-foreground px-3 text-xs font-semibold tracking-wider uppercase">
               {tSections(section.titleKey)}
             </h2>
           )}
           <ul className="flex flex-col gap-0.5">
             {section.items.map((item) => {
-              const isActive =
-                pathname === item.href || pathname.startsWith(`${item.href}/`)
+              const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`)
               const label = tItems(item.labelKey)
 
               return (
@@ -44,13 +43,10 @@ export function SidebarNav({ sections, onNavigate, collapsed = false }: SidebarN
                       collapsed ? 'justify-center px-2' : 'gap-3 px-3',
                       isActive
                         ? 'bg-accent text-accent-foreground'
-                        : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
+                        : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground',
                     )}
                   >
-                    <NavIcon
-                      name={item.iconKey}
-                      className={collapsed ? 'size-5' : 'size-4'}
-                    />
+                    <NavIcon name={item.iconKey} className={collapsed ? 'size-5' : 'size-4'} />
                     {!collapsed && label}
                   </Link>
                 </li>

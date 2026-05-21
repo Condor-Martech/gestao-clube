@@ -1,0 +1,23 @@
+# Dependencies
+node_modules/
+
+# Build output / generated
+.next/
+out/
+build/
+dist/
+coverage/
+playwright-report/
+test-results/
+*.tsbuildinfo
+next-env.d.ts
+
+# Lockfiles
+package-lock.json
+skills-lock.json
+
+# Tooling / vendored — not the team's source
+.agents/
+.atl/
+.claude/
+.vercel/

@@ -25,10 +25,8 @@ export function TabsNav({ tabs }: { tabs: TabItem[] }) {
             role="tab"
             aria-selected={active}
             className={cn(
-              'ring-offset-background focus-visible:ring-ring inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1 text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2',
-              active
-                ? 'bg-background text-foreground shadow'
-                : 'hover:text-foreground/80',
+              'ring-offset-background focus-visible:ring-ring inline-flex items-center justify-center rounded-md px-3 py-1 text-sm font-medium whitespace-nowrap transition-all focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none',
+              active ? 'bg-background text-foreground shadow' : 'hover:text-foreground/80',
             )}
           >
             {tab.label}

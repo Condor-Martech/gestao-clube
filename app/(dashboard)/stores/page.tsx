@@ -1,13 +1,7 @@
 import { after } from 'next/server'
 import { getTranslations } from 'next-intl/server'
 import { requireModuleRead } from '@/lib/auth/guards'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { createClient } from '@/lib/supabase/server'
 import { listApps } from '@/lib/stores/repository'
 import { syncIfStale } from '@/lib/stores/sync-service'
@@ -118,9 +112,7 @@ function computeTrend(samples: ReviewSnapshot[], days: number): TrendPoint[] {
     date,
     play: sums[date]!.play.n === 0 ? null : sums[date]!.play.sum / sums[date]!.play.n,
     app_store:
-      sums[date]!.app_store.n === 0
-        ? null
-        : sums[date]!.app_store.sum / sums[date]!.app_store.n,
+      sums[date]!.app_store.n === 0 ? null : sums[date]!.app_store.sum / sums[date]!.app_store.n,
   }))
 }
 

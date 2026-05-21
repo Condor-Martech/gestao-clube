@@ -13,17 +13,9 @@ import {
 } from '@/components/ui/table'
 import { LojasFilters } from './_components/lojas-filters'
 import { LojaDialog } from './_components/loja-dialog'
-import {
-  EditableTextCell,
-  EditableStatusCell,
-} from './_components/editable-cells'
+import { EditableTextCell, EditableStatusCell } from './_components/editable-cells'
 import { PaginationControls } from '@/components/shared/pagination-controls'
-import {
-  DEFAULT_PAGE_SIZE,
-  parsePage,
-  rangeFromPage,
-  totalPages,
-} from '@/lib/utils/pagination'
+import { DEFAULT_PAGE_SIZE, parsePage, rangeFromPage, totalPages } from '@/lib/utils/pagination'
 import { pickString } from '@/lib/utils/search-params'
 import type { Loja } from '@/types/entities'
 
@@ -89,7 +81,11 @@ export default async function LojasPage({ searchParams }: Props) {
     .select('regiao')
     .not('regiao', 'is', null)
   const regions = Array.from(
-    new Set(((regionsData ?? []) as { regiao: string | null }[]).map((r) => r.regiao).filter(Boolean) as string[]),
+    new Set(
+      ((regionsData ?? []) as { regiao: string | null }[])
+        .map((r) => r.regiao)
+        .filter(Boolean) as string[],
+    ),
   ).sort()
 
   return (

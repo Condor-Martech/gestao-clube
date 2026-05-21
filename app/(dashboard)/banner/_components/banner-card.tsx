@@ -72,19 +72,11 @@ export function BannerCard({ banner }: Props) {
       <div className="space-y-3 p-4">
         <div className="flex items-start justify-between gap-2">
           <div className="space-y-1">
-            <h3 className="font-semibold leading-tight">
-              {banner.title ?? '—'}
-            </h3>
-            <p className="text-muted-foreground font-mono text-xs">
-              /{banner.slug ?? ''}
-            </p>
+            <h3 className="leading-tight font-semibold">{banner.title ?? '—'}</h3>
+            <p className="text-muted-foreground font-mono text-xs">/{banner.slug ?? ''}</p>
           </div>
           <div className="flex items-center gap-1">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setEditOpen(true)}
-            >
+            <Button variant="ghost" size="icon" onClick={() => setEditOpen(true)}>
               <Pencil className="size-4" />
             </Button>
             <AlertDialog>
@@ -104,9 +96,7 @@ export function BannerCard({ banner }: Props) {
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
-                  <AlertDialogTitle>
-                    {tCommon('confirmDeleteTitle')}
-                  </AlertDialogTitle>
+                  <AlertDialogTitle>{tCommon('confirmDeleteTitle')}</AlertDialogTitle>
                   <AlertDialogDescription>
                     {tCommon('confirmDeleteDescription')}
                   </AlertDialogDescription>
@@ -130,9 +120,7 @@ export function BannerCard({ banner }: Props) {
 
         {(banner.regiao || banner.video) && (
           <div className="flex flex-wrap items-center gap-2 text-xs">
-            {banner.regiao && (
-              <Badge variant="outline">{banner.regiao}</Badge>
-            )}
+            {banner.regiao && <Badge variant="outline">{banner.regiao}</Badge>}
             {banner.video && (
               <a
                 href={banner.video}
@@ -148,29 +136,13 @@ export function BannerCard({ banner }: Props) {
         )}
 
         <div className="space-y-3 border-t pt-3">
-          <CarouselManager
-            bannerId={banner.id}
-            field="carrosel"
-            images={banner.carrosel ?? []}
-          />
-          <CarouselManager
-            bannerId={banner.id}
-            field="carrosel2"
-            images={banner.carrosel2 ?? []}
-          />
-          <CarouselManager
-            bannerId={banner.id}
-            field="carrosel3"
-            images={banner.carrosel3 ?? []}
-          />
+          <CarouselManager bannerId={banner.id} field="carrosel" images={banner.carrosel ?? []} />
+          <CarouselManager bannerId={banner.id} field="carrosel2" images={banner.carrosel2 ?? []} />
+          <CarouselManager bannerId={banner.id} field="carrosel3" images={banner.carrosel3 ?? []} />
         </div>
       </div>
 
-      <BannerFormDialog
-        banner={banner}
-        open={editOpen}
-        onOpenChange={setEditOpen}
-      />
+      <BannerFormDialog banner={banner} open={editOpen} onOpenChange={setEditOpen} />
     </article>
   )
 }

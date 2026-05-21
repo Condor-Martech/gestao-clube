@@ -10,29 +10,16 @@ export const BANNER_SUPER_APP_POSITIONS = [
 
 export type BannerSuperAppPosition = (typeof BANNER_SUPER_APP_POSITIONS)[number]
 
-const ALLOWED_IMAGE_MIME = [
-  'image/png',
-  'image/jpeg',
-  'image/jpg',
-  'image/webp',
-]
+const ALLOWED_IMAGE_MIME = ['image/png', 'image/jpeg', 'image/jpg', 'image/webp']
 const MAX_IMAGE_BYTES = 5 * 1024 * 1024
 
 const imageFileSchema = z
   .instanceof(File, { message: 'Imagem é obrigatória' })
   .refine((f) => f.size > 0, 'Arquivo vazio')
-  .refine(
-    (f) => ALLOWED_IMAGE_MIME.includes(f.type),
-    'Apenas PNG, JPG ou WEBP',
-  )
+  .refine((f) => ALLOWED_IMAGE_MIME.includes(f.type), 'Apenas PNG, JPG ou WEBP')
   .refine((f) => f.size <= MAX_IMAGE_BYTES, 'Imagem muito grande (máx 5MB)')
 
-const urlField = z
-  .string()
-  .url('URL inválida')
-  .optional()
-  .nullable()
-  .or(z.literal(''))
+const urlField = z.string().url('URL inválida').optional().nullable().or(z.literal(''))
 
 const datetimeLocalString = z
   .string()
@@ -51,9 +38,7 @@ export const BannerSuperAppCreateSchema = z.object({
   unpublishAt: datetimeLocalString,
 })
 
-export type BannerSuperAppCreateInput = z.infer<
-  typeof BannerSuperAppCreateSchema
->
+export type BannerSuperAppCreateInput = z.infer<typeof BannerSuperAppCreateSchema>
 
 export const BannerSuperAppUpdateSchema = z.object({
   name: z.string().max(200).optional().nullable(),
@@ -65,6 +50,4 @@ export const BannerSuperAppUpdateSchema = z.object({
   unpublishAt: datetimeLocalString,
 })
 
-export type BannerSuperAppUpdateInput = z.infer<
-  typeof BannerSuperAppUpdateSchema
->
+export type BannerSuperAppUpdateInput = z.infer<typeof BannerSuperAppUpdateSchema>

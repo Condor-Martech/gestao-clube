@@ -59,13 +59,7 @@ interface Props {
 
 type FormValues = BannerSuperAppCreateInput | BannerSuperAppUpdateInput
 
-export function BannerSuperAppFormDialog({
-  banner,
-  schedule,
-  trigger,
-  open,
-  onOpenChange,
-}: Props) {
+export function BannerSuperAppFormDialog({ banner, schedule, trigger, open, onOpenChange }: Props) {
   const [internalOpen, setInternalOpen] = useState(false)
   const [isPending, startTransition] = useTransition()
   const t = useTranslations('banner_super_app')
@@ -79,9 +73,7 @@ export function BannerSuperAppFormDialog({
   const isEdit = !!banner
 
   const form = useForm<FormValues>({
-    resolver: zodResolver(
-      isEdit ? BannerSuperAppUpdateSchema : BannerSuperAppCreateSchema,
-    ),
+    resolver: zodResolver(isEdit ? BannerSuperAppUpdateSchema : BannerSuperAppCreateSchema),
     defaultValues: {
       name: banner?.name ?? '',
       url: banner?.url ?? '',
@@ -89,9 +81,7 @@ export function BannerSuperAppFormDialog({
       order: banner?.order ?? 0,
       image: undefined,
       publishAt: schedule?.publishAt ? utcIsoToBrtLocal(schedule.publishAt) : '',
-      unpublishAt: schedule?.unpublishAt
-        ? utcIsoToBrtLocal(schedule.unpublishAt)
-        : '',
+      unpublishAt: schedule?.unpublishAt ? utcIsoToBrtLocal(schedule.unpublishAt) : '',
     },
   })
 
@@ -124,11 +114,7 @@ export function BannerSuperAppFormDialog({
         if (!pubResult.ok) {
           toast.warning(pubResult.error)
         } else {
-          toast.success(
-            mode === 'publish'
-              ? t('published')
-              : t(isEdit ? 'updated' : 'created'),
-          )
+          toast.success(mode === 'publish' ? t('published') : t(isEdit ? 'updated' : 'created'))
         }
       } else {
         toast.success(t('created'))
@@ -154,9 +140,7 @@ export function BannerSuperAppFormDialog({
 
       <DialogContent className="max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>
-            {isEdit ? tForm('editTitle') : tForm('addTitle')}
-          </DialogTitle>
+          <DialogTitle>{isEdit ? tForm('editTitle') : tForm('addTitle')}</DialogTitle>
           <DialogDescription>
             {isEdit ? tForm('editDescription') : tForm('addDescription')}
           </DialogDescription>
@@ -190,11 +174,7 @@ export function BannerSuperAppFormDialog({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>{tForm('positionLabel')}</FormLabel>
-                  <Select
-                    value={field.value}
-                    onValueChange={field.onChange}
-                    disabled={isPending}
-                  >
+                  <Select value={field.value} onValueChange={field.onChange} disabled={isPending}>
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue />
@@ -221,11 +201,7 @@ export function BannerSuperAppFormDialog({
                   <FormItem>
                     <FormLabel>{tForm('nameLabel')}</FormLabel>
                     <FormControl>
-                      <Input
-                        disabled={isPending}
-                        {...field}
-                        value={field.value ?? ''}
-                      />
+                      <Input disabled={isPending} {...field} value={field.value ?? ''} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -273,7 +249,7 @@ export function BannerSuperAppFormDialog({
             />
 
             <div className="border-border space-y-3 rounded-md border p-3">
-              <p className="text-muted-foreground text-xs uppercase tracking-wide">
+              <p className="text-muted-foreground text-xs tracking-wide uppercase">
                 {tForm('scheduleSection')}
               </p>
               <div className="grid gap-3 sm:grid-cols-2">
@@ -314,9 +290,7 @@ export function BannerSuperAppFormDialog({
                   )}
                 />
               </div>
-              <p className="text-muted-foreground text-xs">
-                {tForm('scheduleHelp')}
-              </p>
+              <p className="text-muted-foreground text-xs">{tForm('scheduleHelp')}</p>
             </div>
 
             <div className="flex flex-col gap-2 pt-2 sm:flex-row sm:justify-end">
@@ -331,9 +305,7 @@ export function BannerSuperAppFormDialog({
               <Button
                 type="button"
                 variant="secondary"
-                onClick={form.handleSubmit((v) =>
-                  onSubmit(v as FormValues, 'draft'),
-                )}
+                onClick={form.handleSubmit((v) => onSubmit(v as FormValues, 'draft'))}
                 disabled={isPending}
               >
                 {isPending ? <Loader2 className="size-4 animate-spin" /> : null}
@@ -341,9 +313,7 @@ export function BannerSuperAppFormDialog({
               </Button>
               <Button
                 type="button"
-                onClick={form.handleSubmit((v) =>
-                  onSubmit(v as FormValues, 'publish'),
-                )}
+                onClick={form.handleSubmit((v) => onSubmit(v as FormValues, 'publish'))}
                 disabled={isPending}
               >
                 {isPending ? <Loader2 className="size-4 animate-spin" /> : null}

@@ -1,12 +1,6 @@
 import { getTranslations } from 'next-intl/server'
 import { requireModuleRead } from '@/lib/auth/guards'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 
 export default async function ReviewsPage() {
   await requireModuleRead('stores')

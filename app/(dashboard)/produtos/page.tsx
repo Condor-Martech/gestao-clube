@@ -6,12 +6,7 @@ import { ProdutosFilters } from './_components/produtos-filters'
 import { ProdutosSort } from './_components/produtos-sort'
 import { ProdutosTable } from './_components/produtos-table'
 import { PaginationControls } from '@/components/shared/pagination-controls'
-import {
-  DEFAULT_PAGE_SIZE,
-  parsePage,
-  rangeFromPage,
-  totalPages,
-} from '@/lib/utils/pagination'
+import { DEFAULT_PAGE_SIZE, parsePage, rangeFromPage, totalPages } from '@/lib/utils/pagination'
 import { pickString } from '@/lib/utils/search-params'
 import { parseProdutoSort } from '@/lib/utils/produto-sort'
 import type { Produto } from '@/types/entities'
@@ -65,7 +60,7 @@ export default async function ProdutosPage({ searchParams }: Props) {
       </header>
 
       <div className="flex flex-wrap items-center gap-2">
-        <div className="flex-1 min-w-[260px]">
+        <div className="min-w-[260px] flex-1">
           <ProdutosFilters />
         </div>
         <ProdutosSort />
@@ -79,9 +74,7 @@ export default async function ProdutosPage({ searchParams }: Props) {
         <ProdutosTable produtos={produtos} canWrite={write} />
       )}
 
-      {total > DEFAULT_PAGE_SIZE && (
-        <PaginationControls page={page} totalPages={pages} />
-      )}
+      {total > DEFAULT_PAGE_SIZE && <PaginationControls page={page} totalPages={pages} />}
     </div>
   )
 }

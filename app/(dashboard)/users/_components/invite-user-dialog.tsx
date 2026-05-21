@@ -6,11 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2, Plus } from 'lucide-react'
 import { toast } from 'sonner'
 import { useTranslations } from 'next-intl'
-import {
-  InviteUserSchema,
-  USER_ROLES,
-  type InviteUserInput,
-} from '@/lib/validators/user'
+import { InviteUserSchema, USER_ROLES, type InviteUserInput } from '@/lib/validators/user'
 import { ASSIGNABLE_MODULES, type ModuleLevel } from '@/lib/rbac'
 import { inviteUserAction } from '../_actions'
 import { Button } from '@/components/ui/button'
@@ -61,7 +57,7 @@ export function InviteUserDialog() {
     if (level === '') {
       delete current[module as keyof typeof current]
     } else {
-      (current as Record<string, ModuleLevel>)[module] = level
+      ;(current as Record<string, ModuleLevel>)[module] = level
     }
     form.setValue('module_roles', current)
   }
@@ -120,11 +116,7 @@ export function InviteUserDialog() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>{tForm('roleLabel')}</FormLabel>
-                  <Select
-                    value={field.value}
-                    onValueChange={field.onChange}
-                    disabled={isPending}
-                  >
+                  <Select value={field.value} onValueChange={field.onChange} disabled={isPending}>
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue />
@@ -182,11 +174,7 @@ export function InviteUserDialog() {
                 <FormItem>
                   <FormLabel>{tForm('phoneLabel')}</FormLabel>
                   <FormControl>
-                    <Input
-                      disabled={isPending}
-                      {...field}
-                      value={field.value ?? ''}
-                    />
+                    <Input disabled={isPending} {...field} value={field.value ?? ''} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

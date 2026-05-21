@@ -1,13 +1,6 @@
 'use client'
 
-import {
-  Cell,
-  Legend,
-  Pie,
-  PieChart,
-  ResponsiveContainer,
-  Tooltip,
-} from 'recharts'
+import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts'
 import { useTranslations } from 'next-intl'
 
 export interface SituacaoPoint {
@@ -20,14 +13,7 @@ interface Props {
 }
 
 /** Paleta para as fatias do donut — uma cor por situação. */
-const COLORS = [
-  '#3b82f6',
-  '#22c55e',
-  '#f59e0b',
-  '#ef4444',
-  '#8b5cf6',
-  '#06b6d4',
-]
+const COLORS = ['#3b82f6', '#22c55e', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4']
 
 /** Donut: distribuição das campanhas por situação (dsc_situacao). */
 export function CampanhasSituacaoChart({ data }: Props) {

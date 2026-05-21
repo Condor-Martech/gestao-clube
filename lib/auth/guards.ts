@@ -2,12 +2,7 @@ import 'server-only'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import type { Role } from '@/lib/navigation'
-import {
-  type Module,
-  type ModuleRoles,
-  hasModuleAccess,
-  canWrite,
-} from '@/lib/rbac'
+import { type Module, type ModuleRoles, hasModuleAccess, canWrite } from '@/lib/rbac'
 
 const VALID_ROLES: readonly Role[] = ['admin', 'manager', 'user']
 

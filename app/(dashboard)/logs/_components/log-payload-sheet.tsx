@@ -49,7 +49,7 @@ export function LogPayloadSheet({ log }: Props) {
       </SheetTrigger>
       <SheetContent side="right" className="w-full sm:max-w-2xl">
         <div className="flex h-full flex-col">
-          <div className="space-y-3 pb-4 pt-2">
+          <div className="space-y-3 pt-2 pb-4">
             <div className="flex items-center justify-between gap-2">
               <h3 className="flex items-center gap-2 text-lg font-semibold">
                 <FileJson className="size-5" />

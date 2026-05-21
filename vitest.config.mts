@@ -14,9 +14,7 @@ export default defineConfig({
       STRAPI_API_TOKEN: 'test-strapi-token',
     },
     alias: {
-      'server-only': fileURLToPath(
-        new URL('./tests/__mocks__/server-only.ts', import.meta.url),
-      ),
+      'server-only': fileURLToPath(new URL('./tests/__mocks__/server-only.ts', import.meta.url)),
     },
   },
 })

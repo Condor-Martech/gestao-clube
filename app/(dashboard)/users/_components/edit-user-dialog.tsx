@@ -6,11 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2, Pencil } from 'lucide-react'
 import { toast } from 'sonner'
 import { useTranslations } from 'next-intl'
-import {
-  UpdateUserSchema,
-  USER_ROLES,
-  type UpdateUserInput,
-} from '@/lib/validators/user'
+import { UpdateUserSchema, USER_ROLES, type UpdateUserInput } from '@/lib/validators/user'
 import { ASSIGNABLE_MODULES, type ModuleLevel } from '@/lib/rbac'
 import { updateUserAction } from '../_actions'
 import { Button } from '@/components/ui/button'
@@ -71,7 +67,7 @@ export function EditUserDialog({ user }: Props) {
     if (level === '') {
       delete current[module as keyof typeof current]
     } else {
-      (current as Record<string, ModuleLevel>)[module] = level
+      ;(current as Record<string, ModuleLevel>)[module] = level
     }
     form.setValue('module_roles', current)
   }
@@ -111,11 +107,7 @@ export function EditUserDialog({ user }: Props) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>{tForm('roleLabel')}</FormLabel>
-                  <Select
-                    value={field.value}
-                    onValueChange={field.onChange}
-                    disabled={isPending}
-                  >
+                  <Select value={field.value} onValueChange={field.onChange} disabled={isPending}>
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue />
@@ -173,11 +165,7 @@ export function EditUserDialog({ user }: Props) {
                 <FormItem>
                   <FormLabel>{tForm('phoneLabel')}</FormLabel>
                   <FormControl>
-                    <Input
-                      disabled={isPending}
-                      {...field}
-                      value={field.value ?? ''}
-                    />
+                    <Input disabled={isPending} {...field} value={field.value ?? ''} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -198,9 +186,7 @@ export function EditUserDialog({ user }: Props) {
                       className="size-4"
                     />
                   </FormControl>
-                  <FormLabel className="!mt-0">
-                    {tForm('statusLabel')}
-                  </FormLabel>
+                  <FormLabel className="!mt-0">{tForm('statusLabel')}</FormLabel>
                 </FormItem>
               )}
             />

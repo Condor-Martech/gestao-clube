@@ -4,19 +4,11 @@ import { canWrite as computeCanWrite } from '@/lib/rbac'
 import { PermissionGate } from '@/components/rbac/permission-gate'
 import { env } from '@/lib/env'
 import { createStrapiClient } from '@/lib/strapi/client'
-import {
-  buildScheduleMap,
-  mapBannerSuperApp,
-  mapPublisherAction,
-} from '@/lib/strapi/mappers'
+import { buildScheduleMap, mapBannerSuperApp, mapPublisherAction } from '@/lib/strapi/mappers'
 import { BANNER_SUPER_APP_POSITIONS } from '@/lib/validators/banner-super-app'
 import type { BannerSuperApp } from '@/types/entities'
 import { PaginationControls } from '@/components/shared/pagination-controls'
-import {
-  parsePage,
-  rangeFromPage,
-  totalPages,
-} from '@/lib/utils/pagination'
+import { parsePage, rangeFromPage, totalPages } from '@/lib/utils/pagination'
 import { pickString } from '@/lib/utils/search-params'
 import { BannerSuperAppFormDialog } from './_components/banner-super-app-form-dialog'
 import { BannerSuperAppTable } from './_components/banner-super-app-table'
@@ -97,9 +89,7 @@ export default async function BannerSuperAppPage({ searchParams }: Props) {
         <BannerSuperAppTable items={paged} schedules={schedules} canWrite={write} />
       )}
 
-      {total > PAGE_SIZE && (
-        <PaginationControls page={page} totalPages={pages} />
-      )}
+      {total > PAGE_SIZE && <PaginationControls page={page} totalPages={pages} />}
     </div>
   )
 }

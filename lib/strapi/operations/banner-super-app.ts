@@ -34,10 +34,7 @@ export async function createBannerSuperApp(
   const upload = await client.upload(input.image)
   if (!upload.ok) return { ok: false, error: upload.error }
 
-  const create = await client.create<BannerEntry>(
-    COLLECTION,
-    buildPayload(input, upload.data.id),
-  )
+  const create = await client.create<BannerEntry>(COLLECTION, buildPayload(input, upload.data.id))
   if (!create.ok) return { ok: false, error: create.error }
 
   if (input.publishAt || input.unpublishAt) {
@@ -68,11 +65,7 @@ export async function updateBannerSuperApp(
     imageId = upload.data.id
   }
 
-  const update = await client.update<BannerEntry>(
-    COLLECTION,
-    id,
-    buildPayload(input, imageId),
-  )
+  const update = await client.update<BannerEntry>(COLLECTION, id, buildPayload(input, imageId))
   if (!update.ok) return { ok: false, error: update.error }
 
   const sync = await syncSchedule(client, ENTITY_SLUG, id, {

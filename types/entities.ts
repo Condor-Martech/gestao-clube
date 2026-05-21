@@ -12,7 +12,6 @@
  * payload to the right shape.
  */
 
-
 export type CampanhaStatus = 'Ativa' | 'Inativa'
 
 export interface AgrupamentoItem {

@@ -104,11 +104,7 @@ export async function updateNumeroDaSorte(
     media.regulamento = r.data.id
   }
 
-  const update = await client.update<NDSEntry>(
-    COLLECTION,
-    id,
-    buildPayload(input, media),
-  )
+  const update = await client.update<NDSEntry>(COLLECTION, id, buildPayload(input, media))
   if (!update.ok) return { ok: false, error: update.error }
 
   // Always sync on update — covers create/update/delete of scheduled actions
@@ -126,10 +122,7 @@ export async function updateNumeroDaSorte(
   return { ok: true, data: { id: update.data.id } }
 }
 
-export async function deleteNumeroDaSorte(
-  client: StrapiClient,
-  id: number,
-): Promise<ActionResult> {
+export async function deleteNumeroDaSorte(client: StrapiClient, id: number): Promise<ActionResult> {
   const r = await client.delete(COLLECTION, id)
   if (!r.ok) return { ok: false, error: r.error }
   return { ok: true }

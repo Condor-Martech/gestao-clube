@@ -25,11 +25,7 @@ interface Props {
   variant?: 'floating' | 'ghost'
 }
 
-export function ProdutoSyncButton({
-  campanhaCode,
-  className,
-  variant = 'floating',
-}: Props) {
+export function ProdutoSyncButton({ campanhaCode, className, variant = 'floating' }: Props) {
   const [open, setOpen] = useState(false)
   const [isPending, startTransition] = useTransition()
   const t = useTranslations('produtos')
@@ -97,9 +93,7 @@ export function ProdutoSyncButton({
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel disabled={isPending}>
-            {tc('cancel')}
-          </AlertDialogCancel>
+          <AlertDialogCancel disabled={isPending}>{tc('cancel')}</AlertDialogCancel>
           <AlertDialogAction onClick={handleConfirm} disabled={isPending}>
             {isPending && <Loader2 className="mr-2 size-4 animate-spin" />}
             {t('syncConfirm')}

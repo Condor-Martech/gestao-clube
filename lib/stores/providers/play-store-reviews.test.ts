@@ -43,9 +43,7 @@ describe('parsePlayReviews', () => {
       reviews: [
         {
           reviewId: 'reply-only',
-          comments: [
-            { developerComment: { text: 'Thanks!', lastModified: { seconds: '0' } } },
-          ],
+          comments: [{ developerComment: { text: 'Thanks!', lastModified: { seconds: '0' } } }],
         },
       ],
     }

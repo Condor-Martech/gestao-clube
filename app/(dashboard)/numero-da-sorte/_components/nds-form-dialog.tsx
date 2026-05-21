@@ -51,13 +51,7 @@ interface Props {
 
 type FormValues = NumeroDaSorteCreateInput | NumeroDaSorteUpdateInput
 
-export function NDSFormDialog({
-  nds,
-  schedule,
-  trigger,
-  open,
-  onOpenChange,
-}: Props) {
+export function NDSFormDialog({ nds, schedule, trigger, open, onOpenChange }: Props) {
   const [internalOpen, setInternalOpen] = useState(false)
   const [isPending, startTransition] = useTransition()
   const t = useTranslations('numero_da_sorte')
@@ -71,9 +65,7 @@ export function NDSFormDialog({
   const isEdit = !!nds
 
   const form = useForm<FormValues>({
-    resolver: zodResolver(
-      isEdit ? NumeroDaSorteUpdateSchema : NumeroDaSorteCreateSchema,
-    ),
+    resolver: zodResolver(isEdit ? NumeroDaSorteUpdateSchema : NumeroDaSorteCreateSchema),
     defaultValues: {
       titulo: nds?.titulo ?? '',
       numeroCampanha: nds?.numeroCampanha ?? 0,
@@ -83,9 +75,7 @@ export function NDSFormDialog({
       bannerSmall: undefined,
       regulamento: undefined,
       publishAt: schedule?.publishAt ? utcIsoToBrtLocal(schedule.publishAt) : '',
-      unpublishAt: schedule?.unpublishAt
-        ? utcIsoToBrtLocal(schedule.unpublishAt)
-        : '',
+      unpublishAt: schedule?.unpublishAt ? utcIsoToBrtLocal(schedule.unpublishAt) : '',
     },
   })
 
@@ -114,11 +104,7 @@ export function NDSFormDialog({
       if (!pubResult.ok) {
         toast.warning(pubResult.error)
       } else {
-        toast.success(
-          mode === 'publish'
-            ? t('published')
-            : t(isEdit ? 'updated' : 'created'),
-        )
+        toast.success(mode === 'publish' ? t('published') : t(isEdit ? 'updated' : 'created'))
       }
 
       form.reset()
@@ -141,9 +127,7 @@ export function NDSFormDialog({
 
       <DialogContent className="max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>
-            {isEdit ? tForm('editTitle') : tForm('addTitle')}
-          </DialogTitle>
+          <DialogTitle>{isEdit ? tForm('editTitle') : tForm('addTitle')}</DialogTitle>
           <DialogDescription>
             {isEdit ? tForm('editDescription') : tForm('addDescription')}
           </DialogDescription>
@@ -158,11 +142,7 @@ export function NDSFormDialog({
                 <FormItem>
                   <FormLabel>{tForm('tituloLabel')}</FormLabel>
                   <FormControl>
-                    <Input
-                      disabled={isPending}
-                      {...field}
-                      value={field.value ?? ''}
-                    />
+                    <Input disabled={isPending} {...field} value={field.value ?? ''} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -290,7 +270,7 @@ export function NDSFormDialog({
             />
 
             <div className="border-border space-y-3 rounded-md border p-3">
-              <p className="text-muted-foreground text-xs uppercase tracking-wide">
+              <p className="text-muted-foreground text-xs tracking-wide uppercase">
                 {tForm('scheduleSection')}
               </p>
               <div className="grid gap-3 sm:grid-cols-2">
@@ -331,9 +311,7 @@ export function NDSFormDialog({
                   )}
                 />
               </div>
-              <p className="text-muted-foreground text-xs">
-                {tForm('scheduleHelp')}
-              </p>
+              <p className="text-muted-foreground text-xs">{tForm('scheduleHelp')}</p>
             </div>
 
             <div className="flex flex-col gap-2 pt-2 sm:flex-row sm:justify-end">
@@ -348,9 +326,7 @@ export function NDSFormDialog({
               <Button
                 type="button"
                 variant="secondary"
-                onClick={form.handleSubmit((v) =>
-                  onSubmit(v as FormValues, 'draft'),
-                )}
+                onClick={form.handleSubmit((v) => onSubmit(v as FormValues, 'draft'))}
                 disabled={isPending}
               >
                 {isPending ? <Loader2 className="size-4 animate-spin" /> : null}
@@ -358,9 +334,7 @@ export function NDSFormDialog({
               </Button>
               <Button
                 type="button"
-                onClick={form.handleSubmit((v) =>
-                  onSubmit(v as FormValues, 'publish'),
-                )}
+                onClick={form.handleSubmit((v) => onSubmit(v as FormValues, 'publish'))}
                 disabled={isPending}
               >
                 {isPending ? <Loader2 className="size-4 animate-spin" /> : null}

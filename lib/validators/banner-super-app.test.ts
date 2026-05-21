@@ -1,12 +1,7 @@
 import { describe, expect, it } from 'vitest'
-import {
-  BannerSuperAppCreateSchema,
-  BannerSuperAppUpdateSchema,
-} from './banner-super-app'
+import { BannerSuperAppCreateSchema, BannerSuperAppUpdateSchema } from './banner-super-app'
 
-function makeImage(
-  opts: { name?: string; type?: string; size?: number } = {},
-): File {
+function makeImage(opts: { name?: string; type?: string; size?: number } = {}): File {
   const { name = 'banner.png', type = 'image/png', size = 1024 } = opts
   return new File([new Uint8Array(size)], name, { type })
 }

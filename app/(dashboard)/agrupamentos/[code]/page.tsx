@@ -52,9 +52,7 @@ export default async function AgrupamentosPage({ params }: Props) {
       <header className="flex flex-wrap items-start justify-between gap-3">
         <div className="space-y-1">
           <div className="flex items-center gap-2">
-            <h1 className="text-2xl font-semibold tracking-tight">
-              {t('title')}
-            </h1>
+            <h1 className="text-2xl font-semibold tracking-tight">{t('title')}</h1>
             {campanha.dsc_situacao && (
               <Badge variant={campanha.dsc_situacao === 'Ativa' ? 'success' : 'secondary'}>
                 {campanha.dsc_situacao}

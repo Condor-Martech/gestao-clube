@@ -101,7 +101,9 @@ export async function listReviews(filter: ReviewFilter) {
 
   let filtered = rows
   if (filter.sentiments?.length) {
-    filtered = filtered.filter((r) => r.analysis && filter.sentiments!.includes(r.analysis.sentiment))
+    filtered = filtered.filter(
+      (r) => r.analysis && filter.sentiments!.includes(r.analysis.sentiment),
+    )
   }
   if (filter.topics?.length) {
     filtered = filtered.filter(
@@ -109,7 +111,12 @@ export async function listReviews(filter: ReviewFilter) {
     )
   }
 
-  return { rows: filtered, total: count ?? filtered.length, page: filter.page, pageSize: filter.pageSize }
+  return {
+    rows: filtered,
+    total: count ?? filtered.length,
+    page: filter.page,
+    pageSize: filter.pageSize,
+  }
 }
 
 export async function getMetricsRange(appId: string, from: Date, to: Date) {
@@ -157,9 +164,7 @@ async function fetchMetricsInWindow(
   const since = new Date(Date.now() - sinceDays * 24 * 60 * 60 * 1000)
   const { data, error } = await supabase
     .from('cc_app_metrics_daily')
-    .select(
-      'date, country_code, device_type, installs, uninstalls, average_rating, ratings_count',
-    )
+    .select('date, country_code, device_type, installs, uninstalls, average_rating, ratings_count')
     .eq('app_id', appId)
     .eq('store', store)
     .gte('date', since.toISOString().slice(0, 10))

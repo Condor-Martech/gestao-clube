@@ -49,13 +49,9 @@ interface BannerSuperAppAttrs {
   image?: MaybeMedia
 }
 
-export function mapBannerSuperApp(
-  raw: unknown,
-  mediaBase: string,
-): BannerSuperApp {
+export function mapBannerSuperApp(raw: unknown, mediaBase: string): BannerSuperApp {
   const r = raw as BannerSuperAppRaw & Partial<BannerSuperAppAttrs>
-  const attrs: BannerSuperAppAttrs = (r.attributes ??
-    (r as unknown as BannerSuperAppAttrs))
+  const attrs: BannerSuperAppAttrs = r.attributes ?? (r as unknown as BannerSuperAppAttrs)
   const image = pickMedia(attrs.image)
 
   return {
@@ -105,8 +101,7 @@ interface PublisherActionRaw {
 }
 
 export function mapPublisherAction(raw: unknown): PublisherAction {
-  const r = raw as PublisherActionRaw &
-    Partial<NonNullable<PublisherActionRaw['attributes']>>
+  const r = raw as PublisherActionRaw & Partial<NonNullable<PublisherActionRaw['attributes']>>
   const attrs = r.attributes ?? r
   return {
     id: r.id,
@@ -122,9 +117,7 @@ export function mapPublisherAction(raw: unknown): PublisherAction {
  * If an entity has multiple actions of the same mode, the LATEST wins
  * (sorted by executeAt desc).
  */
-export function buildScheduleMap(
-  actions: PublisherAction[],
-): Record<number, EntrySchedule> {
+export function buildScheduleMap(actions: PublisherAction[]): Record<number, EntrySchedule> {
   const map: Record<number, EntrySchedule> = {}
   for (const a of actions) {
     const slot = map[a.entityId] ?? {}
@@ -142,13 +135,9 @@ export function buildScheduleMap(
   return map
 }
 
-export function mapNumeroDaSorte(
-  raw: unknown,
-  mediaBase: string,
-): NumeroDaSorte {
+export function mapNumeroDaSorte(raw: unknown, mediaBase: string): NumeroDaSorte {
   const r = raw as NumeroDaSorteRaw & Partial<NumeroDaSorteAttrs>
-  const attrs: NumeroDaSorteAttrs = (r.attributes ??
-    (r as unknown as NumeroDaSorteAttrs))
+  const attrs: NumeroDaSorteAttrs = r.attributes ?? (r as unknown as NumeroDaSorteAttrs)
 
   const banner = pickMedia(attrs.Banner ?? attrs.banner)
   const bannerSmall = pickMedia(attrs.banner_small ?? attrs.bannerSmall)
@@ -166,9 +155,7 @@ export function mapNumeroDaSorte(
     banner: {
       url: banner?.url ? absoluteUrl(banner.url, mediaBase) : '',
     },
-    bannerSmall: bannerSmall?.url
-      ? { url: absoluteUrl(bannerSmall.url, mediaBase) }
-      : null,
+    bannerSmall: bannerSmall?.url ? { url: absoluteUrl(bannerSmall.url, mediaBase) } : null,
     regulamento: {
       url: regulamento?.url ? absoluteUrl(regulamento.url, mediaBase) : '',
     },

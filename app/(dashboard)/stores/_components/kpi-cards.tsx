@@ -1,12 +1,6 @@
 import { Star, MessageSquare, TrendingDown, Smartphone } from 'lucide-react'
 import { getTranslations } from 'next-intl/server'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 
 export interface KpiData {
   ratingPlay: number | null

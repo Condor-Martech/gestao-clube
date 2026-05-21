@@ -53,9 +53,7 @@ export async function updateNumeroDaSorteAction(
   return result
 }
 
-export async function deleteNumeroDaSorteAction(
-  id: number,
-): Promise<ActionResult> {
+export async function deleteNumeroDaSorteAction(id: number): Promise<ActionResult> {
   await requireModuleWrite('conteudo')
   if (!id) return { ok: false, error: 'ID inválido' }
   const result = await ops.deleteNumeroDaSorte(getClient(), id)

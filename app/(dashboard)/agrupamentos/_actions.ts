@@ -7,9 +7,7 @@ import { AgrupamentoSchema } from '@/lib/validators/agrupamento'
 
 type ActionResult<T = void> = { ok: true; data?: T } | { ok: false; error: string }
 
-export async function createAgrupamentoAction(
-  input: unknown,
-): Promise<ActionResult> {
+export async function createAgrupamentoAction(input: unknown): Promise<ActionResult> {
   await requireModuleWrite('ofertas')
   const parsed = AgrupamentoSchema.safeParse(input)
   if (!parsed.success) {
@@ -39,10 +37,7 @@ export async function createAgrupamentoAction(
   return { ok: true }
 }
 
-export async function deleteAgrupamentoAction(
-  id: string,
-  campanha: string,
-): Promise<ActionResult> {
+export async function deleteAgrupamentoAction(id: string, campanha: string): Promise<ActionResult> {
   await requireModuleWrite('ofertas')
   if (!id) return { ok: false, error: 'ID inválido' }
 

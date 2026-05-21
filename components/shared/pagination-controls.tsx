@@ -30,12 +30,7 @@ export function PaginationControls({ page, totalPages }: Props) {
   return (
     <div className="flex flex-col items-center gap-2">
       <div className="flex items-center gap-2">
-        <Button
-          variant="outline"
-          size="sm"
-          disabled={prevDisabled}
-          asChild={!prevDisabled}
-        >
+        <Button variant="outline" size="sm" disabled={prevDisabled} asChild={!prevDisabled}>
           {prevDisabled ? (
             <span className="flex items-center gap-1">
               <ChevronLeft className="size-4" />
@@ -53,12 +48,7 @@ export function PaginationControls({ page, totalPages }: Props) {
           {t('page', { page, total: totalPages })}
         </span>
 
-        <Button
-          variant="outline"
-          size="sm"
-          disabled={nextDisabled}
-          asChild={!nextDisabled}
-        >
+        <Button variant="outline" size="sm" disabled={nextDisabled} asChild={!nextDisabled}>
           {nextDisabled ? (
             <span className="flex items-center gap-1">
               {t('next')}

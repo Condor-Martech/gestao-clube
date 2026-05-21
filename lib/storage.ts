@@ -13,11 +13,7 @@ export interface UploadResult {
   error?: string
 }
 
-async function uploadToBucket(
-  bucket: string,
-  path: string,
-  file: File,
-): Promise<UploadResult> {
+async function uploadToBucket(bucket: string, path: string, file: File): Promise<UploadResult> {
   if (!ALLOWED_MIME.includes(file.type)) {
     return { ok: false, error: 'Apenas PNG, JPG ou WEBP' }
   }
@@ -38,18 +34,12 @@ async function uploadToBucket(
   return { ok: true, url: pub.publicUrl }
 }
 
-export async function uploadProdutoImage(
-  produtoId: string,
-  file: File,
-): Promise<UploadResult> {
+export async function uploadProdutoImage(produtoId: string, file: File): Promise<UploadResult> {
   const ext = file.name.split('.').pop()?.toLowerCase() ?? 'png'
   return uploadToBucket(PRODUTO_BUCKET, `${produtoId}/${Date.now()}.${ext}`, file)
 }
 
-export async function uploadBannerAsset(
-  bannerId: string,
-  file: File,
-): Promise<UploadResult> {
+export async function uploadBannerAsset(bannerId: string, file: File): Promise<UploadResult> {
   const ext = file.name.split('.').pop()?.toLowerCase() ?? 'png'
   return uploadToBucket(BANNER_BUCKET, `${bannerId}/${Date.now()}.${ext}`, file)
 }

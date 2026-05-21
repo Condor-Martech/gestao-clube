@@ -1,13 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import {
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-  type KeyboardEvent,
-} from 'react'
+import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from 'react'
 import { useRouter } from 'next/navigation'
 import { Plus, Search, X, Check } from 'lucide-react'
 import { useTranslations } from 'next-intl'
@@ -60,9 +54,7 @@ export function AddAgrupamentoForm({ campanha, produtos }: Props) {
     const q = paiQuery.trim().toLowerCase()
     const list = q
       ? produtos.filter(
-          (p) =>
-            p.ean.toLowerCase().includes(q) ||
-            (p.nome ?? '').toLowerCase().includes(q),
+          (p) => p.ean.toLowerCase().includes(q) || (p.nome ?? '').toLowerCase().includes(q),
         )
       : produtos
     return list.slice(0, AUTOCOMPLETE_LIMIT)
@@ -77,10 +69,7 @@ export function AddAgrupamentoForm({ campanha, produtos }: Props) {
     return produtos.filter((p) => {
       if (excluded.has(p.ean)) return false
       if (!q) return true
-      return (
-        p.ean.toLowerCase().includes(q) ||
-        (p.nome ?? '').toLowerCase().includes(q)
-      )
+      return p.ean.toLowerCase().includes(q) || (p.nome ?? '').toLowerCase().includes(q)
     })
   }, [pai, itens, itensQuery, produtos])
 
@@ -91,9 +80,7 @@ export function AddAgrupamentoForm({ campanha, produtos }: Props) {
   }
 
   function addItem(option: ProdutoOption) {
-    setItens((prev) =>
-      prev.some((i) => i.ean === option.ean) ? prev : [...prev, option],
-    )
+    setItens((prev) => (prev.some((i) => i.ean === option.ean) ? prev : [...prev, option]))
   }
 
   function removeItem(ean: string) {
@@ -110,9 +97,7 @@ export function AddAgrupamentoForm({ campanha, produtos }: Props) {
 
   function handleSubmit() {
     // UI-only mock — wiring real save later.
-    toast.success(
-      `Pai: ${pai?.ean} · ${itens.length} ${itens.length === 1 ? 'item' : 'itens'}`,
-    )
+    toast.success(`Pai: ${pai?.ean} · ${itens.length} ${itens.length === 1 ? 'item' : 'itens'}`)
   }
 
   const canSave = !!pai
@@ -122,9 +107,7 @@ export function AddAgrupamentoForm({ campanha, produtos }: Props) {
       <section className="border-border bg-card space-y-3 rounded-lg border p-4">
         <div className="space-y-1">
           <h2 className="text-sm font-semibold">{t('paiStepTitle')}</h2>
-          <p className="text-muted-foreground text-xs">
-            {t('paiStepDescription')}
-          </p>
+          <p className="text-muted-foreground text-xs">{t('paiStepDescription')}</p>
         </div>
 
         {pai ? (
@@ -133,19 +116,15 @@ export function AddAgrupamentoForm({ campanha, produtos }: Props) {
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-2">
                 <Badge variant="default">{t('paiBadge')}</Badge>
-                <p className="truncate text-sm font-medium">
-                  {pai.nome ?? '—'}
-                </p>
+                <p className="truncate text-sm font-medium">{pai.nome ?? '—'}</p>
               </div>
-              <p className="text-muted-foreground truncate font-mono text-xs">
-                {pai.ean}
-              </p>
+              <p className="text-muted-foreground truncate font-mono text-xs">{pai.ean}</p>
             </div>
           </div>
         ) : (
           <div ref={paiBoxRef} className="relative">
             <div className="relative">
-              <Search className="text-muted-foreground absolute left-3 top-1/2 size-4 -translate-y-1/2" />
+              <Search className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2" />
               <Input
                 type="text"
                 value={paiQuery}
@@ -172,9 +151,7 @@ export function AddAgrupamentoForm({ campanha, produtos }: Props) {
                       <ProdutoThumb produto={p} size={40} />
                       <div className="min-w-0 flex-1">
                         <p className="truncate text-sm">{p.nome ?? '—'}</p>
-                        <p className="text-muted-foreground truncate font-mono text-xs">
-                          {p.ean}
-                        </p>
+                        <p className="text-muted-foreground truncate font-mono text-xs">{p.ean}</p>
                       </div>
                     </button>
                   </li>
@@ -196,7 +173,7 @@ export function AddAgrupamentoForm({ campanha, produtos }: Props) {
             <div className="border-border space-y-2 border-b p-3">
               <h2 className="text-sm font-semibold">{t('availableTitle')}</h2>
               <div className="relative">
-                <Search className="text-muted-foreground absolute left-3 top-1/2 size-4 -translate-y-1/2" />
+                <Search className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2" />
                 <Input
                   type="text"
                   value={itensQuery}
@@ -209,28 +186,17 @@ export function AddAgrupamentoForm({ campanha, produtos }: Props) {
             </div>
             <ul className="max-h-[520px] divide-y overflow-auto">
               {availableProdutos.length === 0 ? (
-                <li className="text-muted-foreground p-6 text-center text-sm">
-                  {t('noResults')}
-                </li>
+                <li className="text-muted-foreground p-6 text-center text-sm">{t('noResults')}</li>
               ) : (
                 availableProdutos.map((p) => (
-                  <li
-                    key={p.ean}
-                    className="hover:bg-accent/40 flex items-center gap-3 p-3"
-                  >
+                  <li key={p.ean} className="hover:bg-accent/40 flex items-center gap-3 p-3">
                     <ProdutoThumb produto={p} size={48} />
                     <div className="min-w-0 flex-1">
-                      <p className="truncate text-sm font-medium">
-                        {p.nome ?? '—'}
-                      </p>
+                      <p className="truncate text-sm font-medium">{p.nome ?? '—'}</p>
                       {p.unidade && (
-                        <p className="text-muted-foreground truncate text-xs">
-                          {p.unidade}
-                        </p>
+                        <p className="text-muted-foreground truncate text-xs">{p.unidade}</p>
                       )}
-                      <p className="text-muted-foreground truncate font-mono text-xs">
-                        {p.ean}
-                      </p>
+                      <p className="text-muted-foreground truncate font-mono text-xs">{p.ean}</p>
                     </div>
                     <Button
                       type="button"
@@ -262,37 +228,25 @@ export function AddAgrupamentoForm({ campanha, produtos }: Props) {
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2">
                     <Badge variant="default">{t('paiBadge')}</Badge>
-                    <p className="truncate text-sm font-medium">
-                      {pai.nome ?? '—'}
-                    </p>
+                    <p className="truncate text-sm font-medium">{pai.nome ?? '—'}</p>
                   </div>
-                  <p className="text-muted-foreground truncate font-mono text-xs">
-                    {pai.ean}
-                  </p>
+                  <p className="text-muted-foreground truncate font-mono text-xs">{pai.ean}</p>
                 </div>
                 <Check className="text-muted-foreground size-4" />
               </li>
 
               {itens.length === 0 ? (
-                <li className="text-muted-foreground p-6 text-center text-sm">
-                  {t('emptyItens')}
-                </li>
+                <li className="text-muted-foreground p-6 text-center text-sm">{t('emptyItens')}</li>
               ) : (
                 itens.map((p) => (
                   <li key={p.ean} className="flex items-center gap-3 p-3">
                     <ProdutoThumb produto={p} size={48} />
                     <div className="min-w-0 flex-1">
-                      <p className="truncate text-sm font-medium">
-                        {p.nome ?? '—'}
-                      </p>
+                      <p className="truncate text-sm font-medium">{p.nome ?? '—'}</p>
                       {p.unidade && (
-                        <p className="text-muted-foreground truncate text-xs">
-                          {p.unidade}
-                        </p>
+                        <p className="text-muted-foreground truncate text-xs">{p.unidade}</p>
                       )}
-                      <p className="text-muted-foreground truncate font-mono text-xs">
-                        {p.ean}
-                      </p>
+                      <p className="text-muted-foreground truncate font-mono text-xs">{p.ean}</p>
                     </div>
                     <Button
                       type="button"

@@ -46,7 +46,6 @@ export function BannerSuperAppTable({ items, schedules, canWrite = false }: Prop
   const t = useTranslations('banner_super_app')
   const tCommon = useTranslations('common')
 
-
   const filtered = useMemo(() => {
     const q = filter.trim().toLowerCase()
     if (!q) return items
@@ -74,38 +73,22 @@ export function BannerSuperAppTable({ items, schedules, canWrite = false }: Prop
             <TableRow>
               <TableHead className="w-[80px]">{t('columns.image')}</TableHead>
               <TableHead>{t('columns.name')}</TableHead>
-              <TableHead className="w-[120px]">
-                {t('columns.position')}
-              </TableHead>
-              <TableHead className="w-[80px] text-right">
-                {t('columns.order')}
-              </TableHead>
-              <TableHead className="w-[100px]">
-                {t('columns.status')}
-              </TableHead>
-              <TableHead className="w-[140px] text-right">
-                {tCommon('actions')}
-              </TableHead>
+              <TableHead className="w-[120px]">{t('columns.position')}</TableHead>
+              <TableHead className="w-[80px] text-right">{t('columns.order')}</TableHead>
+              <TableHead className="w-[100px]">{t('columns.status')}</TableHead>
+              <TableHead className="w-[140px] text-right">{tCommon('actions')}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {filtered.length === 0 ? (
               <TableRow>
-                <TableCell
-                  colSpan={6}
-                  className="text-muted-foreground p-12 text-center"
-                >
+                <TableCell colSpan={6} className="text-muted-foreground p-12 text-center">
                   {filter ? tCommon('noResults') : t('empty')}
                 </TableCell>
               </TableRow>
             ) : (
               filtered.map((b) => (
-                <BannerRow
-                  key={b.id}
-                  banner={b}
-                  schedule={schedules[b.id]}
-                  canWrite={canWrite}
-                />
+                <BannerRow key={b.id} banner={b} schedule={schedules[b.id]} canWrite={canWrite} />
               ))
             )}
           </TableBody>
@@ -168,17 +151,13 @@ function BannerRow({
         <TableCell className="font-medium">
           <div className="space-y-0.5">
             <p>{banner.name ?? '—'}</p>
-            <p className="text-muted-foreground font-mono text-xs">
-              /{banner.slug}
-            </p>
+            <p className="text-muted-foreground font-mono text-xs">/{banner.slug}</p>
           </div>
         </TableCell>
         <TableCell>
           <Badge variant="outline">{t(`positions.${banner.position}`)}</Badge>
         </TableCell>
-        <TableCell className="text-right font-mono text-xs">
-          #{banner.order}
-        </TableCell>
+        <TableCell className="text-right font-mono text-xs">#{banner.order}</TableCell>
         <TableCell>
           <Badge variant={isPublished ? 'default' : 'secondary'}>
             {isPublished ? t('status.published') : t('status.draft')}
@@ -233,9 +212,7 @@ function BannerRow({
                   <AlertDialogContent>
                     <AlertDialogHeader>
                       <AlertDialogTitle>{t('deleteConfirm')}</AlertDialogTitle>
-                      <AlertDialogDescription>
-                        {t('deleteConfirmDesc')}
-                      </AlertDialogDescription>
+                      <AlertDialogDescription>{t('deleteConfirmDesc')}</AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
                       <AlertDialogCancel>{tCommon('cancel')}</AlertDialogCancel>

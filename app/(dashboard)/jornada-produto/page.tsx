@@ -14,10 +14,7 @@ interface PriceEntry {
   lst_mix_regiao?: number[] | null
 }
 
-export type LojaDisponivel = Pick<
-  Loja,
-  'id' | 'title' | 'regiao' | 'cidade' | 'codLoja' | 'status'
->
+export type LojaDisponivel = Pick<Loja, 'id' | 'title' | 'regiao' | 'cidade' | 'codLoja' | 'status'>
 
 function isPai(produto: Produto): boolean {
   return !produto.pai || produto.pai === produto.ean
@@ -68,7 +65,10 @@ export default async function JornadaProdutoPage({ searchParams }: Props) {
 
       const { data: dupData } =
         eans.length > 0
-          ? await supabase.from('produto').select('*').in('ean', eans as string[])
+          ? await supabase
+              .from('produto')
+              .select('*')
+              .in('ean', eans as string[])
           : { data: [] }
 
       allForDuplicateCheck = (dupData ?? []) as unknown as Produto[]
@@ -79,10 +79,7 @@ export default async function JornadaProdutoPage({ searchParams }: Props) {
           let agResult: Agrupamento[] = []
 
           if (isPai(produto) && produto.ean) {
-            const { data } = await supabase
-              .from('Agrupamentos')
-              .select('*')
-              .eq('ean', produto.ean)
+            const { data } = await supabase.from('Agrupamentos').select('*').eq('ean', produto.ean)
             agResult = (data ?? []).map((r) => normalizeAgrupamento(r as Record<string, unknown>))
           } else if (!isPai(produto) && produto.host) {
             const { data } = await supabase
@@ -97,18 +94,13 @@ export default async function JornadaProdutoPage({ searchParams }: Props) {
       )
 
       // 4 — for FILHO products, fetch their parent produto
-      const paiEans = [...new Set(
-        found
-          .filter((p) => !isPai(p) && p.pai)
-          .map((p) => p.pai as string),
-      )]
+      const paiEans = [
+        ...new Set(found.filter((p) => !isPai(p) && p.pai).map((p) => p.pai as string)),
+      ]
 
       const paiMap = new Map<string, Produto>()
       if (paiEans.length > 0) {
-        const { data: paiData } = await supabase
-          .from('produto')
-          .select('*')
-          .in('ean', paiEans)
+        const { data: paiData } = await supabase.from('produto').select('*').in('ean', paiEans)
         for (const p of (paiData ?? []) as unknown as Produto[]) {
           if (p.ean) paiMap.set(p.ean, p)
         }
@@ -142,8 +134,7 @@ export default async function JornadaProdutoPage({ searchParams }: Props) {
       //     (despite the field name, the codes are loja identifiers — they match Lojas.codLoja)
       const lojasResults = await Promise.all(
         found.map(async (produto) => {
-          const priceArr =
-            (produto as unknown as { price: PriceEntry[] | null }).price ?? []
+          const priceArr = (produto as unknown as { price: PriceEntry[] | null }).price ?? []
 
           const codLojaSet = new Set<string>()
           for (const entry of priceArr) {
@@ -230,25 +221,27 @@ export default async function JornadaProdutoPage({ searchParams }: Props) {
 
       {reports.length > 0 && (
         <div className="space-y-5">
-          {reports.map(({ produto, agrupamentos, paiProduto, approverEmail, userEmailMap, lojas, logs }) => {
-            const duplicates = produto.ean ? (eanCounts[produto.ean] ?? []) : []
-            const isDuplicate = duplicates.length > 1
-            return (
-              <JornadaCard
-                key={produto.id}
-                produto={produto}
-                isPai={isPai(produto)}
-                agrupamentos={agrupamentos}
-                paiProduto={paiProduto}
-                approverEmail={approverEmail}
-                userEmailMap={userEmailMap}
-                isDuplicate={isDuplicate}
-                allDuplicates={duplicates}
-                lojas={lojas}
-                logs={logs}
-              />
-            )
-          })}
+          {reports.map(
+            ({ produto, agrupamentos, paiProduto, approverEmail, userEmailMap, lojas, logs }) => {
+              const duplicates = produto.ean ? (eanCounts[produto.ean] ?? []) : []
+              const isDuplicate = duplicates.length > 1
+              return (
+                <JornadaCard
+                  key={produto.id}
+                  produto={produto}
+                  isPai={isPai(produto)}
+                  agrupamentos={agrupamentos}
+                  paiProduto={paiProduto}
+                  approverEmail={approverEmail}
+                  userEmailMap={userEmailMap}
+                  isDuplicate={isDuplicate}
+                  allDuplicates={duplicates}
+                  lojas={lojas}
+                  logs={logs}
+                />
+              )
+            },
+          )}
         </div>
       )}
 

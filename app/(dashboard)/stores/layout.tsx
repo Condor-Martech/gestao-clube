@@ -1,12 +1,6 @@
 import { AlertCircle } from 'lucide-react'
 import { getTranslations } from 'next-intl/server'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { requireSession } from '@/lib/auth/guards'
 import { listApps, getSyncState } from '@/lib/stores/repository'
 import { SyncButton } from './_components/sync-button'

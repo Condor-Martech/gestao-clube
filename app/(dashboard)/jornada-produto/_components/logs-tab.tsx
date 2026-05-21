@@ -23,10 +23,7 @@ interface Props {
 }
 
 function normalize(value: string): string {
-  return value
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '')
+  return value.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
 }
 
 export function LogsTab({ logs }: Props) {
@@ -38,40 +35,35 @@ export function LogsTab({ logs }: Props) {
     const term = normalize(query.trim())
     if (!term) return logs
     return logs.filter((log) => {
-      const payloadStr =
-        log.payload != null ? JSON.stringify(log.payload) : ''
+      const payloadStr = log.payload != null ? JSON.stringify(log.payload) : ''
       const haystack = normalize(
-        [log.event_name, log.email, log.module, log.user, payloadStr]
-          .filter(Boolean)
-          .join(' '),
+        [log.event_name, log.email, log.module, log.user, payloadStr].filter(Boolean).join(' '),
       )
       return haystack.includes(term)
     })
   }, [logs, query])
 
   if (logs.length === 0) {
-    return (
-      <p className="text-muted-foreground py-2 text-sm">{t('logs.noLogs')}</p>
-    )
+    return <p className="text-muted-foreground py-2 text-sm">{t('logs.noLogs')}</p>
   }
 
   return (
     <div className="space-y-3">
       <div className="flex items-center gap-2">
         <div className="relative flex-1">
-          <Search className="text-muted-foreground pointer-events-none absolute left-2.5 top-1/2 size-4 -translate-y-1/2" />
+          <Search className="text-muted-foreground pointer-events-none absolute top-1/2 left-2.5 size-4 -translate-y-1/2" />
           <Input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder={t('logs.searchPlaceholder')}
-            className="pl-8 pr-8"
+            className="pr-8 pl-8"
           />
           {query && (
             <Button
               type="button"
               variant="ghost"
               size="icon"
-              className="absolute right-1 top-1/2 size-7 -translate-y-1/2"
+              className="absolute top-1/2 right-1 size-7 -translate-y-1/2"
               onClick={() => setQuery('')}
               aria-label={t('logs.clearSearch')}
             >
@@ -90,27 +82,17 @@ export function LogsTab({ logs }: Props) {
       </div>
 
       {filtered.length === 0 ? (
-        <p className="text-muted-foreground py-2 text-sm">
-          {t('logs.noMatches', { q: query })}
-        </p>
+        <p className="text-muted-foreground py-2 text-sm">{t('logs.noMatches', { q: query })}</p>
       ) : (
         <div className="border-border overflow-hidden rounded-lg border">
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="w-[170px]">
-                  {tLogs('columns.timestamp')}
-                </TableHead>
+                <TableHead className="w-[170px]">{tLogs('columns.timestamp')}</TableHead>
                 <TableHead>{tLogs('columns.event')}</TableHead>
-                <TableHead className="hidden sm:table-cell">
-                  {tLogs('columns.module')}
-                </TableHead>
-                <TableHead className="hidden md:table-cell">
-                  {tLogs('columns.user')}
-                </TableHead>
-                <TableHead className="text-right">
-                  {tLogs('columns.actions')}
-                </TableHead>
+                <TableHead className="hidden sm:table-cell">{tLogs('columns.module')}</TableHead>
+                <TableHead className="hidden md:table-cell">{tLogs('columns.user')}</TableHead>
+                <TableHead className="text-right">{tLogs('columns.actions')}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -120,9 +102,7 @@ export function LogsTab({ logs }: Props) {
                     {formatDateTime(log.created_at)}
                   </TableCell>
                   <TableCell className="font-medium">
-                    {log.event_name ?? (
-                      <span className="text-muted-foreground">—</span>
-                    )}
+                    {log.event_name ?? <span className="text-muted-foreground">—</span>}
                   </TableCell>
                   <TableCell className="hidden sm:table-cell">
                     {log.module ? (
@@ -132,9 +112,7 @@ export function LogsTab({ logs }: Props) {
                     )}
                   </TableCell>
                   <TableCell className="text-muted-foreground hidden text-xs md:table-cell">
-                    {log.email ?? (
-                      <span className="font-mono">{log.user ?? '—'}</span>
-                    )}
+                    {log.email ?? <span className="font-mono">{log.user ?? '—'}</span>}
                   </TableCell>
                   <TableCell className="text-right">
                     <LogPayloadSheet log={log} />

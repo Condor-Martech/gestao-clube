@@ -23,7 +23,7 @@ export function StatusTabs({ value }: { value: ProductFilter }) {
 
   return (
     <Tabs value={value} onValueChange={handleChange} className="w-full sm:w-auto">
-      <TabsList className="grid w-full grid-cols-3 sm:w-auto sm:inline-flex">
+      <TabsList className="grid w-full grid-cols-3 sm:inline-flex sm:w-auto">
         <TabsTrigger value="with">{t('tabWithProducts')}</TabsTrigger>
         <TabsTrigger value="without">{t('tabWithoutProducts')}</TabsTrigger>
         <TabsTrigger value="approved">{t('tabApproved')}</TabsTrigger>

@@ -26,10 +26,7 @@ export default async function NewAgrupamentoPage({ params }: Props) {
     .maybeSingle()
 
   if (!campanhaRaw) notFound()
-  const campanha = campanhaRaw as unknown as Pick<
-    Campanha,
-    'cod_campanha' | 'nom_campanha'
-  >
+  const campanha = campanhaRaw as unknown as Pick<Campanha, 'cod_campanha' | 'nom_campanha'>
 
   const { data: produtos } = await supabase
     .from('produtos_pai')
@@ -60,9 +57,7 @@ export default async function NewAgrupamentoPage({ params }: Props) {
       </Button>
 
       <header className="space-y-1">
-        <h1 className="text-2xl font-semibold tracking-tight">
-          {t('addButton')}
-        </h1>
+        <h1 className="text-2xl font-semibold tracking-tight">{t('addButton')}</h1>
         <p className="text-muted-foreground text-sm">
           {campanha.nom_campanha} · {produtoOptions.length}{' '}
           {produtoOptions.length === 1 ? 'produto' : 'produtos'}

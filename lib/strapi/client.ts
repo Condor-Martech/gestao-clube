@@ -9,28 +9,15 @@ export interface StrapiMedia {
   alternativeText: string | null
 }
 
-export type StrapiResult<T> =
-  | { ok: true; data: T }
-  | { ok: false; error: string; status?: number }
+export type StrapiResult<T> = { ok: true; data: T } | { ok: false; error: string; status?: number }
 
 type Query = Record<string, string | number | boolean>
 
 export interface StrapiClient {
   list<T>(collection: string, query?: Query): Promise<StrapiResult<T[]>>
-  get<T>(
-    collection: string,
-    id: number,
-    query?: Query,
-  ): Promise<StrapiResult<T>>
-  create<T>(
-    collection: string,
-    data: Record<string, unknown>,
-  ): Promise<StrapiResult<T>>
-  update<T>(
-    collection: string,
-    id: number,
-    data: Record<string, unknown>,
-  ): Promise<StrapiResult<T>>
+  get<T>(collection: string, id: number, query?: Query): Promise<StrapiResult<T>>
+  create<T>(collection: string, data: Record<string, unknown>): Promise<StrapiResult<T>>
+  update<T>(collection: string, id: number, data: Record<string, unknown>): Promise<StrapiResult<T>>
   delete(collection: string, id: number): Promise<StrapiResult<void>>
   publish<T>(collection: string, id: number): Promise<StrapiResult<T>>
   unpublish<T>(collection: string, id: number): Promise<StrapiResult<T>>
@@ -214,10 +201,7 @@ export function createStrapiClient(config: StrapiClientConfig): StrapiClient {
       )
     },
 
-    listPublisherActions<T>(filters?: {
-      entitySlug?: string
-      entityId?: number
-    }) {
+    listPublisherActions<T>(filters?: { entitySlug?: string; entityId?: number }) {
       const query: Query = { 'pagination[pageSize]': 200 }
       if (filters?.entitySlug) {
         query['filters[entitySlug][$eq]'] = filters.entitySlug
@@ -259,9 +243,7 @@ export function createStrapiClient(config: StrapiClientConfig): StrapiClient {
             throw new Error('Empty upload response')
           }
           const first = arr[0]!
-          const url = first.url.startsWith('http')
-            ? first.url
-            : `${baseUrl}${first.url}`
+          const url = first.url.startsWith('http') ? first.url : `${baseUrl}${first.url}`
           return {
             id: first.id,
             url,

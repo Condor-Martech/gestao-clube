@@ -6,10 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2, Pencil } from 'lucide-react'
 import { toast } from 'sonner'
 import { useTranslations } from 'next-intl'
-import {
-  ProdutoUpdateSchema,
-  type ProdutoUpdateInput,
-} from '@/lib/validators/produto'
+import { ProdutoUpdateSchema, type ProdutoUpdateInput } from '@/lib/validators/produto'
 import { updateProdutoAction } from '../_actions'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -86,11 +83,7 @@ export function ProdutoEditDialog({ produto, trigger }: Props) {
         </DialogHeader>
 
         <Form {...form}>
-          <form
-            id="produto-edit-form"
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-4"
-          >
+          <form id="produto-edit-form" onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
               control={form.control}
               name="nome"
@@ -112,11 +105,7 @@ export function ProdutoEditDialog({ produto, trigger }: Props) {
                 <FormItem>
                   <FormLabel>{t('descricaoLabel')}</FormLabel>
                   <FormControl>
-                    <Textarea
-                      disabled={isPending}
-                      {...field}
-                      value={field.value ?? ''}
-                    />
+                    <Textarea disabled={isPending} {...field} value={field.value ?? ''} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

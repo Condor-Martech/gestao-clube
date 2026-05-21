@@ -35,7 +35,8 @@ const TOKEN_TTL_SECONDS = 19 * 60
 let cachedToken: { value: string; expiresAt: number } | null = null
 
 function signAppleJWT(): string {
-  const { APP_STORE_CONNECT_KEY_ID, APP_STORE_CONNECT_ISSUER_ID, APP_STORE_CONNECT_PRIVATE_KEY } = env
+  const { APP_STORE_CONNECT_KEY_ID, APP_STORE_CONNECT_ISSUER_ID, APP_STORE_CONNECT_PRIVATE_KEY } =
+    env
   if (!APP_STORE_CONNECT_KEY_ID || !APP_STORE_CONNECT_ISSUER_ID || !APP_STORE_CONNECT_PRIVATE_KEY) {
     throw new StoreProviderError(
       'MISSING_CREDENTIALS',
@@ -87,7 +88,10 @@ export class AppStoreProvider implements StoreProvider {
     }
 
     if (response.status === 401 || response.status === 403) {
-      throw new StoreProviderError('AUTH_FAILED', `App Store Connect auth failed (${response.status})`)
+      throw new StoreProviderError(
+        'AUTH_FAILED',
+        `App Store Connect auth failed (${response.status})`,
+      )
     }
     if (response.status === 429) {
       throw new StoreProviderError('RATE_LIMITED', 'App Store Connect rate limited')

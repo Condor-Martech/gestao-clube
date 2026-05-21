@@ -46,9 +46,7 @@ export function CampanhaDialog({ campanha, trigger, open, onOpenChange }: Props)
       ) : null}
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>
-            {isEdit ? t('form.editTitle') : t('form.addTitle')}
-          </DialogTitle>
+          <DialogTitle>{isEdit ? t('form.editTitle') : t('form.addTitle')}</DialogTitle>
           <DialogDescription>
             {isEdit ? t('form.editDescription') : t('form.addDescription')}
           </DialogDescription>

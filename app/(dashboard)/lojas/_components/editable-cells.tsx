@@ -1,12 +1,6 @@
 'use client'
 
-import {
-  useEffect,
-  useRef,
-  useState,
-  useTransition,
-  type KeyboardEvent,
-} from 'react'
+import { useEffect, useRef, useState, useTransition, type KeyboardEvent } from 'react'
 import { Loader2 } from 'lucide-react'
 import { toast } from 'sonner'
 import { useTranslations } from 'next-intl'
@@ -141,7 +135,11 @@ interface EditableStatusCellProps {
   canWrite?: boolean
 }
 
-export function EditableStatusCell({ lojaId, initialValue, canWrite = false }: EditableStatusCellProps) {
+export function EditableStatusCell({
+  lojaId,
+  initialValue,
+  canWrite = false,
+}: EditableStatusCellProps) {
   const [value, setValue] = useState<boolean>(Boolean(initialValue))
   const [isPending, startTransition] = useTransition()
   const t = useTranslations('lojas')

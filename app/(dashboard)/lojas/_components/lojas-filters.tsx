@@ -58,7 +58,7 @@ export function LojasFilters({ regions, currentSort }: { regions: string[]; curr
   return (
     <div className="flex flex-wrap items-center gap-2">
       <div className="relative min-w-[240px] flex-1">
-        <Search className="text-muted-foreground absolute left-2.5 top-1/2 size-4 -translate-y-1/2" />
+        <Search className="text-muted-foreground absolute top-1/2 left-2.5 size-4 -translate-y-1/2" />
         <Input
           value={search}
           onChange={(e) => setSearch(e.target.value)}

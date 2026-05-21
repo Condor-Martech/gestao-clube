@@ -17,9 +17,7 @@ function makeClient(fetchFn: typeof fetch) {
 
 describe('StrapiClient.list', () => {
   it('sends Authorization: Bearer header', async () => {
-    const fetchMock = vi.fn<typeof fetch>().mockResolvedValue(
-      jsonResponse({ data: [] }),
-    )
+    const fetchMock = vi.fn<typeof fetch>().mockResolvedValue(jsonResponse({ data: [] }))
     const client = makeClient(fetchMock)
     await client.list('banner-super-apps')
 
@@ -31,9 +29,7 @@ describe('StrapiClient.list', () => {
   })
 
   it('builds URL with query params', async () => {
-    const fetchMock = vi.fn<typeof fetch>().mockResolvedValue(
-      jsonResponse({ data: [] }),
-    )
+    const fetchMock = vi.fn<typeof fetch>().mockResolvedValue(jsonResponse({ data: [] }))
     const client = makeClient(fetchMock)
     await client.list('banner-super-apps', {
       'pagination[pageSize]': 100,
@@ -60,12 +56,11 @@ describe('StrapiClient.list', () => {
   })
 
   it('normalizes 4xx errors to ok=false with status', async () => {
-    const fetchMock = vi.fn<typeof fetch>().mockResolvedValue(
-      jsonResponse(
-        { error: { message: 'Forbidden' } },
-        { status: 403, statusText: 'Forbidden' },
-      ),
-    )
+    const fetchMock = vi
+      .fn<typeof fetch>()
+      .mockResolvedValue(
+        jsonResponse({ error: { message: 'Forbidden' } }, { status: 403, statusText: 'Forbidden' }),
+      )
     const client = makeClient(fetchMock)
     const result = await client.list('foo')
 
@@ -77,9 +72,7 @@ describe('StrapiClient.list', () => {
   })
 
   it('normalizes network errors to ok=false', async () => {
-    const fetchMock = vi
-      .fn<typeof fetch>()
-      .mockRejectedValue(new Error('boom'))
+    const fetchMock = vi.fn<typeof fetch>().mockRejectedValue(new Error('boom'))
     const client = makeClient(fetchMock)
     const result = await client.list('foo')
 
@@ -92,9 +85,7 @@ describe('StrapiClient.list', () => {
 
 describe('StrapiClient.create / update / delete', () => {
   it('create POSTs with { data } envelope', async () => {
-    const fetchMock = vi
-      .fn<typeof fetch>()
-      .mockResolvedValue(jsonResponse({ data: { id: 1 } }))
+    const fetchMock = vi.fn<typeof fetch>().mockResolvedValue(jsonResponse({ data: { id: 1 } }))
     const client = makeClient(fetchMock)
     await client.create('banner-super-apps', {
       name: 'Test',
@@ -111,9 +102,7 @@ describe('StrapiClient.create / update / delete', () => {
   })
 
   it('update PUTs to /:id with data envelope', async () => {
-    const fetchMock = vi
-      .fn<typeof fetch>()
-      .mockResolvedValue(jsonResponse({ data: { id: 1 } }))
+    const fetchMock = vi.fn<typeof fetch>().mockResolvedValue(jsonResponse({ data: { id: 1 } }))
     const client = makeClient(fetchMock)
     await client.update('banner-super-apps', 1, { name: 'X' })
 
@@ -123,9 +112,7 @@ describe('StrapiClient.create / update / delete', () => {
   })
 
   it('delete sends DELETE', async () => {
-    const fetchMock = vi
-      .fn<typeof fetch>()
-      .mockResolvedValue(jsonResponse({ data: null }))
+    const fetchMock = vi.fn<typeof fetch>().mockResolvedValue(jsonResponse({ data: null }))
     const client = makeClient(fetchMock)
     const result = await client.delete('banner-super-apps', 1)
 
@@ -190,12 +177,9 @@ describe('StrapiClient.upload', () => {
   })
 
   it('normalizes upload failure', async () => {
-    const fetchMock = vi.fn<typeof fetch>().mockResolvedValue(
-      jsonResponse(
-        { error: { message: 'File too large' } },
-        { status: 413 },
-      ),
-    )
+    const fetchMock = vi
+      .fn<typeof fetch>()
+      .mockResolvedValue(jsonResponse({ error: { message: 'File too large' } }, { status: 413 }))
     const client = makeClient(fetchMock)
     const file = new File([new Uint8Array(1)], 'x.png', { type: 'image/png' })
     const result = await client.upload(file)
@@ -211,25 +195,19 @@ describe('StrapiClient.publish (v5 first, fallback v4)', () => {
   it('tries v5 endpoint first', async () => {
     const fetchMock = vi
       .fn<typeof fetch>()
-      .mockResolvedValue(
-        jsonResponse({ data: { id: 7, publishedAt: '2026-01-01' } }),
-      )
+      .mockResolvedValue(jsonResponse({ data: { id: 7, publishedAt: '2026-01-01' } }))
     const client = makeClient(fetchMock)
     await client.publish('banner-super-apps', 7)
 
     const [url, init] = fetchMock.mock.calls[0]!
-    expect(String(url)).toContain(
-      '/api/banner-super-apps/7/actions/publish',
-    )
+    expect(String(url)).toContain('/api/banner-super-apps/7/actions/publish')
     expect((init as RequestInit).method).toBe('POST')
   })
 
   it('falls back to v4 PUT on 404', async () => {
     const fetchMock = vi
       .fn<typeof fetch>()
-      .mockResolvedValueOnce(
-        jsonResponse({ error: 'not found' }, { status: 404 }),
-      )
+      .mockResolvedValueOnce(jsonResponse({ error: 'not found' }, { status: 404 }))
       .mockResolvedValueOnce(jsonResponse({ data: { id: 7 } }))
     const client = makeClient(fetchMock)
     const result = await client.publish('banner-super-apps', 7)
@@ -244,9 +222,7 @@ describe('StrapiClient.publish (v5 first, fallback v4)', () => {
   it('does NOT fall back on non-404 errors (e.g., 401)', async () => {
     const fetchMock = vi
       .fn<typeof fetch>()
-      .mockResolvedValueOnce(
-        jsonResponse({ error: 'unauthorized' }, { status: 401 }),
-      )
+      .mockResolvedValueOnce(jsonResponse({ error: 'unauthorized' }, { status: 401 }))
     const client = makeClient(fetchMock)
     const result = await client.publish('banner-super-apps', 7)
 
@@ -257,9 +233,7 @@ describe('StrapiClient.publish (v5 first, fallback v4)', () => {
 
 describe('StrapiClient.listPublisherActions', () => {
   it('builds URL with entitySlug and entityId filters', async () => {
-    const fetchMock = vi
-      .fn<typeof fetch>()
-      .mockResolvedValue(jsonResponse({ data: [] }))
+    const fetchMock = vi.fn<typeof fetch>().mockResolvedValue(jsonResponse({ data: [] }))
     const client = makeClient(fetchMock)
     await client.listPublisherActions({
       entitySlug: 'api::numero-da-sorte.numero-da-sorte',
@@ -268,14 +242,14 @@ describe('StrapiClient.listPublisherActions', () => {
 
     const url = String(fetchMock.mock.calls[0]![0])
     expect(url).toContain('/api/publisher/actions')
-    expect(url).toContain('filters%5BentitySlug%5D%5B%24eq%5D=api%3A%3Anumero-da-sorte.numero-da-sorte')
+    expect(url).toContain(
+      'filters%5BentitySlug%5D%5B%24eq%5D=api%3A%3Anumero-da-sorte.numero-da-sorte',
+    )
     expect(url).toContain('filters%5BentityId%5D%5B%24eq%5D=17')
   })
 
   it('omits filters when not provided', async () => {
-    const fetchMock = vi
-      .fn<typeof fetch>()
-      .mockResolvedValue(jsonResponse({ data: [] }))
+    const fetchMock = vi.fn<typeof fetch>().mockResolvedValue(jsonResponse({ data: [] }))
     const client = makeClient(fetchMock)
     await client.listPublisherActions()
 
@@ -318,9 +292,7 @@ describe('StrapiClient.unpublish', () => {
   it('falls back to v4 PUT setting publishedAt to null', async () => {
     const fetchMock = vi
       .fn<typeof fetch>()
-      .mockResolvedValueOnce(
-        jsonResponse({ error: 'not found' }, { status: 404 }),
-      )
+      .mockResolvedValueOnce(jsonResponse({ error: 'not found' }, { status: 404 }))
       .mockResolvedValueOnce(jsonResponse({ data: { id: 7 } }))
     const client = makeClient(fetchMock)
     await client.unpublish('banner-super-apps', 7)

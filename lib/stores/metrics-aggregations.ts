@@ -40,10 +40,7 @@ function asDeviceType(s: string): DeviceType {
   return VALID_DEVICE_TYPES.has(s as DeviceType) ? (s as DeviceType) : 'OTHER'
 }
 
-export function aggregateMetricsByCountry(
-  rows: MetricsRowLike[],
-  topN = 10,
-): CountryAggregate[] {
+export function aggregateMetricsByCountry(rows: MetricsRowLike[], topN = 10): CountryAggregate[] {
   const totals = new Map<string, { installs: number; uninstalls: number }>()
   for (const row of rows) {
     if (!row.country_code) continue

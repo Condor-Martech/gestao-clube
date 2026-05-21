@@ -17,11 +17,7 @@ export function LogoutButton() {
       onClick={() => startTransition(() => signOutAction())}
       disabled={isPending}
     >
-      {isPending ? (
-        <Loader2 className="size-4 animate-spin" />
-      ) : (
-        <LogOut className="size-4" />
-      )}
+      {isPending ? <Loader2 className="size-4 animate-spin" /> : <LogOut className="size-4" />}
       <span className="hidden sm:inline">{t('signOut')}</span>
     </Button>
   )
