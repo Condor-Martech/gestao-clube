@@ -164,23 +164,23 @@ export function LojasTab({ lojas }: Props) {
                             value={loja.price.vlr_crm}
                             variant="preco"
                           />
-                          <PriceChip
-                            label={t('lojas.margem')}
-                            value={loja.price.vlr_margem}
-                            variant="margem"
-                          />
-                          <PriceChip
-                            label={t('lojas.margemClube')}
-                            value={loja.price.vlr_margem_clube}
-                            variant="margem"
-                          />
-                          <PriceChip
-                            label={t('lojas.margemCrm')}
-                            value={loja.price.vlr_margem_crm}
-                            variant="margem"
-                          />
                         </div>
-                      )}
+                          // <PriceChip
+                          //   label={t('lojas.margem')}
+                          //   value={loja.price.vlr_margem}
+                          //   variant="margem"
+                          // />
+                          // <PriceChip
+                          //   label={t('lojas.margemClube')}
+                          //   value={loja.price.vlr_margem_clube}
+                          //   variant="margem"
+                          // />
+                          // <PriceChip
+                          //   label={t('lojas.margemCrm')}
+                          //   value={loja.price.vlr_margem_crm}
+                          //   variant="margem"
+                          // />
+                        )}
                     </div>
                   ))}
                 </div>
