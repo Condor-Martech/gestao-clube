@@ -778,7 +778,9 @@
       "order": "Ordem",
       "campanha": "Campanha",
       "status": "Status",
-      "imagem": "Imagem"
+      "imagem": "Imagem",
+      "produto": "Produto",
+      "detalhes": "Detalhes"
     },
     "form": {
       "editTitle": "Editar produto",

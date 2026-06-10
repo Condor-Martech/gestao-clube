@@ -1,5 +1,4 @@
-import Image from 'next/image'
-import { getTranslations } from 'next-intl/server'
+import { Badge } from '@/components/ui/badge'
 import {
   Table,
   TableBody,
@@ -8,20 +7,27 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { Badge } from '@/components/ui/badge'
-import { ProdutoEditDialog } from './produto-edit-dialog'
-import { ApproveButton } from './approve-button'
-import { ProdutoSyncButton } from './produto-sync-button'
-import { EditableNumberCell, EditableTextCell } from './editable-cells'
 import type { Produto } from '@/types/entities'
+import { getTranslations } from 'next-intl/server'
+import Image from 'next/image'
+import { ApproveButton } from './approve-button'
+import { EditableNumberCell, EditableTextCell } from './editable-cells'
+import { ProdutoEditDialog } from './produto-edit-dialog'
+import { ProdutoSyncButton } from './produto-sync-button'
 
 interface Props {
   produtos: Produto[]
   showCampanha?: boolean
+  showDetails?: boolean
   canWrite?: boolean
 }
 
-export async function ProdutosTable({ produtos, showCampanha = true, canWrite = false }: Props) {
+export async function ProdutosTable({
+  produtos,
+  showCampanha = true,
+  showDetails = true,
+  canWrite = false,
+}: Props) {
   const t = await getTranslations('produtos')
   const tc = await getTranslations('common')
 
@@ -38,15 +44,13 @@ export async function ProdutosTable({ produtos, showCampanha = true, canWrite = 
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[64px]">{t('columns.imagem')}</TableHead>
-            <TableHead className="w-[140px]">{t('columns.ean')}</TableHead>
-            <TableHead className="w-[240px]">{t('columns.nome')}</TableHead>
+            <TableHead>{t('columns.produto')}</TableHead>
             <TableHead className="hidden lg:table-cell">{t('columns.descricao')}</TableHead>
-            <TableHead className="w-[100px]">{t('columns.unidade')}</TableHead>
-            {showCampanha && <TableHead className="w-[120px]">{t('columns.campanha')}</TableHead>}
-            <TableHead className="w-[80px] text-right">{t('columns.order')}</TableHead>
+            {showDetails && (
+              <TableHead className="w-[140px]">{t('columns.detalhes')}</TableHead>
+            )}
             <TableHead className="w-[120px]">{t('columns.status')}</TableHead>
-            <TableHead className="w-[180px] text-right">{tc('actions')}</TableHead>
+            <TableHead className="w-[180px] text-left">{tc('actions')}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -55,26 +59,31 @@ export async function ProdutosTable({ produtos, showCampanha = true, canWrite = 
             return (
               <TableRow key={p.id}>
                 <TableCell>
-                  <div className="bg-muted relative size-10 overflow-hidden rounded">
-                    {img ? (
-                      <Image
-                        src={img}
-                        alt={p.nome ?? ''}
-                        fill
-                        sizes="40px"
-                        className="object-cover"
+                  <div className="flex items-center gap-3">
+                    <div className="bg-muted relative size-10 shrink-0 overflow-hidden rounded">
+                      {img ? (
+                        <Image
+                          src={img}
+                          alt={p.nome ?? ''}
+                          fill
+                          sizes="40px"
+                          className="object-cover"
+                        />
+                      ) : null}
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <EditableTextCell
+                        produtoId={p.id}
+                        field="nome"
+                        initialValue={p.nome}
+                        canWrite={canWrite}
+                        className="font-medium"
                       />
-                    ) : null}
+                      <div className="text-muted-foreground font-mono text-xs">
+                        {p.ean ?? '—'}
+                      </div>
+                    </div>
                   </div>
-                </TableCell>
-                <TableCell className="font-mono text-xs">{p.ean ?? '—'}</TableCell>
-                <TableCell className="font-medium">
-                  <EditableTextCell
-                    produtoId={p.id}
-                    field="nome"
-                    initialValue={p.nome}
-                    canWrite={canWrite}
-                  />
                 </TableCell>
                 <TableCell className="hidden max-w-[420px] lg:table-cell">
                   <EditableTextCell
@@ -86,26 +95,35 @@ export async function ProdutosTable({ produtos, showCampanha = true, canWrite = 
                     canWrite={canWrite}
                   />
                 </TableCell>
-                <TableCell>
-                  <EditableTextCell
-                    produtoId={p.id}
-                    field="unidade"
-                    initialValue={p.unidade}
-                    className="text-xs"
-                    canWrite={canWrite}
-                  />
-                </TableCell>
-                {showCampanha && (
-                  <TableCell className="font-mono text-xs">{p.campanha ?? '—'}</TableCell>
+                {showDetails && (
+                  <TableCell>
+                    <div className="space-y-1 text-xs">
+                      <div className="flex items-center gap-1">
+                        <span className="text-muted-foreground shrink-0">Un.</span>
+                        <EditableTextCell
+                          produtoId={p.id}
+                          field="unidade"
+                          initialValue={p.unidade}
+                          className="flex-1 text-xs"
+                          canWrite={canWrite}
+                        />
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <span className="text-muted-foreground shrink-0">Ord.</span>
+                        <EditableNumberCell
+                          produtoId={p.id}
+                          field="order"
+                          initialValue={p.order}
+                          className="flex-1"
+                          canWrite={canWrite}
+                        />
+                      </div>
+                      {showCampanha && p.campanha && (
+                        <div className="text-muted-foreground font-mono">#{p.campanha}</div>
+                      )}
+                    </div>
+                  </TableCell>
                 )}
-                <TableCell className="text-right">
-                  <EditableNumberCell
-                    produtoId={p.id}
-                    field="order"
-                    initialValue={p.order}
-                    canWrite={canWrite}
-                  />
-                </TableCell>
                 <TableCell>
                   <Badge variant={p.aproved ? 'success' : 'warning'}>
                     {p.aproved ? t('approved') : t('pending')}
@@ -113,8 +131,8 @@ export async function ProdutosTable({ produtos, showCampanha = true, canWrite = 
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center justify-end gap-1">
+                  <ApproveButton produtoId={p.id} approved={!!p.aproved} canWrite={canWrite} />
                     {canWrite && <ProdutoSyncButton campanhaCode={p.campanha} variant="ghost" />}
-                    <ApproveButton produtoId={p.id} approved={!!p.aproved} canWrite={canWrite} />
                     {canWrite && <ProdutoEditDialog produto={p} />}
                   </div>
                 </TableCell>

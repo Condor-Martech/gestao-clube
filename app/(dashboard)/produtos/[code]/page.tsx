@@ -149,7 +149,12 @@ export default async function ProdutosCampanhaPage({ params, searchParams }: Pro
       ) : view === 'grid' ? (
         <ProdutosGrid produtos={produtos} />
       ) : (
-        <ProdutosTable produtos={produtos} showCampanha={false} canWrite={write} />
+        <ProdutosTable
+          produtos={produtos}
+          showCampanha={false}
+          showDetails={false}
+          canWrite={write}
+        />
       )}
 
       {total > pageSize && <PaginationControls page={page} totalPages={pages} />}
