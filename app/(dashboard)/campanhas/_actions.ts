@@ -55,7 +55,7 @@ const SYNC_CAMPANHA_WEBHOOK_URL =
   'https://hooks.cndr.me/webhook/5676ea0d-b70f-4f0a-ad29-ebecc4acbcbb'
 
 export async function syncCampanhaAction(code: string): Promise<ActionResult> {
-  await requireModuleWrite('ofertas')
+  const session = await requireModuleWrite('ofertas')
   const trimmed = code?.trim()
   if (!trimmed) return { ok: false, error: 'Código inválido' }
 
@@ -74,6 +74,13 @@ export async function syncCampanhaAction(code: string): Promise<ActionResult> {
       error: err instanceof Error ? err.message : 'Falha de rede',
     }
   }
+
+  const supabase = await createClient()
+  await supabase.from('logs').insert({
+    event_name: 'sync_campanha',
+    user: session.userId,
+    payload: { email: session.email, cod_campanha: trimmed },
+  })
 
   revalidatePath('/campanhas')
   return { ok: true }

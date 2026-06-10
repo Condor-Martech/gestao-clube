@@ -16,6 +16,8 @@ import {
   LayoutGrid,
   Gift,
   Gauge,
+  Newspaper,
+  Images,
   type LucideIcon,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
@@ -37,6 +39,8 @@ const ICON_MAP: Record<NavIconKey, LucideIcon> = {
   helpSystem: FileCog,
   bannerSuperApp: LayoutGrid,
   numeroDaSorte: Gift,
+  tabloides: Newspaper,
+  ofertasRegiao: Images,
 }
 
 interface Props extends React.SVGProps<SVGSVGElement> {

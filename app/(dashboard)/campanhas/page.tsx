@@ -1,8 +1,7 @@
-import { Megaphone } from 'lucide-react'
-import { getTranslations } from 'next-intl/server'
-import { createClient } from '@/lib/supabase/server'
-import { requireModuleRead } from '@/lib/auth/guards'
 import { PermissionGate } from '@/components/rbac/permission-gate'
+import { PaginationControls } from '@/components/shared/pagination-controls'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 import {
   Table,
   TableBody,
@@ -11,18 +10,19 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { Badge } from '@/components/ui/badge'
-import { SyncCampanhaDialog } from './_components/sync-campanha-dialog'
-import { CampanhaInlineActions } from './_components/campanha-inline-actions'
-import { CampanhasSearch } from './_components/campanhas-search'
-import { StatusTabs, type ProductFilter } from './_components/status-tabs'
-import { Button } from '@/components/ui/button'
-import { PaginationControls } from '@/components/shared/pagination-controls'
-import { formatDate, formatDateTime } from '@/lib/utils/format'
+import { requireModuleRead } from '@/lib/auth/guards'
+import { createClient } from '@/lib/supabase/server'
 import { statusVariant } from '@/lib/utils/campanha-status'
+import { formatDate, formatDateTime } from '@/lib/utils/format'
 import { DEFAULT_PAGE_SIZE, parsePage, rangeFromPage, totalPages } from '@/lib/utils/pagination'
 import { pickString } from '@/lib/utils/search-params'
 import type { Campanha } from '@/types/entities'
+import { Megaphone } from 'lucide-react'
+import { getTranslations } from 'next-intl/server'
+import { CampanhaInlineActions } from './_components/campanha-inline-actions'
+import { CampanhasSearch } from './_components/campanhas-search'
+import { StatusTabs, type ProductFilter } from './_components/status-tabs'
+import { SyncCampanhaDialog } from './_components/sync-campanha-dialog'
 
 interface Props {
   searchParams: Promise<{
@@ -104,9 +104,9 @@ export default async function CampanhasPage({ searchParams }: Props) {
               <TableHead className="w-[110px]">{t('columns.inicio')}</TableHead>
               <TableHead className="w-[110px]">{t('columns.fim')}</TableHead>
               <TableHead className="w-[80px] text-right">{t('columns.produtos')}</TableHead>
-              <TableHead className="w-[120px]">{t('columns.situacao')}</TableHead>
-              <TableHead className="hidden w-[180px] lg:table-cell">{t('columns.tipo')}</TableHead>
-              <TableHead className="w-[260px] text-right">{t('columns.actions')}</TableHead>
+              <TableHead className="w-[160px]">{t('columns.situacao')}</TableHead>
+              <TableHead className="hidden w-[140px] lg:table-cell">{t('columns.tipo')}</TableHead>
+              <TableHead className="w-[70px] text-right">{t('columns.actions')}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>

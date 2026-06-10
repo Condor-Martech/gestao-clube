@@ -19,6 +19,8 @@ export type NavIconKey =
   | 'helpSystem'
   | 'bannerSuperApp'
   | 'numeroDaSorte'
+  | 'tabloides'
+  | 'ofertasRegiao'
 
 export interface NavItem {
   href: string
@@ -130,6 +132,20 @@ export const NAV_SECTIONS: readonly NavSection[] = [
         iconKey: 'lojas',
         roles: ['admin', 'manager', 'user'],
         module: 'stores',
+      },
+      {
+        href: '/tabloides',
+        labelKey: 'tabloides',
+        iconKey: 'tabloides',
+        roles: ['admin', 'manager', 'user'],
+        module: 'operacionais',
+      },
+      {
+        href: '/ofertas-regiao',
+        labelKey: 'ofertasRegiao',
+        iconKey: 'ofertasRegiao',
+        roles: ['admin', 'manager', 'user'],
+        module: 'operacionais',
       },
     ],
   },

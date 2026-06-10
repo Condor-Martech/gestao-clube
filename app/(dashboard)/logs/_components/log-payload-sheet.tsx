@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Copy, Eye, FileImage, FileJson } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { toast } from 'sonner'
@@ -16,10 +16,20 @@ interface Props {
   log: LogEntry
 }
 
+function normalizePayload(payload: unknown): unknown {
+  if (typeof payload !== 'string') return payload
+  try {
+    return JSON.parse(payload)
+  } catch {
+    return payload
+  }
+}
+
 function isEmptyPayload(payload: unknown) {
   return (
     payload === null ||
     payload === undefined ||
+    payload === '' ||
     (typeof payload === 'object' && Object.keys(payload as object).length === 0)
   )
 }
@@ -27,13 +37,16 @@ function isEmptyPayload(payload: unknown) {
 export function LogPayloadSheet({ log }: Props) {
   const [open, setOpen] = useState(false)
   const t = useTranslations('logs')
+  const payload = useMemo(() => normalizePayload(log.payload), [log.payload])
 
-  if (isEmptyPayload(log.payload)) {
+  if (isEmptyPayload(payload)) {
     return <span className="text-muted-foreground text-xs">{t('payloadEmpty')}</span>
   }
 
   async function copyJson() {
-    await navigator.clipboard.writeText(JSON.stringify(log.payload, null, 2))
+    const text =
+      typeof payload === 'string' ? payload : JSON.stringify(payload, null, 2)
+    await navigator.clipboard.writeText(text)
     toast.success(t('copied'))
   }
 
@@ -99,7 +112,7 @@ export function LogPayloadSheet({ log }: Props) {
           </div>
           <Separator />
           <div className="flex-1 overflow-hidden pt-4">
-            <JsonHighlight data={log.payload} className="max-h-[calc(100vh-220px)]" />
+            <JsonHighlight data={payload} className="max-h-[calc(100vh-220px)]" />
           </div>
         </div>
       </SheetContent>

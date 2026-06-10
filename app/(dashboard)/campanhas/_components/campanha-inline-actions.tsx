@@ -1,11 +1,38 @@
 'use client'
 
+import { useState, useTransition } from 'react'
 import Link from 'next/link'
-import { Copy, Download, Layers, ListOrdered, RefreshCw } from 'lucide-react'
+import {
+  Copy,
+  Download,
+  Layers,
+  ListOrdered,
+  Loader2,
+  MoreVertical,
+  RefreshCw,
+} from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { toast } from 'sonner'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 import type { Campanha } from '@/types/entities'
+import { syncCampanhaAction } from '../_actions'
 
 interface Props {
   campanha: Campanha
@@ -17,6 +44,9 @@ export function CampanhaInlineActions({ campanha }: Props) {
 
   const code = campanha.cod_campanha
 
+  const [syncOpen, setSyncOpen] = useState(false)
+  const [isSyncing, startSyncTransition] = useTransition()
+
   function handleCopy() {
     navigator.clipboard.writeText(code).then(
       () => toast.success(t('codeCopied')),
@@ -24,65 +54,95 @@ export function CampanhaInlineActions({ campanha }: Props) {
     )
   }
 
-  function handlePending(label: string) {
-    toast.message(label, { description: t('featurePending') })
+  function handleDownload() {
+    toast.message(t('downloadStarting'))
+    window.location.assign(`/api/campanhas/${encodeURIComponent(code)}/export`)
+  }
+
+  function handleSyncConfirm() {
+    startSyncTransition(async () => {
+      const result = await syncCampanhaAction(campanha.cod_campanha)
+      if (!result.ok) {
+        toast.error(result.error)
+        return
+      }
+      toast.success(t('syncSuccess'))
+      setSyncOpen(false)
+    })
   }
 
   return (
-    <div className="flex items-center justify-end gap-0.5">
-      <Button
-        variant="ghost"
-        size="icon"
-        title={t('copyCode')}
-        aria-label={t('copyCode')}
-        onClick={handleCopy}
-      >
-        <Copy className="size-4" />
-      </Button>
+    <div className="flex items-center justify-end">
+      <AlertDialog open={syncOpen} onOpenChange={setSyncOpen}>
+        <AlertDialogTrigger asChild>
+          <Button
+            variant="ghost"
+            size="icon"
+            disabled={isSyncing}
+            title={t('syncCampaign')}
+            aria-label={t('syncCampaign')}
+          >
+            {isSyncing ? (
+              <Loader2 className="size-4 animate-spin" />
+            ) : (
+              <RefreshCw className="size-4" />
+            )}
+          </Button>
+        </AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>{t('syncConfirmTitle')}</AlertDialogTitle>
+            <AlertDialogDescription>
+              {t('syncConfirmDescription', { code: campanha.cod_campanha })}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={isSyncing}>{tc('cancel')}</AlertDialogCancel>
+            <AlertDialogAction onClick={handleSyncConfirm} disabled={isSyncing}>
+              {isSyncing && <Loader2 className="mr-2 size-4 animate-spin" />}
+              {t('syncConfirm')}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
-      <Button
-        variant="ghost"
-        size="icon"
-        title={t('viewAgrupamentos')}
-        aria-label={t('viewAgrupamentos')}
-        asChild
-      >
-        <Link href={`/agrupamentos/${code}` as `/${string}`}>
-          <Layers className="size-4" />
-        </Link>
-      </Button>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button
+            variant="ghost"
+            size="icon"
+            title={t('openActions')}
+            aria-label={t('openActions')}
+          >
+            <MoreVertical className="size-4" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          <DropdownMenuItem onSelect={handleCopy}>
+            <Copy />
+            {t('copyCode')}
+          </DropdownMenuItem>
 
-      <Button
-        variant="ghost"
-        size="icon"
-        title={t('viewProducts')}
-        aria-label={t('viewProducts')}
-        asChild
-      >
-        <Link href={`/produtos/${code}` as `/${string}`}>
-          <ListOrdered className="size-4" />
-        </Link>
-      </Button>
+          <DropdownMenuItem asChild>
+            <Link href={`/agrupamentos/${code}` as `/${string}`}>
+              <Layers />
+              {t('viewAgrupamentos')}
+            </Link>
+          </DropdownMenuItem>
 
-      <Button
-        variant="ghost"
-        size="icon"
-        title={t('downloadReport')}
-        aria-label={t('downloadReport')}
-        onClick={() => handlePending(t('downloadReport'))}
-      >
-        <Download className="size-4" />
-      </Button>
+          <DropdownMenuItem asChild>
+            <Link href={`/produtos/${code}` as `/${string}`}>
+              <ListOrdered />
+              {t('viewProducts')}
+            </Link>
+          </DropdownMenuItem>
 
-      <Button
-        variant="ghost"
-        size="icon"
-        title={t('syncCampaign')}
-        aria-label={t('syncCampaign')}
-        onClick={() => handlePending(t('syncCampaign'))}
-      >
-        <RefreshCw className="size-4" />
-      </Button>
+          <DropdownMenuItem onSelect={handleDownload}>
+            <Download />
+            {t('downloadReport')}
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
     </div>
   )
 }

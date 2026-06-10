@@ -103,7 +103,9 @@ export default async function UsersPage({ searchParams }: Props) {
                     <TableCell className="font-medium">{u.email}</TableCell>
                     <TableCell>
                       <Badge variant={ROLE_VARIANT[role] ?? 'outline'}>
-                        {tRoles(role as Parameters<typeof tRoles>[0]) || role}
+                        {tRoles.has(role as Parameters<typeof tRoles>[0])
+                          ? tRoles(role as Parameters<typeof tRoles>[0])
+                          : role}
                       </Badge>
                     </TableCell>
                     <TableCell className="text-muted-foreground hidden md:table-cell">

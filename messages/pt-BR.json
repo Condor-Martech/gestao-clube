@@ -57,6 +57,8 @@
       "history": "Histórico",
       "users": "Usuários",
       "logs": "Logs",
+      "tabloides": "Tabloides",
+      "ofertasRegiao": "Ofertas por Região",
       "manual": "Guia de Diagnóstico",
       "sistema": "Central de Ajuda"
     },
@@ -213,6 +215,24 @@
     "downloadEvidence": "Baixar evidência",
     "evidenceDownloaded": "Evidência baixada"
   },
+  "tabloides": {
+    "title": "Tabloides",
+    "subtitle": "Encartes disponíveis por região",
+    "searchLabel": "Buscar",
+    "searchPlaceholder": "Nome do tabloide…",
+    "filterRegiao": "Região",
+    "filterRegiaoAll": "Todas as regiões",
+    "totalCount": "{count, plural, =0 {Nenhum tabloide} =1 {# tabloide} other {# tabloides}}",
+    "noCover": "Sem imagem",
+    "noRegiao": "Sem região",
+    "loadError": "Erro ao carregar tabloides",
+    "deleteButton": "Excluir",
+    "deleteConfirmTitle": "Excluir tabloide?",
+    "deleteConfirmDescription": "O tabloide \"{name}\" será removido permanentemente. Esta ação não pode ser desfeita.",
+    "deleteConfirm": "Excluir",
+    "deleted": "Tabloide excluído",
+    "deleteError": "Erro ao excluir tabloide"
+  },
   "history": {
     "title": "Histórico",
     "subtitle": "Ativações e pedidos",
@@ -238,6 +258,10 @@
     "copyCode": "Copiar código",
     "downloadReport": "Baixar relatório",
     "syncCampaign": "Sincronizar",
+    "syncConfirmTitle": "Sincronizar campanha?",
+    "syncConfirmDescription": "A campanha {code} será enviada para validação e sincronização. Deseja continuar?",
+    "syncConfirm": "Sincronizar",
+    "openActions": "Ações",
     "searchLabel": "Busca Campanha:",
     "searchPlaceholder": "Digite a campanha...",
     "updatedAt": "Atualizada: {at}",
@@ -332,33 +356,44 @@
     "operacionais": "Operacionais",
     "sistemas": "Sistemas"
   },
-  "banner": {
-    "title": "Banners",
-    "subtitle": "Gerenciamento de banners e carrosséis",
-    "addButton": "Novo banner",
-    "empty": "Nenhum banner cadastrado",
-    "deleted": "Banner excluído",
-    "created": "Banner criado",
-    "updated": "Banner atualizado",
-    "form": {
-      "addTitle": "Novo banner",
-      "addDescription": "Cadastre um novo conjunto de banners",
-      "editTitle": "Editar banner",
-      "editDescription": "Atualize os dados do banner",
-      "titleLabel": "Título",
-      "slugLabel": "Slug",
-      "slugHelp": "URL-friendly: minúsculas, números e hífen",
-      "regiaoLabel": "Região",
-      "videoLabel": "URL do vídeo",
-      "videoPlaceholder": "https://..."
+  "ofertasRegiao": {
+    "title": "Ofertas por Região",
+    "subtitle": "Conteúdo de vídeo e carrosséis das páginas regionais",
+    "updated": "Oferta atualizada",
+    "editTitle": "Editar oferta — {regiao}",
+    "editDescription": "Atualize o vídeo e os três carrosséis dessa região.",
+    "delete": {
+      "title": "Excluir oferta — {regiao}",
+      "description": "Atenção: as páginas regionais do site institucional consomem essa oferta. Excluir pode quebrar o conteúdo exibido para essa região. Esta ação não pode ser desfeita.",
+      "confirm": "Excluir mesmo assim",
+      "success": "Oferta excluída"
     },
-    "carousels": {
-      "carrosel": "Carrossel principal",
-      "carrosel2": "Carrossel secundário",
-      "carrosel3": "Carrossel terciário",
-      "addImage": "Adicionar imagem",
-      "remove": "Remover",
-      "empty": "Nenhuma imagem"
+    "columns": {
+      "regiao": "Região",
+      "title": "Título",
+      "video": "Vídeo",
+      "carrosseis": "Carrosséis",
+      "updated": "Atualizado",
+      "actions": "Ações"
+    },
+    "form": {
+      "tabs": {
+        "geral": "Geral",
+        "c1": "Carrossel 1",
+        "c2": "Carrossel 2",
+        "c3": "Carrossel 3"
+      },
+      "titleLabel": "Título",
+      "videoLabel": "URL do vídeo (YouTube)",
+      "videoPlaceholder": "https://youtu.be/...",
+      "videoHelp": "Aceita links no formato youtu.be/ID ou youtube.com/watch?v=ID",
+      "carrossel": {
+        "tituloLabel": "Título do carrossel",
+        "corLabel": "Cor de fundo",
+        "imagesLabel": "Imagens ({count})",
+        "addImage": "Adicionar imagem",
+        "emptyImages": "Nenhuma imagem cadastrada"
+      }
     }
   },
   "agrupamentos": {

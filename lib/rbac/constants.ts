@@ -17,6 +17,7 @@ export const ROUTE_MODULE_MAP = [
   { prefix: '/jornada-produto', module: 'ofertas' as const },
   { prefix: '/banner-super-app', module: 'conteudo' as const },
   { prefix: '/numero-da-sorte', module: 'conteudo' as const },
+  { prefix: '/ofertas-regiao', module: 'operacionais' as const },
   { prefix: '/campanhas', module: 'ofertas' as const },
   { prefix: '/ofertas', module: 'ofertas' as const },
   { prefix: '/agrupamentos', module: 'ofertas' as const },
@@ -25,6 +26,7 @@ export const ROUTE_MODULE_MAP = [
   { prefix: '/stores', module: 'stores' as const },
   { prefix: '/history', module: 'operacionais' as const },
   { prefix: '/logs', module: 'operacionais' as const },
+  { prefix: '/tabloides', module: 'operacionais' as const },
   { prefix: '/users', module: 'sistemas' as const },
 ]
 

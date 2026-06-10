@@ -207,16 +207,22 @@ export interface Pipeline {
   updated_at: string
 }
 
+export interface OfertaCarrossel {
+  cor: string
+  titulo: string
+  images: string[]
+}
+
 export interface Oferta {
   id: string
   title: string | null
   slug: string | null
   regiao: string | null
   video: string | null
-  carrosel: string[] | null
-  carrosel2: string[] | null
-  carrosel3: string[] | null
-  createdAt: string | null
+  carrosel: OfertaCarrossel | null
+  carrosel2: OfertaCarrossel | null
+  carrosel3: OfertaCarrossel | null
+  created_at: string | null
 }
 
 // ──────────────────────────────────────────────────────────────────
@@ -273,4 +279,20 @@ export interface PublisherAction {
 export interface EntrySchedule {
   publishAt?: string
   unpublishAt?: string
+}
+
+export interface MinioLink {
+  url?: string | null
+  label?: string | null
+  [k: string]: unknown
+}
+
+export interface Tabloide {
+  id: string
+  name: string
+  uuid: string
+  coverLink: string | null
+  regiao: string | null
+  minioLinks: MinioLink[] | null
+  created_at: string | null
 }
