@@ -342,7 +342,26 @@
     },
     "deleted": "Campanha excluída",
     "created": "Campanha criada",
-    "updated": "Campanha atualizada"
+    "updated": "Campanha atualizada",
+    "sortLabel": "Ordenar",
+    "sort": {
+      "produtosDesc": "Produtos (maior → menor)",
+      "produtosAsc": "Produtos (menor → maior)",
+      "updatedDesc": "Atualização (recentes)",
+      "inicioAsc": "Início vigência (próximos)",
+      "inicioDesc": "Início vigência (recentes)",
+      "fimAsc": "Fim vigência (próximos)",
+      "fimDesc": "Fim vigência (recentes)",
+      "nomeAsc": "Nome A-Z",
+      "nomeDesc": "Nome Z-A"
+    },
+    "filters": {
+      "tipoLabel": "Tipo",
+      "situacaoLabel": "Situação",
+      "situacaoAll": "Todas as situações",
+      "vigenciaFromLabel": "Início:",
+      "vigenciaToLabel": "Fim:"
+    }
   },
   "users": {
     "title": "Usuários",

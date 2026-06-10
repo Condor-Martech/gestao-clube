@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/table'
 import { requireModuleRead } from '@/lib/auth/guards'
 import { createClient } from '@/lib/supabase/server'
+import { parseCampanhaSort } from '@/lib/utils/campanha-sort'
 import { statusVariant } from '@/lib/utils/campanha-status'
 import { formatDate, formatDateTime } from '@/lib/utils/format'
 import { DEFAULT_PAGE_SIZE, parsePage, rangeFromPage, totalPages } from '@/lib/utils/pagination'
@@ -20,7 +21,9 @@ import type { Campanha } from '@/types/entities'
 import { Megaphone } from 'lucide-react'
 import { getTranslations } from 'next-intl/server'
 import { CampanhaInlineActions } from './_components/campanha-inline-actions'
+import { CampanhasFilters } from './_components/campanhas-filters'
 import { CampanhasSearch } from './_components/campanhas-search'
+import { CampanhasSort } from './_components/campanhas-sort'
 import { StatusTabs, type ProductFilter } from './_components/status-tabs'
 import { SyncCampanhaDialog } from './_components/sync-campanha-dialog'
 
@@ -29,6 +32,11 @@ interface Props {
     hasProducts?: string | string[]
     search?: string | string[]
     page?: string | string[]
+    sort?: string | string[]
+    tipo?: string | string[]
+    situacao?: string | string[]
+    vigencia_from?: string | string[]
+    vigencia_to?: string | string[]
   }>
 }
 
@@ -42,16 +50,50 @@ export default async function CampanhasPage({ searchParams }: Props) {
   const filter: ProductFilter =
     rawFilter === 'without' || rawFilter === 'approved' ? rawFilter : 'with'
   const search = pickString(sp.search)
+  const tipo = pickString(sp.tipo)
+  const situacao = pickString(sp.situacao)
+  const vigenciaFrom = pickString(sp.vigencia_from)
+  const vigenciaTo = pickString(sp.vigencia_to)
+  const sort = parseCampanhaSort(pickString(sp.sort))
   const page = parsePage(pickString(sp.page))
   const range = rangeFromPage({ page, pageSize: DEFAULT_PAGE_SIZE })
 
   const supabase = await createClient()
 
+  const [tipoDistinctRes, situacaoDistinctRes] = await Promise.all([
+    supabase
+      .from('campanhas')
+      .select('dsc_tipo_campanha')
+      .not('dsc_tipo_campanha', 'is', null)
+      .order('dsc_tipo_campanha', { ascending: true })
+      .limit(500),
+    supabase
+      .from('campanhas')
+      .select('dsc_situacao')
+      .not('dsc_situacao', 'is', null)
+      .order('dsc_situacao', { ascending: true })
+      .limit(500),
+  ])
+
+  const tipoOptions = Array.from(
+    new Set(
+      (tipoDistinctRes.data ?? [])
+        .map((r) => (r as { dsc_tipo_campanha: string | null }).dsc_tipo_campanha)
+        .filter((v): v is string => !!v && v.trim() !== ''),
+    ),
+  )
+  const situacaoOptions = Array.from(
+    new Set(
+      (situacaoDistinctRes.data ?? [])
+        .map((r) => (r as { dsc_situacao: string | null }).dsc_situacao)
+        .filter((v): v is string => !!v && v.trim() !== ''),
+    ),
+  )
+
   let query = supabase
     .from('campanhas')
     .select('*', { count: 'exact' })
-    .order('qtd_produtos', { ascending: false, nullsFirst: false })
-    .order('updated_at', { ascending: false, nullsFirst: false })
+    .order(sort.supabaseColumn, { ascending: sort.ascending, nullsFirst: false })
     .range(range.from, range.to)
 
   if (filter === 'with') {
@@ -66,6 +108,22 @@ export default async function CampanhasPage({ searchParams }: Props) {
 
   if (search) {
     query = query.or(`cod_campanha.ilike.%${search}%,nom_campanha.ilike.%${search}%`)
+  }
+
+  if (tipo) {
+    query = query.eq('dsc_tipo_campanha', tipo)
+  }
+
+  if (situacao) {
+    query = query.eq('dsc_situacao', situacao)
+  }
+
+  if (vigenciaFrom) {
+    query = query.gte('dta_vigencia_inicio', vigenciaFrom)
+  }
+
+  if (vigenciaTo) {
+    query = query.lte('dta_vigencia_fim', vigenciaTo)
   }
 
   const { data, count, error } = await query
@@ -89,8 +147,12 @@ export default async function CampanhasPage({ searchParams }: Props) {
         </PermissionGate>
       </header>
 
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-end">
-        <CampanhasSearch />
+      <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-end sm:justify-between">
+        <CampanhasFilters tipoOptions={tipoOptions} situacaoOptions={situacaoOptions} />
+        <div className="flex flex-wrap items-center gap-2">
+          <CampanhasSort />
+          <CampanhasSearch />
+        </div>
       </div>
 
       <StatusTabs value={filter} />
@@ -99,14 +161,14 @@ export default async function CampanhasPage({ searchParams }: Props) {
         <Table>
           <TableHeader>
             <TableRow className="bg-muted/40 hover:bg-muted/40">
-              <TableHead className="w-[110px]">{t('columns.cod')}</TableHead>
-              <TableHead className="w-[280px]">{t('columns.nom')}</TableHead>
+              <TableHead className="w-[60px]">{t('columns.cod')}</TableHead>
+              <TableHead className="w-[360px]">{t('columns.nom')}</TableHead>
               <TableHead className="w-[110px]">{t('columns.inicio')}</TableHead>
               <TableHead className="w-[110px]">{t('columns.fim')}</TableHead>
-              <TableHead className="w-[80px] text-right">{t('columns.produtos')}</TableHead>
+              <TableHead className="w-[60px] text-left">{t('columns.produtos')}</TableHead>
               <TableHead className="w-[160px]">{t('columns.situacao')}</TableHead>
               <TableHead className="hidden w-[140px] lg:table-cell">{t('columns.tipo')}</TableHead>
-              <TableHead className="w-[70px] text-right">{t('columns.actions')}</TableHead>
+              <TableHead className="w-[70px] text-left">{t('columns.actions')}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
