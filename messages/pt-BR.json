@@ -104,7 +104,14 @@
   },
   "dashboard": {
     "title": "Dashboard",
-    "subtitle": "Indicadores em tempo real de campanhas e ativações",
+    "subtitle": "Visão geral do sistema com indicadores de todos os módulos",
+    "modules": {
+      "ofertas": "Comercial",
+      "conteudo": "Conteúdo",
+      "stores": "Lojas",
+      "operacionais": "Operacionais",
+      "sistema": "Sistema"
+    },
     "kpis": {
       "agrupamentos": "Agrupamentos",
       "agrupamentosDesc": "Total cadastrados",
@@ -113,13 +120,43 @@
       "produtosSincronizados": "Produtos sincronizados",
       "produtosSincronizadosDesc": "Total na base",
       "campanhasComProdutos": "Campanhas com produtos",
-      "campanhasComProdutosDesc": "Com produtos cadastrados"
+      "campanhasComProdutosDesc": "Com produtos cadastrados",
+      "campanhas": "Campanhas",
+      "campanhasDesc": "Total cadastradas",
+      "banners": "Banners publicados",
+      "bannersDesc": "Banners ativos no Super App",
+      "sorteios": "Sorteios ativos hoje",
+      "sorteiosDesc": "Campanhas de Número da Sorte em vigência",
+      "lojas": "Total de lojas",
+      "lojasDesc": "Cadastradas na base",
+      "lojasAtivas": "Lojas ativas",
+      "lojasAtivasDesc": "Com status ativo",
+      "tabloides": "Tabloides",
+      "tabloidesDesc": "Encartes cadastrados",
+      "ofertasRegiao": "Ofertas por região",
+      "ofertasRegiaoDesc": "Páginas regionais configuradas",
+      "usuarios": "Usuários",
+      "usuariosDesc": "Contas no sistema"
     },
     "recentLogs": {
       "title": "Últimos logs do sistema",
       "viewAll": "Ver todos",
       "empty": "Sem logs recentes",
       "loadError": "Não foi possível carregar os logs"
+    },
+    "shortcuts": {
+      "title": "Atalhos rápidos",
+      "go": "Ir",
+      "ofertasLabel": "Painel de Ofertas",
+      "ofertasDescription": "Campanhas, produtos e agrupamentos",
+      "conteudoLabel": "Conteúdo",
+      "conteudoDescription": "Banners do Super App e Número da Sorte",
+      "storesLabel": "Lojas",
+      "storesDescription": "Pontos de venda e regiões",
+      "operacionaisLabel": "Operacionais",
+      "operacionaisDescription": "Tabloides, ofertas regionais e histórico",
+      "sistemasLabel": "Sistema",
+      "sistemasDescription": "Usuários e configurações"
     }
   },
   "ofertasDashboard": {

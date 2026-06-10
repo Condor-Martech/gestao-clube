@@ -11,10 +11,10 @@ export default async function DashboardLayout({ children }: { children: ReactNod
   const sections = filterNavSections(isAdmin, moduleRoles)
 
   return (
-    <div className="bg-background flex min-h-svh">
+    <div className="bg-background flex h-svh overflow-hidden">
       <Sidebar isAdmin={isAdmin} moduleRoles={moduleRoles} />
-      <div className="flex flex-1 flex-col">
-        <header className="border-border flex h-14 items-center justify-between gap-4 border-b px-4 md:px-6">
+      <div className="flex min-w-0 flex-1 flex-col">
+        <header className="border-border flex h-14 shrink-0 items-center justify-between gap-4 border-b px-4 md:px-6">
           <div className="flex items-center gap-2">
             <MobileNav sections={sections} />
             <span className="text-muted-foreground hidden text-sm sm:inline">{email}</span>
@@ -24,7 +24,7 @@ export default async function DashboardLayout({ children }: { children: ReactNod
             <LogoutButton />
           </div>
         </header>
-        <main className="flex-1 p-4 md:p-6">{children}</main>
+        <main className="flex-1 overflow-y-auto p-4 md:p-6">{children}</main>
       </div>
     </div>
   )
