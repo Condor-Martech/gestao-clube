@@ -777,6 +777,8 @@
     "syncSuccess": "Sincronização iniciada",
     "eanCopied": "EAN copiado",
     "copyEan": "Copiar EAN",
+    "agrupamentoBadge": "Pai de agrupamento",
+    "agrupamentoBadgeTitle": "Ver agrupamentos da campanha",
     "sortLabel": "Ordenar",
     "sort": {
       "orderAsc": "Ordem (crescente)",

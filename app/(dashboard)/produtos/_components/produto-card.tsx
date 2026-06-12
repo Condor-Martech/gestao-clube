@@ -2,6 +2,7 @@ import Image from 'next/image'
 import { Check, Tag } from 'lucide-react'
 import { getTranslations } from 'next-intl/server'
 import { Button } from '@/components/ui/button'
+import { AgrupamentoBadge } from './agrupamento-badge'
 import { ApproveButton } from './approve-button'
 import { ProdutoEditDialog } from './produto-edit-dialog'
 import { ProdutoSyncButton } from './produto-sync-button'
@@ -10,9 +11,13 @@ import type { Produto } from '@/types/entities'
 
 interface Props {
   produto: Produto
+  /** True when this product heads an agrupamento (renders the "pai" badge) */
+  hasAgrupamento?: boolean
+  /** Campaign code the agrupamento badge links to */
+  campanhaCode?: string
 }
 
-export async function ProdutoCard({ produto }: Props) {
+export async function ProdutoCard({ produto, hasAgrupamento = false, campanhaCode }: Props) {
   const t = await getTranslations('produtos')
   const img = produto.img_external ?? produto.img_internal
   const isApproved = !!produto.aproved
@@ -46,6 +51,14 @@ export async function ProdutoCard({ produto }: Props) {
           >
             <Check className="size-4" strokeWidth={3} />
           </div>
+        )}
+
+        {hasAgrupamento && (campanhaCode ?? produto.campanha) && (
+          <AgrupamentoBadge
+            campanha={(campanhaCode ?? produto.campanha) as string}
+            compact
+            className="absolute top-2 left-2 shadow-md"
+          />
         )}
 
         <ProdutoSyncButton

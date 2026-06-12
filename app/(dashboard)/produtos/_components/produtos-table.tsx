@@ -10,6 +10,7 @@ import {
 import type { Produto } from '@/types/entities'
 import { getTranslations } from 'next-intl/server'
 import Image from 'next/image'
+import { AgrupamentoBadge } from './agrupamento-badge'
 import { ApproveButton } from './approve-button'
 import { EditableNumberCell, EditableTextCell } from './editable-cells'
 import { ProdutoEditDialog } from './produto-edit-dialog'
@@ -20,6 +21,10 @@ interface Props {
   showCampanha?: boolean
   showDetails?: boolean
   canWrite?: boolean
+  /** EANs that head an agrupamento in this campanha (flags the "pai" badge) */
+  agrupamentoEans?: Set<string>
+  /** Campaign code the agrupamento badge links to */
+  campanhaCode?: string
 }
 
 export async function ProdutosTable({
@@ -27,6 +32,8 @@ export async function ProdutosTable({
   showCampanha = true,
   showDetails = true,
   canWrite = false,
+  agrupamentoEans,
+  campanhaCode,
 }: Props) {
   const t = await getTranslations('produtos')
   const tc = await getTranslations('common')
@@ -82,6 +89,12 @@ export async function ProdutosTable({
                       <div className="text-muted-foreground font-mono text-xs">
                         {p.ean ?? '—'}
                       </div>
+                      {p.ean && agrupamentoEans?.has(p.ean) && (campanhaCode ?? p.campanha) && (
+                        <AgrupamentoBadge
+                          campanha={(campanhaCode ?? p.campanha) as string}
+                          className="mt-1"
+                        />
+                      )}
                     </div>
                   </div>
                 </TableCell>

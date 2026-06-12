@@ -4,9 +4,13 @@ import type { Produto } from '@/types/entities'
 
 interface Props {
   produtos: Produto[]
+  /** EANs that head an agrupamento in this campanha (flags the "pai" badge) */
+  agrupamentoEans?: Set<string>
+  /** Campaign code the agrupamento badge links to */
+  campanhaCode?: string
 }
 
-export async function ProdutosGrid({ produtos }: Props) {
+export async function ProdutosGrid({ produtos, agrupamentoEans, campanhaCode }: Props) {
   const tc = await getTranslations('common')
 
   if (produtos.length === 0) {
@@ -20,7 +24,12 @@ export async function ProdutosGrid({ produtos }: Props) {
   return (
     <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
       {produtos.map((p) => (
-        <ProdutoCard key={p.id} produto={p} />
+        <ProdutoCard
+          key={p.id}
+          produto={p}
+          hasAgrupamento={!!p.ean && !!agrupamentoEans?.has(p.ean)}
+          campanhaCode={campanhaCode}
+        />
       ))}
     </div>
   )
