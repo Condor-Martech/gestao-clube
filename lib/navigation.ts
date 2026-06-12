@@ -65,13 +65,13 @@ export const NAV_SECTIONS: readonly NavSection[] = [
         roles: ['admin', 'manager', 'user'],
         module: 'ofertas',
       },
-      {
-        href: '/produtos',
-        labelKey: 'produtos',
-        iconKey: 'produtos',
-        roles: ['admin', 'manager', 'user'],
-        module: 'ofertas',
-      },
+      // {
+      //   href: '/produtos',
+      //   labelKey: 'produtos',
+      //   iconKey: 'produtos',
+      //   roles: ['admin', 'manager', 'user'],
+      //   module: 'ofertas',
+      // },
       {
         href: '/jornada-produto',
         labelKey: 'jornadaProduto',

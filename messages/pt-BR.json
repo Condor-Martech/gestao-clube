@@ -11,6 +11,8 @@
     "passwordLabel": "Senha",
     "submit": "Entrar",
     "signOut": "Sair",
+    "signOutConfirmTitle": "Sair da conta?",
+    "signOutConfirmDescription": "Você será desconectado e precisará entrar novamente para acessar o sistema.",
     "errorInvalidCredentials": "Email ou senha incorretos",
     "errorEmailRequired": "Email é obrigatório",
     "errorEmailInvalid": "Email inválido",
@@ -458,6 +460,9 @@
     "addButton": "Agrupar Produto",
     "viewButton": "Ver",
     "deleteButton": "Apagar",
+    "deleteConfirmTitle": "Apagar agrupamento?",
+    "deleteConfirmDescription": "O agrupamento do produto {nome} será removido. Esta ação não pode ser desfeita.",
+    "deleteSuccess": "Agrupamento apagado com sucesso",
     "viewMore": "Ver mais",
     "viewLess": "Ver menos",
     "details": {
@@ -493,7 +498,11 @@
       "noResults": "Nenhum produto encontrado",
       "add": "Adicionar",
       "remove": "Remover",
-      "submit": "Criar agrupamento"
+      "submit": "Criar agrupamento",
+      "saving": "Salvando...",
+      "saved": "Agrupamento criado com sucesso",
+      "paiRequired": "O produto pai é obrigatório",
+      "minItens": "O agrupamento requer no mínimo dois produtos"
     }
   },
   "jornadaProduto": {

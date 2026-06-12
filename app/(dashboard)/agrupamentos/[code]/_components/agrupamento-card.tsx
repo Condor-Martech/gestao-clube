@@ -6,6 +6,7 @@ import { ChevronDown, ChevronUp } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { Button } from '@/components/ui/button'
 import { AgrupamentoDetailSheet } from './agrupamento-detail-sheet'
+import { DeleteAgrupamentoButton } from './agrupamento-delete-button'
 import type { ProdutoNoAgrupamento } from '@/types/entities'
 
 interface Props {
@@ -89,10 +90,12 @@ export function AgrupamentoCard({ produto, canWrite = false }: Props) {
               </Button>
             }
           />
-          {canWrite && (
-            <Button type="button" variant="destructive" size="sm">
-              {t('deleteButton')}
-            </Button>
+          {canWrite && produto.ean && produto.campanha && (
+            <DeleteAgrupamentoButton
+              ean={produto.ean}
+              campanha={produto.campanha}
+              nome={produto.nome}
+            />
           )}
         </div>
       </div>
