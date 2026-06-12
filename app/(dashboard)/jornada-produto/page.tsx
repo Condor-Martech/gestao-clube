@@ -97,13 +97,18 @@ export default async function JornadaProdutoPage({ searchParams }: Props) {
           let agResult: Agrupamento[] = []
 
           if (isPai(produto) && produto.ean) {
-            const { data } = await supabase.from('Agrupamentos').select('*').eq('ean', produto.ean)
+            // Scope to the produto's own campanha — the same EAN can live in
+            // multiple campanhas, and an agrupamento belongs to exactly one of
+            // them. Without this filter a produto would inherit the agrupamentos
+            // of its EAN-twin in another campanha.
+            let query = supabase.from('Agrupamentos').select('*').eq('ean', produto.ean)
+            if (produto.campanha) query = query.eq('campanha', produto.campanha)
+            const { data } = await query
             agResult = (data ?? []).map((r) => normalizeAgrupamento(r as Record<string, unknown>))
           } else if (!isPai(produto) && produto.host) {
-            const { data } = await supabase
-              .from('Agrupamentos')
-              .select('*')
-              .ilike('grupo', `%${produto.host}%`)
+            let query = supabase.from('Agrupamentos').select('*').ilike('grupo', `%${produto.host}%`)
+            if (produto.campanha) query = query.eq('campanha', produto.campanha)
+            const { data } = await query
             agResult = (data ?? []).map((r) => normalizeAgrupamento(r as Record<string, unknown>))
           }
 
