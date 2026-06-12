@@ -103,7 +103,7 @@ export function AddAgrupamentoForm({ campanha, produtos }: Props) {
       toast.error(t('paiRequired'))
       return
     }
-    if (itens.length < 2) {
+    if (itens.length < 1) {
       toast.error(t('minItens'))
       return
     }
@@ -130,7 +130,7 @@ export function AddAgrupamentoForm({ campanha, produtos }: Props) {
     router.push(`/agrupamentos/${campanha}` as `/${string}`)
   }
 
-  const canSave = !!pai && itens.length >= 2 && !saving
+  const canSave = !!pai && itens.length >= 1 && !saving
 
   return (
     <div className="space-y-4">
