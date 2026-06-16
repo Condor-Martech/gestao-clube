@@ -53,18 +53,15 @@ export async function updateProdutoFieldsAction(id: string, input: unknown): Pro
 }
 
 export async function approveProdutoAction(id: string, approve: boolean): Promise<ActionResult> {
-  await requireModuleWrite('ofertas')
+  const session = await requireModuleWrite('ofertas')
   if (!id) return { ok: false, error: 'ID inválido' }
 
   const supabase = await createClient()
-  const { data: claimsData } = await supabase.auth.getClaims()
-  const email = (claimsData?.claims?.email as string | undefined) ?? null
-
   const { error } = await supabase
     .from('produto')
     .update({
       aproved: approve,
-      aproved_user: approve ? email : null,
+      aproved_user: approve ? session.userId : null,
       aproved_at: approve ? new Date().toISOString() : null,
     })
     .eq('id', id)

@@ -35,6 +35,8 @@ export function CampanhasFilters({ tipoOptions, situacaoOptions }: Props) {
   const vigenciaFrom = params.get('vigencia_from') ?? ''
   const vigenciaTo = params.get('vigencia_to') ?? ''
 
+  const hasTipoOptions = tipoOptions.length > 0
+
   function updateParam(key: string, value: string | null) {
     const next = new URLSearchParams(params.toString())
     if (!value || value === ALL_VALUE) next.delete(key)
@@ -59,6 +61,22 @@ export function CampanhasFilters({ tipoOptions, situacaoOptions }: Props) {
 
   return (
     <div className="flex flex-wrap items-center gap-2">
+      {hasTipoOptions && (
+        <Select value={tipo} onValueChange={(v) => updateParam('tipo', v)}>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder={t('tipoLabel')} />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value={ALL_VALUE}>{t('tipoAll')}</SelectItem>
+            {tipoOptions.map((opt) => (
+              <SelectItem key={opt} value={opt}>
+                {opt}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      )}
+
       <Select value={situacao} onValueChange={(v) => updateParam('situacao', v)}>
         <SelectTrigger className="w-[180px]">
           <SelectValue placeholder={t('situacaoLabel')} />

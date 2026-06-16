@@ -359,6 +359,7 @@
     },
     "filters": {
       "tipoLabel": "Tipo",
+      "tipoAll": "Todos os tipos",
       "situacaoLabel": "Situação",
       "situacaoAll": "Todas as situações",
       "vigenciaFromLabel": "Início:",

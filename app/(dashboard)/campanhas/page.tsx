@@ -119,11 +119,11 @@ export default async function CampanhasPage({ searchParams }: Props) {
   }
 
   if (vigenciaFrom) {
-    query = query.gte('dta_vigencia_inicio', vigenciaFrom)
+    query = query.gte('dta_vigencia_fim', vigenciaFrom)
   }
 
   if (vigenciaTo) {
-    query = query.lte('dta_vigencia_fim', vigenciaTo)
+    query = query.lte('dta_vigencia_inicio', vigenciaTo)
   }
 
   const { data, count, error } = await query
@@ -161,14 +161,14 @@ export default async function CampanhasPage({ searchParams }: Props) {
         <Table>
           <TableHeader>
             <TableRow className="bg-muted/40 hover:bg-muted/40">
-              <TableHead className="w-[60px]">{t('columns.cod')}</TableHead>
-              <TableHead className="w-[360px]">{t('columns.nom')}</TableHead>
+              <TableHead className="w-[110px]">{t('columns.cod')}</TableHead>
+              <TableHead className="w-[280px]">{t('columns.nom')}</TableHead>
               <TableHead className="w-[110px]">{t('columns.inicio')}</TableHead>
               <TableHead className="w-[110px]">{t('columns.fim')}</TableHead>
-              <TableHead className="w-[60px] text-left">{t('columns.produtos')}</TableHead>
+              <TableHead className="w-[80px] text-right">{t('columns.produtos')}</TableHead>
               <TableHead className="w-[160px]">{t('columns.situacao')}</TableHead>
               <TableHead className="hidden w-[140px] lg:table-cell">{t('columns.tipo')}</TableHead>
-              <TableHead className="w-[70px] text-left">{t('columns.actions')}</TableHead>
+              <TableHead className="w-[70px] text-right">{t('columns.actions')}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
