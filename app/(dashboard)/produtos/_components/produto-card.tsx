@@ -1,13 +1,13 @@
-import Image from 'next/image'
+import { Button } from '@/components/ui/button'
+import type { Produto } from '@/types/entities'
 import { Check, Tag } from 'lucide-react'
 import { getTranslations } from 'next-intl/server'
-import { Button } from '@/components/ui/button'
+import Image from 'next/image'
 import { AgrupamentoBadge } from './agrupamento-badge'
 import { ApproveButton } from './approve-button'
+import { CopyEanButton } from './copy-ean-button'
 import { ProdutoEditDialog } from './produto-edit-dialog'
 import { ProdutoSyncButton } from './produto-sync-button'
-import { CopyEanButton } from './copy-ean-button'
-import type { Produto } from '@/types/entities'
 
 interface Props {
   produto: Produto
@@ -15,9 +15,15 @@ interface Props {
   hasAgrupamento?: boolean
   /** Campaign code the agrupamento badge links to */
   campanhaCode?: string
+  canWrite?: boolean
 }
 
-export async function ProdutoCard({ produto, hasAgrupamento = false, campanhaCode }: Props) {
+export async function ProdutoCard({
+  produto,
+  hasAgrupamento = false,
+  campanhaCode,
+  canWrite = false,
+}: Props) {
   const t = await getTranslations('produtos')
   const img = produto.img_external ?? produto.img_internal
   const isApproved = !!produto.aproved
@@ -90,12 +96,12 @@ export async function ProdutoCard({ produto, hasAgrupamento = false, campanhaCod
         <ProdutoEditDialog
           produto={produto}
           trigger={
-            <Button variant="outline" size="sm" className="h-7 w-full px-2 text-xs">
+            <Button variant="outline" size="sm" className="h-8 w-full p-2 text-xs">
               {t('editButton')}
             </Button>
           }
         />
-        <ApproveButton produtoId={produto.id} approved={isApproved} />
+        <ApproveButton produtoId={produto.id} approved={isApproved} canWrite={canWrite} />
       </div>
     </article>
   )

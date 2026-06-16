@@ -165,6 +165,7 @@ export default async function ProdutosCampanhaPage({ params, searchParams }: Pro
           produtos={produtos}
           agrupamentoEans={agrupamentoEans}
           campanhaCode={code}
+          canWrite={write}
         />
       ) : (
         <ProdutosTable

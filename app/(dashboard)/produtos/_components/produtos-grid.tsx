@@ -8,9 +8,15 @@ interface Props {
   agrupamentoEans?: Set<string>
   /** Campaign code the agrupamento badge links to */
   campanhaCode?: string
+  canWrite?: boolean
 }
 
-export async function ProdutosGrid({ produtos, agrupamentoEans, campanhaCode }: Props) {
+export async function ProdutosGrid({
+  produtos,
+  agrupamentoEans,
+  campanhaCode,
+  canWrite = false,
+}: Props) {
   const tc = await getTranslations('common')
 
   if (produtos.length === 0) {
@@ -29,6 +35,7 @@ export async function ProdutosGrid({ produtos, agrupamentoEans, campanhaCode }: 
           produto={p}
           hasAgrupamento={!!p.ean && !!agrupamentoEans?.has(p.ean)}
           campanhaCode={campanhaCode}
+          canWrite={canWrite}
         />
       ))}
     </div>
