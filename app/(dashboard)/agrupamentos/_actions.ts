@@ -8,7 +8,7 @@ import { AgrupamentoSchema } from '@/lib/validators/agrupamento'
 type ActionResult<T = void> = { ok: true; data?: T } | { ok: false; error: string }
 
 export async function createAgrupamentoAction(input: unknown): Promise<ActionResult> {
-  await requireModuleWrite('ofertas')
+  const session = await requireModuleWrite('ofertas')
   const parsed = AgrupamentoSchema.safeParse(input)
   if (!parsed.success) {
     return {
@@ -18,35 +18,72 @@ export async function createAgrupamentoAction(input: unknown): Promise<ActionRes
   }
 
   const supabase = await createClient()
-  const { data: claimsData } = await supabase.auth.getClaims()
-  const email = (claimsData?.claims?.email as string | undefined) ?? null
 
+  // Replica a linha que o legacy grava: ean do pai + grupo (lista de hosts),
+  // user = UID, user_at ISO. host/order/itens ficam null.
   const payload = {
-    ...parsed.data,
-    user: email,
-    userAt: new Date().toISOString(),
+    ean: parsed.data.ean,
+    grupo: parsed.data.grupo,
+    campanha: parsed.data.campanha,
+    user: session.userId,
+    user_at: new Date().toISOString(),
   }
 
-  const { error } = await supabase.from('Agrupamentos').insert(payload)
+  const { error } = await supabase.from('agrupamento').insert(payload)
 
   if (error) {
     return { ok: false, error: error.message }
   }
+
+  await supabase.from('logs').insert({
+    event_name: 'criar_agrupamento',
+    user: session.userId,
+    module: 'ofertas',
+    payload: {
+      grupo: parsed.data.grupo,
+      pai: parsed.data.ean,
+      campanha: parsed.data.campanha,
+    },
+  })
 
   revalidatePath(`/agrupamentos/${parsed.data.campanha}`)
   return { ok: true }
 }
 
-export async function deleteAgrupamentoAction(id: string, campanha: string): Promise<ActionResult> {
-  await requireModuleWrite('ofertas')
-  if (!id) return { ok: false, error: 'ID inválido' }
+export async function deleteAgrupamentoAction(ean: string, campanha: string): Promise<ActionResult> {
+  const session = await requireModuleWrite('ofertas')
+  if (!ean) return { ok: false, error: 'EAN inválido' }
 
   const supabase = await createClient()
-  const { error } = await supabase.from('Agrupamentos').delete().eq('id', id)
+
+  // Lê o grupo antes de apagar, para registrar no log (espelha o legacy).
+  const { data: existing } = await supabase
+    .from('agrupamento')
+    .select('grupo')
+    .eq('ean', ean)
+    .eq('campanha', campanha)
+    .maybeSingle()
+
+  const { error } = await supabase
+    .from('agrupamento')
+    .delete()
+    .eq('ean', ean)
+    .eq('campanha', campanha)
 
   if (error) {
     return { ok: false, error: error.message }
   }
+
+  await supabase.from('logs').insert({
+    event_name: 'apagar_agrupamento',
+    user: session.userId,
+    module: 'ofertas',
+    payload: {
+      grupo: (existing as { grupo: string | null } | null)?.grupo ?? null,
+      pai: ean,
+      campanha,
+    },
+  })
 
   revalidatePath(`/agrupamentos/${campanha}`)
   return { ok: true }

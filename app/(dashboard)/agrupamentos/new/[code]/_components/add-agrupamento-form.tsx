@@ -9,6 +9,7 @@ import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
+import { createAgrupamentoAction } from '../../../_actions'
 
 export interface ProdutoOption {
   ean: string
@@ -17,6 +18,7 @@ export interface ProdutoOption {
   unidade: string | null
   img_internal: string | null
   img_external: string | null
+  host: string | null
 }
 
 interface Props {
@@ -36,6 +38,7 @@ export function AddAgrupamentoForm({ campanha, produtos }: Props) {
   const [paiQuery, setPaiQuery] = useState('')
   const [paiOpen, setPaiOpen] = useState(false)
   const [itensQuery, setItensQuery] = useState('')
+  const [saving, setSaving] = useState(false)
 
   const paiBoxRef = useRef<HTMLDivElement>(null)
 
@@ -95,12 +98,39 @@ export function AddAgrupamentoForm({ campanha, produtos }: Props) {
     if (e.key === 'Escape') setPaiOpen(false)
   }
 
-  function handleSubmit() {
-    // UI-only mock — wiring real save later.
-    toast.success(`Pai: ${pai?.ean} · ${itens.length} ${itens.length === 1 ? 'item' : 'itens'}`)
+  async function handleSubmit() {
+    if (!pai) {
+      toast.error(t('paiRequired'))
+      return
+    }
+    if (itens.length < 1) {
+      toast.error(t('minItens'))
+      return
+    }
+
+    // grupo = hosts únicos, primeiro elemento = host do pai (espelha o legacy orderGroup).
+    const grupo = Array.from(
+      new Set(
+        [pai.host, ...itens.map((i) => i.host)]
+          .map((h) => h?.trim())
+          .filter((h): h is string => !!h),
+      ),
+    ).join(',')
+
+    setSaving(true)
+    const res = await createAgrupamentoAction({ ean: pai.ean, grupo, campanha })
+    setSaving(false)
+
+    if (!res.ok) {
+      toast.error(res.error)
+      return
+    }
+
+    toast.success(t('saved'))
+    router.push(`/agrupamentos/${campanha}` as `/${string}`)
   }
 
-  const canSave = !!pai
+  const canSave = !!pai && itens.length >= 1 && !saving
 
   return (
     <div className="space-y-4">
@@ -275,7 +305,7 @@ export function AddAgrupamentoForm({ campanha, produtos }: Props) {
           {tc('cancel')}
         </Button>
         <Button type="button" onClick={handleSubmit} disabled={!canSave}>
-          {t('submit')}
+          {saving ? t('saving') : t('submit')}
         </Button>
       </div>
     </div>

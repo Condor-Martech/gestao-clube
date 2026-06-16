@@ -1,10 +1,11 @@
 import { z } from 'zod'
 
 export const AgrupamentoSchema = z.object({
-  grupo: z.string().min(1, 'Nome do grupo é obrigatório').max(100, 'Nome muito longo'),
+  // Lista de hosts únicos separados por vírgula ([pai.host, ...itens.host]).
+  grupo: z.string().min(1, 'Grupo é obrigatório'),
   ean: z.string().min(1, 'EAN é obrigatório'),
   host: z.string().optional().nullable(),
-  order: z.coerce.number().int().min(0).default(0),
+  order: z.coerce.number().int().min(0).optional().nullable(),
   campanha: z.string().min(1, 'Campanha é obrigatória'),
 })
 

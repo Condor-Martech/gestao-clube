@@ -90,6 +90,20 @@ export default async function ProdutosCampanhaPage({ params, searchParams }: Pro
   const total = count ?? 0
   const pages = totalPages(total, pageSize)
 
+  // EANs that actually head an agrupamento in this campanha. Same source the
+  // /agrupamentos/[code] page uses, so a "pai" is flagged only when it really
+  // heads a group — not just because produtos_pai already filters pai = ean.
+  const { data: agrupamentoRows } = await supabase
+    .from('produtos_no_agrupamento')
+    .select('ean')
+    .eq('campanha', code)
+
+  const agrupamentoEans = new Set(
+    (agrupamentoRows ?? [])
+      .map((r) => (r as { ean: string | null }).ean)
+      .filter((e): e is string => !!e),
+  )
+
   return (
     <div className="space-y-4">
       <Button variant="ghost" size="sm" asChild>
@@ -147,13 +161,19 @@ export default async function ProdutosCampanhaPage({ params, searchParams }: Pro
           {error.message}
         </div>
       ) : view === 'grid' ? (
-        <ProdutosGrid produtos={produtos} />
+        <ProdutosGrid
+          produtos={produtos}
+          agrupamentoEans={agrupamentoEans}
+          campanhaCode={code}
+        />
       ) : (
         <ProdutosTable
           produtos={produtos}
           showCampanha={false}
           showDetails={false}
           canWrite={write}
+          agrupamentoEans={agrupamentoEans}
+          campanhaCode={code}
         />
       )}
 

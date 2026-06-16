@@ -30,7 +30,7 @@ export default async function NewAgrupamentoPage({ params }: Props) {
 
   const { data: produtos } = await supabase
     .from('produtos_pai')
-    .select('ean,nome,descricao,unidade,img_internal,img_external')
+    .select('ean,nome,descricao,unidade,img_internal,img_external,host')
     .eq('campanha', code)
     .not('ean', 'is', null)
     .or('aproved.is.null,aproved.eq.false')
@@ -44,6 +44,7 @@ export default async function NewAgrupamentoPage({ params }: Props) {
       unidade: string | null
       img_internal: string | null
       img_external: string | null
+      host: string | null
     }[]
   ).filter((p) => !!p.ean)
 
