@@ -70,6 +70,12 @@ export async function approveProdutoAction(id: string, approve: boolean): Promis
     return { ok: false, error: error.message }
   }
 
+  await supabase.from('logs').insert({
+    event_name: approve ? 'aprovar_produto' : 'reprovar_produto',
+    user: session.userId,
+    payload: { email: session.email, produto_id: id },
+  })
+
   revalidatePath('/produtos')
   return { ok: true }
 }
