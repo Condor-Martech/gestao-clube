@@ -22,6 +22,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       { protocol: 'https', hostname: '**.supabase.co' },
       { protocol: 'https', hostname: 'stage.z0n.co' },
+      { protocol: 'https', hostname: 's3.cndr.me' },
       ...(strapiHost ? [{ protocol: 'https' as const, hostname: strapiHost }] : []),
     ],
   },

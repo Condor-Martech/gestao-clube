@@ -3,6 +3,7 @@ import { Sidebar } from '@/components/layout/sidebar'
 import { MobileNav } from '@/components/layout/mobile-nav'
 import { ThemeToggle } from '@/components/layout/theme-toggle'
 import { LogoutButton } from '@/components/layout/logout-button'
+import { Footer } from '@/components/layout/footer'
 import { filterNavSections } from '@/lib/navigation'
 import { requireSession } from '@/lib/auth/guards'
 
@@ -25,6 +26,7 @@ export default async function DashboardLayout({ children }: { children: ReactNod
           </div>
         </header>
         <main className="flex-1 overflow-y-auto p-4 md:p-6">{children}</main>
+        <Footer />
       </div>
     </div>
   )

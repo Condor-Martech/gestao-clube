@@ -1,7 +1,8 @@
 {
   "app": {
     "title": "Clube Condor",
-    "tagline": "Gerenciamento de ofertas, lojas e inteligência de stores"
+    "tagline": "Gerenciamento de ofertas, lojas e inteligência de stores",
+    "developedBy": "Desenvolvido por"
   },
   "auth": {
     "loginTitle": "Gerenciamento Clube Condor",
