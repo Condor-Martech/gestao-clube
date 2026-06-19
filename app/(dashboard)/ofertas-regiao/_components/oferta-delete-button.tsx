@@ -4,6 +4,7 @@ import { useState, useTransition } from 'react'
 import { Loader2, Trash2 } from 'lucide-react'
 import { toast } from 'sonner'
 import { useTranslations } from 'next-intl'
+import { usePostHog } from 'posthog-js/react'
 import { Button } from '@/components/ui/button'
 import {
   AlertDialog,
@@ -17,6 +18,7 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
 import type { Oferta } from '@/types/entities'
+import { OFERTAS_EVENTS } from '@/lib/posthog/events'
 import { deleteOfertaAction } from '../_actions'
 
 interface Props {
@@ -28,21 +30,32 @@ export function OfertaDeleteButton({ oferta }: Props) {
   const [isPending, startTransition] = useTransition()
   const tCommon = useTranslations('common')
   const t = useTranslations('ofertasRegiao.delete')
+  const posthog = usePostHog()
+
+  const props = { oferta_id: oferta.id, regiao: oferta.regiao }
+
+  function handleOpenChange(next: boolean) {
+    if (next) posthog?.capture(OFERTAS_EVENTS.deleteDialogOpened, props)
+    setOpen(next)
+  }
 
   function handleConfirm() {
+    posthog?.capture(OFERTAS_EVENTS.deleteConfirmed, props)
     startTransition(async () => {
       const result = await deleteOfertaAction(oferta.id)
       if (!result.ok) {
+        posthog?.capture(OFERTAS_EVENTS.deleteFailed, { ...props, error: result.error })
         toast.error(result.error)
         return
       }
+      posthog?.capture(OFERTAS_EVENTS.deleted, props)
       toast.success(t('success'))
       setOpen(false)
     })
   }
 
   return (
-    <AlertDialog open={open} onOpenChange={setOpen}>
+    <AlertDialog open={open} onOpenChange={handleOpenChange}>
       <AlertDialogTrigger asChild>
         <Button
           variant="ghost"

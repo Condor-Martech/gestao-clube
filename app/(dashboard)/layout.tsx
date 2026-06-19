@@ -5,13 +5,15 @@ import { ThemeToggle } from '@/components/layout/theme-toggle'
 import { LogoutButton } from '@/components/layout/logout-button'
 import { filterNavSections } from '@/lib/navigation'
 import { requireSession } from '@/lib/auth/guards'
+import { PostHogIdentify } from '@/components/analytics/posthog-identify'
 
 export default async function DashboardLayout({ children }: { children: ReactNode }) {
-  const { email, isAdmin, moduleRoles } = await requireSession()
+  const { email, role, userId, isAdmin, moduleRoles } = await requireSession()
   const sections = filterNavSections(isAdmin, moduleRoles)
 
   return (
     <div className="bg-background flex h-svh overflow-hidden">
+      <PostHogIdentify userId={userId} email={email} role={role} isAdmin={isAdmin} />
       <Sidebar isAdmin={isAdmin} moduleRoles={moduleRoles} />
       <div className="flex min-w-0 flex-1 flex-col">
         <header className="border-border flex h-14 shrink-0 items-center justify-between gap-4 border-b px-4 md:px-6">

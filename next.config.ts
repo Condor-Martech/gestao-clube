@@ -27,6 +27,21 @@ const nextConfig: NextConfig = {
   },
   allowedDevOrigins: ['10.1.2.62'],
   reactCompiler: false,
+  // PostHog reverse proxy: os requests do SDK saem do nosso domínio (/ingest)
+  // em vez de baterem direto em posthog.com — evita bloqueio por adblockers.
+  skipTrailingSlashRedirect: true,
+  async rewrites() {
+    return [
+      {
+        source: '/ingest/static/:path*',
+        destination: 'https://us-assets.i.posthog.com/static/:path*',
+      },
+      {
+        source: '/ingest/:path*',
+        destination: 'https://us.i.posthog.com/:path*',
+      },
+    ]
+  },
 }
 
 export default withNextIntl(nextConfig)
