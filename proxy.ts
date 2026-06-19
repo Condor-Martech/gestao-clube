@@ -7,6 +7,8 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    '/((?!api|_next/static|_next/image|favicon.ico|icon.png|apple-icon.png|manifest.json|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+    // `ingest` é o reverse proxy do PostHog (next.config rewrites) — excluído
+    // do auth para que os requests do SDK não sejam redirecionados ao /login.
+    '/((?!api|ingest|_next/static|_next/image|favicon.ico|icon.png|apple-icon.png|manifest.json|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
 }
