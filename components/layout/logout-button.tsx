@@ -3,6 +3,7 @@
 import { useState, useTransition } from 'react'
 import { LogOut, Loader2 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
+import { usePostHog } from 'posthog-js/react'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -22,9 +23,13 @@ export function LogoutButton() {
   const [isPending, startTransition] = useTransition()
   const t = useTranslations('auth')
   const tc = useTranslations('common')
+  const posthog = usePostHog()
 
   function handleConfirm(e: React.MouseEvent) {
     e.preventDefault()
+    // reset() limpa o distinct_id para não vincular a próxima sessão (outro
+    // usuário no mesmo browser) à pessoa que acabou de deslogar.
+    posthog?.reset()
     startTransition(async () => {
       await signOutAction()
     })
@@ -34,11 +39,7 @@ export function LogoutButton() {
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>
         <Button variant="ghost" size="sm" disabled={isPending}>
-          {isPending ? (
-            <Loader2 className="size-4 animate-spin" />
-          ) : (
-            <LogOut className="size-4" />
-          )}
+          {isPending ? <Loader2 className="size-4 animate-spin" /> : <LogOut className="size-4" />}
           <span className="hidden sm:inline">{t('signOut')}</span>
         </Button>
       </AlertDialogTrigger>

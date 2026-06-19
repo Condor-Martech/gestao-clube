@@ -18,6 +18,7 @@ import { LogPayloadSheet } from '@/app/(dashboard)/logs/_components/log-payload-
 import type { LogEntry } from '@/types/entities'
 import { ProdutosPorCampanhaChart } from './_components/produtos-por-campanha-chart'
 import { CampanhasSituacaoChart } from './_components/campanhas-situacao-chart'
+import { DashboardViewTracker } from './_components/dashboard-view-tracker'
 
 const RECENT_LOGS_LIMIT = 8
 const TOP_CAMPANHAS = 8
@@ -147,6 +148,13 @@ export default async function OfertasDashboardPage() {
 
   return (
     <div className="space-y-6">
+      <DashboardViewTracker
+        campanhas={kpis[0]?.value ?? null}
+        produtos={kpis[1]?.value ?? null}
+        produtosAprovados={kpis[2]?.value ?? null}
+        agrupamentos={kpis[3]?.value ?? null}
+        produtosPorCampanhaAmostra={produtosPorCampanhaEhAmostra}
+      />
       <header className="space-y-1">
         <h1 className="text-2xl font-semibold tracking-tight">{t('title')}</h1>
         <p className="text-muted-foreground text-sm">{t('subtitle')}</p>
