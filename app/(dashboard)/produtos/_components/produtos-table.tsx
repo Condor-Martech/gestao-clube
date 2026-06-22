@@ -1,3 +1,5 @@
+'use client'
+
 import { Badge } from '@/components/ui/badge'
 import {
   Table,
@@ -8,7 +10,7 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import type { Produto } from '@/types/entities'
-import { getTranslations } from 'next-intl/server'
+import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import { AgrupamentoBadge } from './agrupamento-badge'
 import { ApproveButton } from './approve-button'
@@ -27,7 +29,7 @@ interface Props {
   campanhaCode?: string
 }
 
-export async function ProdutosTable({
+export function ProdutosTable({
   produtos,
   showCampanha = true,
   showDetails = true,
@@ -35,8 +37,8 @@ export async function ProdutosTable({
   agrupamentoEans,
   campanhaCode,
 }: Props) {
-  const t = await getTranslations('produtos')
-  const tc = await getTranslations('common')
+  const t = useTranslations('produtos')
+  const tc = useTranslations('common')
 
   if (produtos.length === 0) {
     return (

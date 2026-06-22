@@ -1,0 +1,28 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(rg -l \"IntersectionObserver|useInfinite|infinite|loadMore|load-more\" --iglob '*.tsx' --iglob '*.ts')",
+      "Bash(rg -l \"QueryClientProvider\" --iglob '*.tsx')",
+      "Bash(bat --plain lib/supabase/client.ts)",
+      "Bash(bat --plain lib/utils/produto-sort.ts)",
+      "Bash(bat --plain lib/utils/pagination.ts)",
+      "Bash(rg -rn \"ProdutosTable|ProdutosGrid\" --iglob '*.tsx')",
+      "Bash(rg -rn \"NextIntlClientProvider|getMessages|messages=\" --iglob '*.tsx' app/)",
+      "Bash(rg -rn \"pick|NextIntlClientProvider\" app/layout.tsx app/providers.tsx)",
+      "Bash(bat --plain /private/tmp/claude-501/-Users-editor2-project-2026-ativacao-apps-web/c5d1753b-5d9a-4cf5-8cc2-3e0e67c6ac56/tasks/btbj82q6p.output)",
+      "Bash(node -e \"const p=require\\('./package.json'\\); console.log\\('posthog-js:', \\(p.dependencies||{}\\)['posthog-js']||\\(p.devDependencies||{}\\)['posthog-js']\\); console.log\\('next:', \\(p.dependencies||{}\\).next\\)\")",
+      "Bash(node -e \"console.log\\(require\\('posthog-js/package.json'\\).version\\)\")",
+      "Bash(rg -rl \"exception-autocapture\" node_modules/posthog-js/dist)",
+      "Bash(rg -o \"[a-zA-Z_\\\\.]{0,20}\\\\+\\\\\"/static/\\\\\"\\\\+[a-zA-Z_\\\\.]{0,30}|/static/|prepareScriptUrl|_prepare_external_dependency|getScriptUrl|api_host[^,;]{0,40}static\" node_modules/posthog-js/dist/array.js)",
+      "Bash(rg -o \"assets.{0,4}:.{0,120}|ui_host.{0,120}assets|us-assets|i\\\\.posthog\\\\.com\" node_modules/posthog-js/dist/array.js)",
+      "Bash(rg -o \".{120}case\\\\\"assets\\\\\":return\\\\\"https://\\\\\"\\\\+this.region.{0,180}\" node_modules/posthog-js/dist/array.js)",
+      "Bash(lsof -nP -iTCP -sTCP:LISTEN)",
+      "Bash(curl -s -o /dev/null -w \"upstream us-assets: %{http_code} \\(%{size_download} bytes\\)\\\\n\" \"https://us-assets.i.posthog.com/static/exception-autocapture.js?v=1.391.2\")",
+      "Bash(curl -s -o /dev/null -w \"status=%{http_code} type=%{content_type} bytes=%{size_download}\\\\n\" \"http://localhost:3000/ingest/static/exception-autocapture.js?v=1.391.2\")",
+      "Bash(curl -s -o /dev/null -w \"status=%{http_code} type=%{content_type} bytes=%{size_download}\\\\n\" \"http://localhost:3000/ingest/static/exception-autocapture.js\")",
+      "Bash(curl -s -o /dev/null -w \"status=%{http_code} type=%{content_type} bytes=%{size_download}\\\\n\" \"http://localhost:3000/ingest/static/array/$\\(echo TEST\\)/config.js\")",
+      "Bash(curl -s -D - -o /dev/null \"http://localhost:3000/\")",
+      "Bash(curl -s -D - -o /dev/null \"http://localhost:3000/ingest/static/exception-autocapture.js?v=1.391.2\")"
+    ]
+  }
+}

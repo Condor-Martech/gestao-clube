@@ -1,4 +1,6 @@
-import { getTranslations } from 'next-intl/server'
+'use client'
+
+import { useTranslations } from 'next-intl'
 import { ProdutoCard } from './produto-card'
 import type { Produto } from '@/types/entities'
 
@@ -10,8 +12,8 @@ interface Props {
   campanhaCode?: string
 }
 
-export async function ProdutosGrid({ produtos, agrupamentoEans, campanhaCode }: Props) {
-  const tc = await getTranslations('common')
+export function ProdutosGrid({ produtos, agrupamentoEans, campanhaCode }: Props) {
+  const tc = useTranslations('common')
 
   if (produtos.length === 0) {
     return (

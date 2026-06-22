@@ -7,23 +7,20 @@ import { requireModuleRead } from '@/lib/auth/guards'
 import { canWrite as computeCanWrite } from '@/lib/rbac'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { ProdutosTable } from '../_components/produtos-table'
-import { ProdutosGrid } from '../_components/produtos-grid'
+import { ProdutosInfiniteList } from '../_components/produtos-infinite-list'
 import { ProdutosFilters } from '../_components/produtos-filters'
 import { ProdutosSort } from '../_components/produtos-sort'
 import { ProdutosViewToggle, type ProdutoView } from '../_components/produtos-view-toggle'
 import { SyncAppDialog } from '../_components/sync-app-dialog'
-import { PaginationControls } from '@/components/shared/pagination-controls'
 import { formatDate, formatDateTime } from '@/lib/utils/format'
-import { DEFAULT_PAGE_SIZE, parsePage, rangeFromPage, totalPages } from '@/lib/utils/pagination'
+import { DEFAULT_PAGE_SIZE } from '@/lib/utils/pagination'
 import { pickString } from '@/lib/utils/search-params'
 import { parseProdutoSort } from '@/lib/utils/produto-sort'
-import type { Campanha, Produto } from '@/types/entities'
+import type { Campanha } from '@/types/entities'
 
 interface Props {
   params: Promise<{ code: string }>
   searchParams: Promise<{
-    page?: string | string[]
     view?: string | string[]
     search?: string | string[]
     approved?: string | string[]
@@ -46,9 +43,7 @@ export default async function ProdutosCampanhaPage({ params, searchParams }: Pro
   const search = pickString(sp.search)
   const approved = pickString(sp.approved)
   const sort = parseProdutoSort(pickString(sp.sort))
-  const page = parsePage(pickString(sp.page))
   const pageSize = view === 'grid' ? 24 : DEFAULT_PAGE_SIZE
-  const range = rangeFromPage({ page, pageSize })
 
   const supabase = await createClient()
 
@@ -61,22 +56,21 @@ export default async function ProdutosCampanhaPage({ params, searchParams }: Pro
   if (!campanhaRaw) notFound()
   const campanha = campanhaRaw as unknown as Campanha
 
-  let query = supabase
+  // Count only — the list itself is fetched client-side (infinite scroll).
+  let countQuery = supabase
     .from('produtos_pai')
-    .select('*', { count: 'exact' })
+    .select('*', { count: 'exact', head: true })
     .eq('campanha', code)
-    .order(sort.column, { ascending: sort.ascending, nullsFirst: false })
-    .range(range.from, range.to)
 
   if (search) {
-    query = query.or(
+    countQuery = countQuery.or(
       `nome.ilike.%${search}%,ean.ilike.%${search}%,departamento.ilike.%${search}%,setor.ilike.%${search}%`,
     )
   }
-  if (approved === 'yes') query = query.eq('aproved', true)
-  if (approved === 'no') query = query.eq('aproved', false)
+  if (approved === 'yes') countQuery = countQuery.eq('aproved', true)
+  if (approved === 'no') countQuery = countQuery.eq('aproved', false)
 
-  const { data, count, error } = await query
+  const { count } = await countQuery
 
   const { data: lastSync } = await supabase
     .from('sync_app_with_email')
@@ -86,9 +80,7 @@ export default async function ProdutosCampanhaPage({ params, searchParams }: Pro
     .limit(1)
     .maybeSingle()
 
-  const produtos = (data ?? []) as unknown as Produto[]
   const total = count ?? 0
-  const pages = totalPages(total, pageSize)
 
   // EANs that actually head an agrupamento in this campanha. Same source the
   // /agrupamentos/[code] page uses, so a "pai" is flagged only when it really
@@ -156,28 +148,17 @@ export default async function ProdutosCampanhaPage({ params, searchParams }: Pro
         <ProdutosSort />
       </div>
 
-      {error ? (
-        <div className="text-destructive border-border rounded-lg border p-6 text-center">
-          {error.message}
-        </div>
-      ) : view === 'grid' ? (
-        <ProdutosGrid
-          produtos={produtos}
-          agrupamentoEans={agrupamentoEans}
-          campanhaCode={code}
-        />
-      ) : (
-        <ProdutosTable
-          produtos={produtos}
-          showCampanha={false}
-          showDetails={false}
-          canWrite={write}
-          agrupamentoEans={agrupamentoEans}
-          campanhaCode={code}
-        />
-      )}
-
-      {total > pageSize && <PaginationControls page={page} totalPages={pages} />}
+      <ProdutosInfiniteList
+        campanhaCode={code}
+        view={view}
+        pageSize={pageSize}
+        search={search}
+        approved={approved}
+        sortColumn={sort.column}
+        sortAscending={sort.ascending}
+        canWrite={write}
+        agrupamentoEans={Array.from(agrupamentoEans)}
+      />
     </div>
   )
 }

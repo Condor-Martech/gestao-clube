@@ -199,23 +199,20 @@ export default async function JornadaProdutoPage({ searchParams }: Props) {
         }),
       )
 
-      // 7 — for each produto, fetch logs matching its UUID, campanha (cod or alias),
-      //     or EAN (as agrupamento parent) via JSONB payload accessors
+      // 7 — for each produto, fetch logs tied to THIS ean within THIS campanha.
+      //     Only agrupamento events carry pai(=ean) + campanha; sync events are
+      //     campaign-wide and intentionally excluded.
       const logsResults = await Promise.all(
         found.map(async (produto) => {
-          const filters = [
-            produto.id ? `payload->>produto_id.eq.${produto.id}` : null,
-            produto.campanha ? `payload->>campanha.eq.${produto.campanha}` : null,
-            produto.campanha ? `payload->>cod_campanha.eq.${produto.campanha}` : null,
-            produto.ean ? `payload->>pai.eq.${produto.ean}` : null,
-          ].filter((s): s is string => s !== null)
+          if (!produto.ean) return [] as LogEntry[]
 
-          if (filters.length === 0) return [] as LogEntry[]
-
-          const { data: logsData } = await supabase
+          let query = supabase
             .from('logs_with_users')
             .select('id, created_at, event_name, user, email, module, payload')
-            .or(filters.join(','))
+            .eq('payload->>pai', produto.ean)
+          if (produto.campanha) query = query.eq('payload->>campanha', produto.campanha)
+
+          const { data: logsData } = await query
             .order('created_at', { ascending: false })
             .limit(200)
 

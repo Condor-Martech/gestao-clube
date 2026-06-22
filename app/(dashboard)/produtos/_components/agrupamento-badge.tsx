@@ -1,6 +1,8 @@
+'use client'
+
 import Link from 'next/link'
 import { Layers } from 'lucide-react'
-import { getTranslations } from 'next-intl/server'
+import { useTranslations } from 'next-intl'
 import { Badge } from '@/components/ui/badge'
 import { cn } from '@/lib/utils'
 
@@ -17,8 +19,8 @@ interface Props {
  * campaign's groupings list. Rendered only when the product's EAN is known to
  * head a group (see produtos_no_agrupamento intersection in the page).
  */
-export async function AgrupamentoBadge({ campanha, compact = false, className }: Props) {
-  const t = await getTranslations('produtos')
+export function AgrupamentoBadge({ campanha, compact = false, className }: Props) {
+  const t = useTranslations('produtos')
   const label = t('agrupamentoBadge')
 
   return (

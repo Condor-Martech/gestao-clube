@@ -1,6 +1,8 @@
+'use client'
+
 import Image from 'next/image'
 import { Check, Tag } from 'lucide-react'
-import { getTranslations } from 'next-intl/server'
+import { useTranslations } from 'next-intl'
 import { Button } from '@/components/ui/button'
 import { AgrupamentoBadge } from './agrupamento-badge'
 import { ApproveButton } from './approve-button'
@@ -17,8 +19,8 @@ interface Props {
   campanhaCode?: string
 }
 
-export async function ProdutoCard({ produto, hasAgrupamento = false, campanhaCode }: Props) {
-  const t = await getTranslations('produtos')
+export function ProdutoCard({ produto, hasAgrupamento = false, campanhaCode }: Props) {
+  const t = useTranslations('produtos')
   const img = produto.img_external ?? produto.img_internal
   const isApproved = !!produto.aproved
   const categoria = [produto.departamento, produto.setor]
